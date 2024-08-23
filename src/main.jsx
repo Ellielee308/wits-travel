@@ -4,6 +4,7 @@ import App from "./App";
 import Home from "./pages/Home";
 import Spot from "./pages/Spot";
 import ContactForm from "./pages/ContactForm";
+import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
