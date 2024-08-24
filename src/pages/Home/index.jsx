@@ -4,7 +4,6 @@ export default function Home() {
   return (
     <>
       <Carousel />
-      <h1>首頁</h1>
     </>
   );
 }

@@ -13,10 +13,13 @@ export default function Carousel() {
     <>
       <div className="relative mx-auto mt-16 w-full">
         <UICarousel>
-          <div className="absolute left-1/2 top-4 z-10 flex h-14 w-11/12 -translate-x-1/2 transform items-center rounded-full bg-white px-4 py-2 shadow-lg">
+          <div className="absolute left-1/2 top-20 z-10 hidden w-full -translate-x-1/2 transform text-center text-lg md:block">
+            最好的旅遊體驗
+          </div>
+          <div className="absolute left-1/2 top-4 z-10 flex h-10 w-[527px] -translate-x-1/2 transform items-center rounded-full bg-white px-4 py-2 shadow-lg md:top-32">
             <SearchIcon className="mr-2 h-5 w-5 text-gray-500" />
             <Input
-              className="h-full w-full border-none focus:ring-0"
+              className="h-full w-full border-none focus:shadow-none focus:outline-none focus:ring-0"
               type="text"
               placeholder="搜尋景點或地區"
             />
@@ -24,12 +27,12 @@ export default function Carousel() {
           <CarouselContent className="flex">
             <CarouselItem className="w-full flex-shrink-0">
               <img
-                src="https://via.placeholder.com/800x400?text=Slide+1"
+                src="https://images.pexels.com/photos/2819082/pexels-photo-2819082.jpeg?auto=compress&cs=tinysrgb&w=600"
                 alt="Slide 1"
-                className="h-96 w-full md:h-64"
+                className="h-96 w-full opacity-50 md:h-64"
               />
-              <div className="absolute bottom-16 right-10 text-xl">地區名</div>
-              <div className="text-1xl absolute bottom-10 right-10">景點名</div>
+              <div className="text-l absolute bottom-12 right-8">地區名</div>
+              <div className="absolute bottom-6 right-8 text-sm">景點名</div>
             </CarouselItem>
             <CarouselItem className="w-full flex-shrink-0">
               <img
