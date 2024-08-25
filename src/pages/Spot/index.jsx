@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 export default function Spot() {
   return (
     <div className="px-6 py-6">
-      <div className="imageContainer flex h-96 w-full flex-col items-center">
+      <div className="imageContainer flex h-96 w-full flex-col items-center shadow-lg">
         <img
           src="./tokyo-disneyland.jpg"
-          className="h-full w-full object-cover"
+          className="h-full w-full rounded object-cover"
         />
       </div>
       <div id="productInfo" className="py-6">
@@ -91,9 +91,9 @@ export default function Spot() {
             </div>
           </div>
           <hr className="w-full" />
-          <div className="my-4 text-gray-600">
-            <h2 className="mb-4 text-xl font-bold">景點介紹</h2>
-            <ul>
+          <div className="my-4">
+            <h2 className="mb-4 text-xl font-bold text-gray-900">景點介紹</h2>
+            <ul className="text-gray-600">
               <li>
                 東京迪士尼度假區介紹
                 <br />
@@ -112,17 +112,17 @@ export default function Spot() {
             </ul>
           </div>
           <hr className="w-full" />
-          <div className="my-4 text-gray-600">
-            <h2 className="mb-4 text-xl font-bold">交通方式</h2>
-            <p>
+          <div className="my-4">
+            <h2 className="mb-4 text-xl font-bold text-gray-900">交通方式</h2>
+            <p className="text-gray-600">
               由東京車站搭乘電車僅需 15 分鐘車程，即可抵達東京迪士尼樂園。
               <br />
               除了電車之外，您亦可搭乘直達巴士由各地區、各飯店蒞臨園區。
             </p>
           </div>
         </div>
-        <div className="mt-10 flex flex-col rounded border-[1px] border-gray-200 px-3 py-5">
-          <div className="mb-3">
+        <div className="mt-10 flex flex-col rounded border-[1px] border-gray-200 px-3 shadow-md">
+          <div className="mb-3 mt-5">
             <span className="mr-2 text-2xl">NT$1,851</span>
             <span>起</span>
           </div>
@@ -130,7 +130,7 @@ export default function Spot() {
           <Link to="/contacts">
             <div
               id="customerService"
-              className="flex flex-row text-gray-600 hover:text-gray-900"
+              className="mb-3 flex flex-row text-gray-600 hover:text-gray-900"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
