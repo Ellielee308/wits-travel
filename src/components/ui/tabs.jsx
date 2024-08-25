@@ -10,7 +10,7 @@ const TabsList = React.forwardRef(({ className, ...props }, ref) => (
     ref={ref}
     className={cn(
       //改灰底的背景
-      "inline-flex h-10 items-center justify-center rounded-md bg-stone-100 p-1 text-stone-500 dark:bg-stone-800 dark:text-stone-400 md:h-12",
+      "inline-flex h-10 items-center justify-center rounded-md bg-stone-100 p-2 text-stone-500 dark:bg-stone-800 dark:text-stone-400 md:h-12",
       className,
     )}
     {...props}
