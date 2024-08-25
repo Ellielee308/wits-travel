@@ -68,7 +68,7 @@ function SpotList() {
                           <a
                             href="#"
                             key={index}
-                            className={`mr-2 rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] xl:inline ${
+                            className={`mr-2 hidden rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline ${
                               index === 0 ? "ml-4" : ""
                             }`}
                           >
