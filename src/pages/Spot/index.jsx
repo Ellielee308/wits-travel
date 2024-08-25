@@ -3,26 +3,26 @@ import { Link } from "react-router-dom";
 
 export default function Spot() {
   return (
-    <div className="px-6 py-6">
-      <div className="imageContainer flex h-96 w-full flex-col items-center shadow-lg">
+    <div className="px-6 py-6 xl:mx-auto xl:w-[1200px]">
+      <div className="imageContainer flex w-full flex-col items-center rounded-lg shadow-lg md:h-[500px]">
         <img
           src="./tokyo-disneyland.jpg"
-          className="h-full w-full rounded object-cover"
+          className="h-full w-full rounded-lg object-cover"
         />
       </div>
-      <div id="productInfo" className="py-6">
-        <div id="productTextContainer">
-          <div className="mb-6 flex flex-row items-center justify-between">
-            <h1 className="text-2xl">
-              日本｜東京迪士尼度假區門票｜Tokyo Disney Resort
+      <div id="productInfo" className="flex flex-col py-6 lg:flex-row">
+        <div id="productTextContainer" className="lg:mr-4 lg:w-[70%]">
+          <div className="mb-6 flex flex-row items-start justify-between">
+            <h1 className="pr-9 text-xl md:text-2xl">
+              日本｜東京迪士尼度假區｜Tokyo Disney Resort
             </h1>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth={1.5}
+              strokeWidth="0.8"
               stroke="currentColor"
-              className="ml-9 size-10"
+              className="inline-block h-auto w-[48px] align-middle text-gray-800 hover:cursor-pointer hover:fill-current md:h-9 md:w-9"
             >
               <path
                 strokeLinecap="round"
@@ -31,14 +31,14 @@ export default function Spot() {
               />
             </svg>
           </div>
-          <div className="mb-4 flex flex-row text-gray-500">
+          <div className="mb-4 flex flex-row items-center text-sm text-gray-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6"
+              className="mr-2 size-5"
             >
               <path
                 strokeLinecap="round"
@@ -92,7 +92,9 @@ export default function Spot() {
           </div>
           <hr className="w-full" />
           <div className="my-4">
-            <h2 className="mb-4 text-xl font-bold text-gray-900">景點介紹</h2>
+            <h2 className="mb-4 text-lg font-bold text-gray-900 md:text-xl">
+              景點介紹
+            </h2>
             <ul className="text-gray-600">
               <li>
                 東京迪士尼度假區介紹
@@ -107,13 +109,21 @@ export default function Spot() {
                 <br />
                 ・世界市集：大街兩旁維多利亞時代的建築鱗萃比櫛，優美典雅。20世紀初期，華特・迪士尼出生並成長的美國將以溫馨氛圍迎接您的到來。
                 <br />
+                ・明日樂園：在這座率先實現人類夢想的城市，您可體驗遨遊宇宙之旅。
+                <br />
+                ・卡通城：米奇和他的夥伴們生活在這個快樂無比的小城。
+                <br />
+                ・夢幻樂園：夢想成真的童話王國。有新開幕的美女與野獸及白雪公主、小飛俠和小熊維尼等耳熟能詳的童話世界主人公帶您踏上充滿魔法的冒險之旅。
+                <br />
                 在驚喜不斷的七個主題園區，您可以乘坐遊樂設施、觀賞娛樂表演，還可以與您最喜愛的迪士尼明星合影，無盡的歡樂正等待著您！
               </li>
             </ul>
           </div>
           <hr className="w-full" />
           <div className="my-4">
-            <h2 className="mb-4 text-xl font-bold text-gray-900">交通方式</h2>
+            <h2 className="mb-4 text-lg font-bold text-gray-900 md:text-xl">
+              交通方式
+            </h2>
             <p className="text-gray-600">
               由東京車站搭乘電車僅需 15 分鐘車程，即可抵達東京迪士尼樂園。
               <br />
@@ -121,12 +131,15 @@ export default function Spot() {
             </p>
           </div>
         </div>
-        <div className="mt-10 flex flex-col rounded border-[1px] border-gray-200 px-3 shadow-md">
+        <div
+          id="orderContainer"
+          className="mt-10 flex flex-col rounded border-[1px] border-gray-200 px-3 shadow-md lg:mt-0 lg:w-[30%] lg:self-start"
+        >
           <div className="mb-3 mt-5">
             <span className="mr-2 text-2xl">NT$1,851</span>
             <span>起</span>
           </div>
-          <Button className="mb-3 self-stretch">訂購門票</Button>
+          <Button className="mb-3 self-stretch py-6 text-lg">訂購門票</Button>
           <Link to="/contacts">
             <div
               id="customerService"
