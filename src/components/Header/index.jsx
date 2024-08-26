@@ -38,7 +38,7 @@ export default function Header() {
       className={`fixed left-0 top-0 w-full transform border border-cyan-800 transition-all duration-500 ease-in-out md:flex md:h-[60px] md:flex-row md:items-center md:justify-between ${
         menuOpen
           ? "relative flex h-screen translate-y-0 flex-col items-center justify-center overflow-hidden"
-          : "relative flex h-[60px] items-center justify-center"
+          : "relative flex h-[72px] items-center justify-center"
       }`}
     >
       <svg
@@ -78,7 +78,7 @@ export default function Header() {
 
       <Link
         to="/"
-        className={`md:ml-8 md:flex ${menuOpen ? "hidden" : "block"}`}
+        className={`mt-[-8px] md:ml-8 md:flex ${menuOpen ? "hidden" : "block"}`}
       >
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/5/55/Wits_logo.png"
