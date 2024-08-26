@@ -31,7 +31,7 @@ export default function Carousel() {
               />
             </svg>
             <Input
-              className="h-full w-full border-none outline-none focus:border-transparent focus:shadow-none focus:outline-none focus:ring-0"
+              className="focus-visible:ring-stone-0 h-full w-full border-none outline-none focus-visible:ring-0"
               type="text"
               placeholder="搜尋景點或地區"
             />
