@@ -4,7 +4,7 @@ import disneyLand from "../../../public/tokyo-disneyland.jpg";
 
 export default function Spot() {
   return (
-    <div className="mt-[60px] px-6 py-6 xl:mx-auto xl:w-[1200px]">
+    <div className="px-6 py-6 xl:mx-auto xl:w-[1200px]">
       <div className="imageContainer flex w-full flex-col items-center rounded-lg shadow-lg md:h-[500px]">
         <img
           src={disneyLand}
