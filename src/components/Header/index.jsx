@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import WitsLogo from "./Wits_logo.png";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { Link } from "react-router-dom";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from "@/components/ui/navigation-menu";
+// import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+// import { Link } from "react-router-dom";
+// import {
+//   NavigationMenu,
+//   NavigationMenuContent,
+//   NavigationMenuIndicator,
+//   NavigationMenuItem,
+//   NavigationMenuLink,
+//   NavigationMenuList,
+//   NavigationMenuTrigger,
+//   NavigationMenuViewport,
+// } from "@/components/ui/navigation-menu";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
