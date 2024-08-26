@@ -1,3 +1,5 @@
+export default function Carousel() {
+
 import {
   Carousel as UICarousel,
   CarouselContent,
@@ -74,4 +76,5 @@ export default function Carousel() {
       </div>
     </>
   );
+
 }
