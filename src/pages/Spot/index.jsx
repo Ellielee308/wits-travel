@@ -1,8 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { SpotsContext } from "../../components/spotsContext";
 import disneyLand from "../../../public/tokyo-disneyland.jpg";
 
 export default function Spot() {
+  const spots = useContext(SpotsContext);
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
+  const [spot, setSpot] = useState(null);
+  const navigate = useNavigate(); // 初始化 useNavigate hook
+
+  useEffect(() => {
+    if (spots.length > 0) {
+      const currentSpot = spots.find((spot) => spot.id === id);
+      if (currentSpot) {
+        setSpot(currentSpot);
+        console.log(currentSpot);
+      } else {
+        console.log("景點不存在");
+        alert("Oops，景點不存在！");
+        navigate("/");
+      }
+    }
+  }, [spots, id, navigate]);
+
   return (
     <div className="px-6 py-6 xl:mx-auto xl:w-[1200px]">
       <div className="imageContainer flex w-full flex-col items-center rounded-lg shadow-lg md:h-[500px]">
