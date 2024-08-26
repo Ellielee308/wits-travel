@@ -1,13 +1,16 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import taipei from "./taipei.jpg";
+import { SpotsContext } from "../../components/spotsContext";
+import { useContext } from "react";
 
 function SpotList() {
+  const spots = useContext(SpotsContext);
+
   return (
     <div className="mx-6 my-4 lg:mx-8 xl:mx-auto xl:max-w-[1136px]">
       <Tabs defaultValue="card">
         <div className="flex justify-between">
           <h2 className="text-2xl font-semibold tracking-wide md:text-3xl">
-            探索熱門城市
+            探索熱門景點
           </h2>
           <TabsList>
             <TabsTrigger value="card">
@@ -48,72 +51,54 @@ function SpotList() {
         </div>
         <TabsContent value="card" className="mt-2">
           <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
-            {Array(6)
-              .fill("")
-              .map((_, index) => (
-                <a href="#" className="relative" key={index}>
-                  <div className="h-64 w-full overflow-hidden rounded-xl">
-                    <img
-                      src={taipei}
-                      alt="台北"
-                      className="h-full w-full transform object-cover transition-transform duration-500 ease-in-out hover:scale-110"
-                    />
-                    <div className="absolute bottom-0 left-0 mb-2 w-full rounded-xl bg-gradient-to-t from-slate-700/80 via-slate-700/40 to-transparent md:mb-0 md:h-2/6">
-                      <h2 className="z-10 mb-2 ml-4 mt-2 text-2xl text-white">
-                        台北
-                      </h2>
-                      {Array(2)
-                        .fill("")
-                        .map((_, index) => (
-                          <a
-                            href="#"
-                            key={index}
-                            className={`mr-2 hidden rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline ${
-                              index === 0 ? "ml-4" : ""
-                            }`}
-                          >
-                            熱門票券
-                          </a>
-                        ))}
+            {spots.map((spot, index) => (
+              <a href="#" className="relative" key={index}>
+                <div className="h-64 w-full overflow-hidden rounded-xl">
+                  <img
+                    src={spot.main_img}
+                    alt={spot.subtitle}
+                    className="h-full w-full transform object-cover transition-transform duration-500 ease-in-out hover:scale-110"
+                  />
+                  <div className="absolute bottom-0 left-0 mb-2 w-full rounded-xl bg-gradient-to-t from-slate-700/80 via-slate-700/40 to-transparent md:mb-0 md:h-2/6">
+                    <h2 className="z-10 mb-2 ml-4 mt-2 text-2xl text-white">
+                      {spot.subtitle}
+                    </h2>
+                    <div className="ml-4 mr-2 hidden rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline">
+                      {spot.city}
+                    </div>
+                    <div className="ml-1 mr-2 hidden rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline">
+                      {spot.spot_category}
                     </div>
                   </div>
-                </a>
-              ))}
+                </div>
+              </a>
+            ))}
           </div>
         </TabsContent>
         <TabsContent value="list" className="mt-2">
           <div className="flex flex-col gap-x-5 gap-y-4 md:grid md:grid-cols-2">
-            {Array(6)
-              .fill("")
-              .map((_, index) => (
-                <a href="#" className="relative" key={index}>
-                  <div className="flex gap-3" key={index}>
-                    <img
-                      className="size-24 rounded-lg object-cover md:size-28"
-                      src={taipei}
-                      alt="Taipei"
-                    />
-                    <div>
-                      <h2 className="text-xl">台北</h2>
-                      <p className="mb-2 mt-1 text-base">
-                        台灣首都，為金融、政治、科技、文化的發展中心
-                      </p>
-                      {Array(3)
-                        .fill("")
-                        .map((_, index) => (
-                          <a
-                            href="#"
-                            key={index}
-                            className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm"
-                          >
-                            {/* 資料庫設計需討論有哪些標籤，目前想到有:最夯景點、交通票券 */}
-                            熱門票券
-                          </a>
-                        ))}
+            {spots.map((spot, index) => (
+              <a href="#" className="relative" key={index}>
+                <div className="flex gap-3" key={index}>
+                  <img
+                    src={spot.main_img}
+                    alt={spot.subtitle}
+                    className="size-24 rounded-lg object-cover md:size-28"
+                  />
+                  <div>
+                    <h2 className="text-xl">{spot.subtitle}</h2>
+                    <p className="mb-2 mt-1 text-base">{spot.brief}</p>
+
+                    <div className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm">
+                      {spot.city}
+                    </div>
+                    <div className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm">
+                      {spot.spot_category}
                     </div>
                   </div>
-                </a>
-              ))}
+                </div>
+              </a>
+            ))}
           </div>
         </TabsContent>
       </Tabs>
