@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 // import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-// import { Link } from "react-router-dom";
 // import {
 //   NavigationMenu,
 //   NavigationMenuContent,
@@ -76,13 +76,16 @@ export default function Header() {
         />
       </svg>
 
-      <a className={`md:ml-8 md:flex ${menuOpen ? "hidden" : "block"}`}>
+      <Link
+        to="/"
+        className={`md:ml-8 md:flex ${menuOpen ? "hidden" : "block"}`}
+      >
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/5/55/Wits_logo.png"
           alt="Wits logo"
           className="h-auto w-20"
         />
-      </a>
+      </Link>
 
       <div
         className={`md:flex md:w-auto md:flex-row md:gap-x-12 ${menuOpen ? "flex w-[80px] flex-col gap-y-8" : "hidden"}`}
@@ -143,12 +146,12 @@ export default function Header() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu> */}
-      <a
-        href="#"
+      <Link
+        to="/contacts"
         className={`text-lg hover:text-blue-900 md:mr-8 md:mt-0 md:block md:w-auto lg:text-xl ${menuOpen ? "mt-8 block w-[80px]" : "hidden"}`}
       >
         聯絡我們
-      </a>
+      </Link>
     </div>
   );
 }
