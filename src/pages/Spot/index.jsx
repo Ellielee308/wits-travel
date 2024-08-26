@@ -1,19 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import disneyLand from "../../../public/tokyo-disneyland.jpg";
 
 export default function Spot() {
   return (
     <div className="mt-[60px] px-6 py-6 xl:mx-auto xl:w-[1200px]">
       <div className="imageContainer flex w-full flex-col items-center rounded-lg shadow-lg md:h-[500px]">
         <img
-          src="./tokyo-disneyland.jpg"
+          src={disneyLand}
           className="h-full w-full rounded-lg object-cover"
         />
       </div>
       <div id="productInfo" className="flex flex-col py-6 lg:flex-row">
         <div id="productTextContainer" className="lg:mr-4 lg:w-[70%]">
           <div className="mb-6 flex flex-row items-start justify-between">
-            <h1 className="pr-9 text-xl md:text-2xl">
+            <h1 className="pr-9 text-xl font-semibold md:text-2xl">
               日本｜東京迪士尼度假區｜Tokyo Disney Resort
             </h1>
             <svg
@@ -95,29 +96,31 @@ export default function Spot() {
             <h2 className="mb-4 text-lg font-bold text-gray-900 md:text-xl">
               景點介紹
             </h2>
-            <ul className="text-gray-600">
-              <li>
-                東京迪士尼度假區介紹
+            <p className="text-base text-gray-600">
+              <ul>
+                <li>
+                  東京迪士尼度假區介紹
+                  <br />
+                  東京迪士尼度假區是ㄧ座擁有多家設施的大型主題度假區。包括「東京迪士尼樂園」、「東京迪士尼海洋」這兩座風格各異的迪士尼主題樂園、三家迪士尼飯店、多家官方飯店、ㄧ座綜合型商業設施「伊克斯皮兒莉」以及環繞度假區運行的便捷單軌電車等。不僅能為廣大遊客提供暢遊園區的歡樂體驗，同時透過住宿服務讓遊客得到購物、美食等多元化的度假體驗。
+                </li>
                 <br />
-                東京迪士尼度假區是ㄧ座擁有多家設施的大型主題度假區。包括「東京迪士尼樂園」、「東京迪士尼海洋」這兩座風格各異的迪士尼主題樂園、三家迪士尼飯店、多家官方飯店、ㄧ座綜合型商業設施「伊克斯皮兒莉」以及環繞度假區運行的便捷單軌電車等。不僅能為廣大遊客提供暢遊園區的歡樂體驗，同時透過住宿服務讓遊客得到購物、美食等多元化的度假體驗。
-              </li>
-              <br />
-              <li>
-                東京迪士尼樂園
-                <br />
-                東京迪士尼樂園包含七個主題區：
-                <br />
-                ・世界市集：大街兩旁維多利亞時代的建築鱗萃比櫛，優美典雅。20世紀初期，華特・迪士尼出生並成長的美國將以溫馨氛圍迎接您的到來。
-                <br />
-                ・明日樂園：在這座率先實現人類夢想的城市，您可體驗遨遊宇宙之旅。
-                <br />
-                ・卡通城：米奇和他的夥伴們生活在這個快樂無比的小城。
-                <br />
-                ・夢幻樂園：夢想成真的童話王國。有新開幕的美女與野獸及白雪公主、小飛俠和小熊維尼等耳熟能詳的童話世界主人公帶您踏上充滿魔法的冒險之旅。
-                <br />
-                在驚喜不斷的七個主題園區，您可以乘坐遊樂設施、觀賞娛樂表演，還可以與您最喜愛的迪士尼明星合影，無盡的歡樂正等待著您！
-              </li>
-            </ul>
+                <li>
+                  東京迪士尼樂園
+                  <br />
+                  東京迪士尼樂園包含七個主題區：
+                  <br />
+                  ・世界市集：大街兩旁維多利亞時代的建築鱗萃比櫛，優美典雅。20世紀初期，華特・迪士尼出生並成長的美國將以溫馨氛圍迎接您的到來。
+                  <br />
+                  ・明日樂園：在這座率先實現人類夢想的城市，您可體驗遨遊宇宙之旅。
+                  <br />
+                  ・卡通城：米奇和他的夥伴們生活在這個快樂無比的小城。
+                  <br />
+                  ・夢幻樂園：夢想成真的童話王國。有新開幕的美女與野獸及白雪公主、小飛俠和小熊維尼等耳熟能詳的童話世界主人公帶您踏上充滿魔法的冒險之旅。
+                  <br />
+                  在驚喜不斷的七個主題園區，您可以乘坐遊樂設施、觀賞娛樂表演，還可以與您最喜愛的迪士尼明星合影，無盡的歡樂正等待著您！
+                </li>
+              </ul>
+            </p>
           </div>
           <hr className="w-full" />
           <div className="my-4">
