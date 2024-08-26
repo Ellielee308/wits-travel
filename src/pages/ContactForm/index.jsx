@@ -52,10 +52,10 @@ export default function ContactForm() {
 
   return (
     <div className="mt-[60px] w-full px-6 lg:px-8">
-      <div className="flex w-full flex-col lg:mx-auto lg:h-[700px] lg:w-fit lg:flex-row">
+      <div className="flex w-full flex-col lg:mx-auto lg:h-fit lg:w-fit lg:flex-row">
         <div className="w-full lg:w-[500px]">
-          <h1 className="mb-6 text-3xl font-bold lg:text-5xl">CONTACT US</h1>
-          <h2 className="border-b-2 border-gray-300 pb-5 text-xl font-semibold tracking-wide lg:text-3xl">
+          <h1 className="mb-6 text-3xl font-bold lg:text-4xl">CONTACT US</h1>
+          <h2 className="border-b-2 border-gray-300 pb-5 text-xl font-semibold tracking-wide lg:text-2xl">
             旅遊行程安排/諮詢
           </h2>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -270,38 +270,38 @@ export default function ContactForm() {
                 )}
               />
             </div>
-
-            <div className="flex items-center justify-center">
-              <Button
-                type="submit"
-                className="mb-5 mt-3 flex w-40 items-center justify-center lg:mt-8 lg:w-52 lg:text-2xl"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="mr-2 h-6 w-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
-                  />
-                </svg>
-                提交
-              </Button>
-            </div>
           </form>
         </div>
-        <div className="ml-20 mt-6 hidden h-full w-full flex-shrink-0 items-center justify-center lg:mt-0 lg:flex lg:h-auto lg:flex-1">
+        <div className="ml-20 mt-6 hidden h-full w-auto flex-shrink-0 items-center justify-center lg:mt-0 lg:flex lg:flex-1">
           <img
             src={travelImg}
             alt="Travel"
-            className="h-[700px] w-[500px] object-cover"
+            className="h-[717px] w-[500px] object-cover"
           />
         </div>
+      </div>
+      <div className="mb-5 mt-3 flex w-full justify-center lg:mb-10 lg:mt-8">
+        <Button
+          type="submit"
+          onClick={handleSubmit(onSubmit)}
+          className="flex w-40 items-center justify-center lg:w-52 lg:text-2xl"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="mr-2 h-6 w-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
+            />
+          </svg>
+          提交
+        </Button>
       </div>
 
       <AlertDialog open={isDialogOpen}>
