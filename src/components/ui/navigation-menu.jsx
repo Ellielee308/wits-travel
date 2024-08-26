@@ -11,7 +11,7 @@ const NavigationMenu = React.forwardRef(
     <NavigationMenuPrimitive.Root
       ref={ref}
       className={cn(
-        "relative z-10 flex max-w-max flex-1 items-center justify-center",
+        "relative z-10 flex max-w-max items-center justify-center",
         className,
       )}
       {...props}
@@ -47,7 +47,7 @@ NavigationMenuList.propTypes = {
 const NavigationMenuItem = NavigationMenuPrimitive.Item;
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-stone-100 hover:text-stone-900 focus:bg-stone-100 focus:text-stone-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-stone-100/50 data-[state=open]:bg-stone-100/50 dark:bg-stone-950 dark:hover:bg-stone-800 dark:hover:text-stone-50 dark:focus:bg-stone-800 dark:focus:text-stone-50 dark:data-[active]:bg-stone-800/50 dark:data-[state=open]:bg-stone-800/50",
+  "group inline-flex h-10 w-max items-center text-xl justify-center rounded-md bg-white px-3 py-2 text-sm font-medium transition-colors hover:bg-stone-100 hover:text-stone-900 focus:bg-stone-100 focus:text-stone-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-stone-100/50 data-[state=open]:bg-stone-100/50 dark:bg-stone-950 dark:hover:bg-stone-800 dark:hover:text-stone-50 dark:focus:bg-stone-800 dark:focus:text-stone-50 dark:data-[active]:bg-stone-800/50 dark:data-[state=open]:bg-stone-800/50",
 );
 
 const NavigationMenuTrigger = React.forwardRef(
