@@ -4,18 +4,21 @@ import taipei from "./taipei.jpg";
 function SpotList() {
   return (
     <div className="mx-6 my-4 lg:mx-8 xl:mx-auto xl:max-w-[1136px]">
-      <div className="flex justify-between">
-        <h2 className="text-3xl font-semibold tracking-wide">探索熱門城市</h2>
-        <Tabs defaultValue="card">
+      <Tabs defaultValue="card">
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-semibold tracking-wide md:text-3xl">
+            探索熱門城市
+          </h2>
           <TabsList>
             <TabsTrigger value="card">
+              <span className="hidden lg:inline">依卡片排序</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-6"
+                className="size-6 lg:hidden"
               >
                 <path
                   strokeLinecap="round"
@@ -25,13 +28,14 @@ function SpotList() {
               </svg>
             </TabsTrigger>
             <TabsTrigger value="list">
+              <span className="hidden lg:inline">依列表排序</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-6"
+                className="size-6 lg:hidden"
               >
                 <path
                   strokeLinecap="round"
@@ -40,16 +44,6 @@ function SpotList() {
                 />
               </svg>
             </TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
-
-      <Tabs defaultValue="card">
-        <div className="flex justify-between">
-          <h2 className="text-3xl font-semibold tracking-wide">探索熱門城市</h2>
-          <TabsList>
-            <TabsTrigger value="card">依卡片排序</TabsTrigger>
-            <TabsTrigger value="list">依列表排序</TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="card" className="mt-2">
@@ -64,7 +58,7 @@ function SpotList() {
                       alt="台北"
                       className="h-full w-full transform object-cover transition-transform duration-500 ease-in-out hover:scale-110"
                     />
-                    <div className="absolute bottom-0 left-0 h-2/6 w-full rounded-xl bg-gradient-to-t from-slate-700/80 via-slate-700/40 to-transparent">
+                    <div className="absolute bottom-0 left-0 mb-2 w-full rounded-xl bg-gradient-to-t from-slate-700/80 via-slate-700/40 to-transparent md:mb-0 md:h-2/6">
                       <h2 className="z-10 mb-2 ml-4 mt-2 text-2xl text-white">
                         台北
                       </h2>
@@ -101,7 +95,7 @@ function SpotList() {
                     />
                     <div>
                       <h2 className="text-xl">台北</h2>
-                      <p className="mb-4 mt-1 text-base">
+                      <p className="mb-2 mt-1 text-base">
                         台灣首都，為金融、政治、科技、文化的發展中心
                       </p>
                       {Array(3)
@@ -110,7 +104,7 @@ function SpotList() {
                           <a
                             href="#"
                             key={index}
-                            className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-sm text-[#004B67] xl:inline"
+                            className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm"
                           >
                             {/* 資料庫設計需討論有哪些標籤，目前想到有:最夯景點、交通票券 */}
                             熱門票券
