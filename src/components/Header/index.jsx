@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import WitsLogo from "./Wits_logo.png";
 // import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 // import { Link } from "react-router-dom";
 // import {
@@ -78,7 +77,11 @@ export default function Header() {
       </svg>
 
       <a className={`md:ml-8 md:flex ${menuOpen ? "hidden" : "block"}`}>
-        <img src={WitsLogo} alt="Wits logo" className="h-auto w-20" />
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/5/55/Wits_logo.png"
+          alt="Wits logo"
+          className="h-auto w-20"
+        />
       </a>
 
       <div
