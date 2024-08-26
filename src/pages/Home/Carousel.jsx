@@ -10,12 +10,12 @@ import { Input } from "@/components/ui/input";
 export default function Carousel() {
   return (
     <>
-      <div className="relative mx-auto mt-16 w-full">
+      <div className="relative mx-auto w-full">
         <UICarousel>
           <div className="absolute left-1/2 top-20 z-10 hidden w-full -translate-x-1/2 transform text-center text-2xl lg:block">
             最好的旅遊體驗
           </div>
-          <div className="absolute left-1/2 top-4 z-10 flex h-10 w-[527px] -translate-x-1/2 transform items-center rounded-full bg-white px-4 py-2 shadow-lg lg:top-32">
+          <div className="absolute left-1/2 top-4 z-10 flex h-10 w-10/12 -translate-x-1/2 transform items-center rounded-full bg-white px-4 py-2 shadow-lg md:w-[527px] lg:top-32">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
