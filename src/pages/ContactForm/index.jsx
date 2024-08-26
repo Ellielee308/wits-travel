@@ -55,7 +55,7 @@ export default function ContactForm() {
       <div className="flex w-full flex-col lg:mx-auto lg:h-[700px] lg:w-fit lg:flex-row">
         <div className="w-full lg:w-[500px]">
           <h1 className="mb-6 text-3xl font-bold lg:text-5xl">CONTACT US</h1>
-          <h2 className="border-b-2 border-gray-300 pb-5 text-xl font-bold tracking-wide lg:text-3xl">
+          <h2 className="border-b-2 border-gray-300 pb-5 text-xl font-semibold tracking-wide lg:text-3xl">
             旅遊行程安排/諮詢
           </h2>
           <form onSubmit={handleSubmit(onSubmit)}>
