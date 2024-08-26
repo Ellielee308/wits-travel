@@ -23,14 +23,12 @@ export default function Header() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 992) {
+      if (window.innerWidth >= 576) {
         setMenuOpen(false);
       }
     };
 
     window.addEventListener("resize", handleResize);
-
-    // 清理事件監聽器
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -38,10 +36,10 @@ export default function Header() {
 
   return (
     <div
-      className={`fixed left-0 top-0 w-full transform border border-cyan-800 transition-all duration-500 ease-in-out lg:flex lg:h-[60px] lg:flex-row lg:items-center lg:justify-between ${
+      className={`fixed left-0 top-0 w-full transform border border-cyan-800 transition-all duration-500 ease-in-out md:flex md:h-[60px] md:flex-row md:items-center md:justify-between ${
         menuOpen
-          ? "md:relative md:flex md:h-screen md:translate-y-0 md:flex-col md:items-center md:justify-center md:overflow-hidden"
-          : "md:relative md:flex md:h-[60px] md:items-center md:justify-center"
+          ? "relative flex h-screen translate-y-0 flex-col items-center justify-center overflow-hidden"
+          : "relative flex h-[60px] items-center justify-center"
       }`}
     >
       <svg
@@ -50,7 +48,7 @@ export default function Header() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={`size-6 md:absolute md:left-[16px] md:top-[6px] lg:hidden ${
+        className={`absolute left-4 top-[6px] size-9 md:hidden ${
           menuOpen ? "hidden" : "block"
         }`}
         onClick={toggleMenu}
@@ -67,7 +65,7 @@ export default function Header() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={`size-6 md:absolute md:left-[16px] md:top-[6px] lg:hidden ${
+        className={`absolute left-4 top-[6px] size-9 md:hidden ${
           menuOpen ? "block" : "hidden"
         }`}
         onClick={toggleMenu}
@@ -79,12 +77,12 @@ export default function Header() {
         />
       </svg>
 
-      <a className={`lg:ml-8 lg:flex ${menuOpen ? "md:hidden" : "md:block"}`}>
-        <img src={WitsLogo} alt="Wits logo" className="h-auto w-14" />
+      <a className={`md:ml-8 md:flex ${menuOpen ? "hidden" : "block"}`}>
+        <img src={WitsLogo} alt="Wits logo" className="h-auto w-20" />
       </a>
 
       <div
-        className={`lg:flex lg:w-auto lg:flex-row lg:gap-x-16 ${menuOpen ? "md:flex md:w-[80px] md:flex-col md:gap-y-8" : "md:hidden"}`}
+        className={`md:flex md:w-auto md:flex-row md:gap-x-12 ${menuOpen ? "flex w-[80px] flex-col gap-y-8" : "hidden"}`}
       >
         {/* <NavigationMenu>
           <NavigationMenuList>
@@ -118,16 +116,16 @@ export default function Header() {
           </NavigationMenuList>
         </NavigationMenu> */}
 
-        <a href="#" className="text-base text-green-500 hover:text-blue-900">
+        <a href="#" className="text-lg hover:text-blue-900 lg:md:text-xl">
           景點
         </a>
-        <a href="#" className="text-base text-green-500 hover:text-blue-900">
-          行程&體驗
+        <a href="#" className="text-lg hover:text-blue-900 lg:md:text-xl">
+          行程
         </a>
-        <a href="#" className="text-base text-green-500 hover:text-blue-900">
+        <a href="#" className="text-lg hover:text-blue-900 lg:md:text-xl">
           住宿
         </a>
-        <a href="#" className="text-base text-green-500 hover:text-blue-900">
+        <a href="#" className="text-lg hover:text-blue-900 lg:md:text-xl">
           美食
         </a>
       </div>
@@ -144,7 +142,7 @@ export default function Header() {
       </NavigationMenu> */}
       <a
         href="#"
-        className={`text-base text-green-500 hover:text-blue-900 lg:mr-8 lg:mt-0 lg:block lg:w-auto ${menuOpen ? "md:mt-8 md:block md:w-[80px]" : "md:hidden"}`}
+        className={`text-lg hover:text-blue-900 md:mr-8 md:mt-0 md:block md:w-auto lg:md:text-xl ${menuOpen ? "mt-8 block w-[80px]" : "hidden"}`}
       >
         聯絡我們
       </a>
