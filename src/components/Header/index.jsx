@@ -47,7 +47,7 @@ export default function Header() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={`absolute left-4 top-[6px] size-9 md:hidden ${
+        className={`absolute left-4 top-3 size-9 md:hidden ${
           menuOpen ? "hidden" : "block"
         }`}
         onClick={toggleMenu}
@@ -64,7 +64,7 @@ export default function Header() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={`absolute left-4 top-[6px] size-9 md:hidden ${
+        className={`absolute left-4 top-3 size-9 md:hidden ${
           menuOpen ? "block" : "hidden"
         }`}
         onClick={toggleMenu}
