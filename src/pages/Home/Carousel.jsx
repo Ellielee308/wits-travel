@@ -41,7 +41,7 @@ export default function Carousel() {
               <img
                 src="https://images.pexels.com/photos/2819082/pexels-photo-2819082.jpeg?auto=compress&cs=tinysrgb&w=600"
                 alt="Slide 1"
-                className="lg:h-5/12 h-96 w-full opacity-50"
+                className="lg:h-5/12 h-96 w-full object-cover opacity-50"
               />
               <div className="absolute bottom-12 right-8 text-lg">地區名</div>
               <div className="text-l absolute bottom-6 right-8">景點名</div>
@@ -61,8 +61,8 @@ export default function Carousel() {
               />
             </CarouselItem>
           </CarouselContent>
-          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden" />
-          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden" />
+          <CarouselPrevious className="absolute left-0 top-1/2 ml-2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden" />
+          <CarouselNext className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden" />
         </UICarousel>
 
         {/* Indicators */}
