@@ -116,16 +116,16 @@ export default function Header() {
           </NavigationMenuList>
         </NavigationMenu> */}
 
-        <a href="#" className="text-lg hover:text-blue-900 lg:md:text-xl">
+        <a href="#" className="text-lg hover:text-blue-900 lg:text-xl">
           景點
         </a>
-        <a href="#" className="text-lg hover:text-blue-900 lg:md:text-xl">
+        <a href="#" className="text-lg hover:text-blue-900 lg:text-xl">
           行程
         </a>
-        <a href="#" className="text-lg hover:text-blue-900 lg:md:text-xl">
+        <a href="#" className="text-lg hover:text-blue-900 lg:text-xl">
           住宿
         </a>
-        <a href="#" className="text-lg hover:text-blue-900 lg:md:text-xl">
+        <a href="#" className="text-lg hover:text-blue-900 lg:text-xl">
           美食
         </a>
       </div>
@@ -142,7 +142,7 @@ export default function Header() {
       </NavigationMenu> */}
       <a
         href="#"
-        className={`text-lg hover:text-blue-900 md:mr-8 md:mt-0 md:block md:w-auto lg:md:text-xl ${menuOpen ? "mt-8 block w-[80px]" : "hidden"}`}
+        className={`text-lg hover:text-blue-900 md:mr-8 md:mt-0 md:block md:w-auto lg:text-xl ${menuOpen ? "mt-8 block w-[80px]" : "hidden"}`}
       >
         聯絡我們
       </a>
