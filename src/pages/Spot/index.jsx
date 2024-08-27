@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { SpotsContext } from "../../components/spotsContext";
-import disneyLand from "../../../public/tokyo-disneyland.jpg";
 
 export default function Spot() {
   const spots = useContext(SpotsContext);
@@ -26,11 +25,38 @@ export default function Spot() {
     }
   }, [spots, id, navigate]);
 
+  function formatCurrency(number) {
+    return new Intl.NumberFormat("zh-TW", {
+      style: "currency",
+      currency: "TWD",
+      minimumFractionDigits: 0,
+    }).format(number);
+  }
+
+  // 將 description 按 <br> 進行分割並渲染
+  const renderDescription = (description) => {
+    return description
+      .split(/(<br\s*\/?>)/i) // 使用正則表達式分割 <br> 標籤
+      .filter(Boolean) // 過濾掉空字符串
+      .map((part, index) =>
+        part.match(/(<br\s*\/?>)/i) ? (
+          <br key={index} />
+        ) : (
+          <span key={index}>{part}</span>
+        ),
+      );
+  };
+
+  if (!spot) {
+    return (
+      <div className="flex h-screen items-center justify-center">加載中…</div>
+    );
+  }
   return (
     <div className="px-6 py-6 xl:mx-auto xl:w-[1200px]">
       <div className="imageContainer flex w-full flex-col items-center rounded-lg shadow-lg md:h-[500px]">
         <img
-          src={disneyLand}
+          src={spot.main_img}
           className="h-full w-full rounded-lg object-cover"
         />
       </div>
@@ -38,7 +64,7 @@ export default function Spot() {
         <div id="productTextContainer" className="lg:mr-4 lg:w-[70%]">
           <div className="mb-6 flex flex-row items-start justify-between">
             <h1 className="pr-9 text-xl font-semibold md:text-2xl">
-              日本｜東京迪士尼度假區｜Tokyo Disney Resort
+              {spot.title}
             </h1>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +101,7 @@ export default function Spot() {
                 d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
               />
             </svg>
-            <p>日本 - 東京, 千葉</p>
+            <p>{`${spot.country} - ${spot.city}`}</p>
           </div>
           <hr className="w-full" />
           <div className="flex w-full flex-row py-6 text-gray-900">
@@ -120,29 +146,7 @@ export default function Spot() {
               景點介紹
             </h2>
             <div className="text-base text-gray-600">
-              <ul>
-                <li>
-                  東京迪士尼度假區介紹
-                  <br />
-                  東京迪士尼度假區是ㄧ座擁有多家設施的大型主題度假區。包括「東京迪士尼樂園」、「東京迪士尼海洋」這兩座風格各異的迪士尼主題樂園、三家迪士尼飯店、多家官方飯店、ㄧ座綜合型商業設施「伊克斯皮兒莉」以及環繞度假區運行的便捷單軌電車等。不僅能為廣大遊客提供暢遊園區的歡樂體驗，同時透過住宿服務讓遊客得到購物、美食等多元化的度假體驗。
-                </li>
-                <br />
-                <li>
-                  東京迪士尼樂園
-                  <br />
-                  東京迪士尼樂園包含七個主題區：
-                  <br />
-                  ・世界市集：大街兩旁維多利亞時代的建築鱗萃比櫛，優美典雅。20世紀初期，華特・迪士尼出生並成長的美國將以溫馨氛圍迎接您的到來。
-                  <br />
-                  ・明日樂園：在這座率先實現人類夢想的城市，您可體驗遨遊宇宙之旅。
-                  <br />
-                  ・卡通城：米奇和他的夥伴們生活在這個快樂無比的小城。
-                  <br />
-                  ・夢幻樂園：夢想成真的童話王國。有新開幕的美女與野獸及白雪公主、小飛俠和小熊維尼等耳熟能詳的童話世界主人公帶您踏上充滿魔法的冒險之旅。
-                  <br />
-                  在驚喜不斷的七個主題園區，您可以乘坐遊樂設施、觀賞娛樂表演，還可以與您最喜愛的迪士尼明星合影，無盡的歡樂正等待著您！
-                </li>
-              </ul>
+              {spot ? renderDescription(spot.description) : null}
             </div>
           </div>
           <hr className="w-full" />
@@ -150,11 +154,7 @@ export default function Spot() {
             <h2 className="mb-4 text-lg font-bold text-gray-900 md:text-xl">
               交通方式
             </h2>
-            <p className="text-gray-600">
-              由東京車站搭乘電車僅需 15 分鐘車程，即可抵達東京迪士尼樂園。
-              <br />
-              除了電車之外，您亦可搭乘直達巴士由各地區、各飯店蒞臨園區。
-            </p>
+            <p className="text-gray-600">{spot.transportation}</p>
           </div>
         </div>
         <div
@@ -162,7 +162,9 @@ export default function Spot() {
           className="mt-10 flex flex-col rounded border-[1px] border-gray-200 px-3 shadow-md lg:mt-0 lg:w-[30%] lg:self-start"
         >
           <div className="mb-3 mt-5">
-            <span className="mr-2 text-2xl">NT$1,851</span>
+            <span className="mr-2 text-2xl">
+              NT{formatCurrency(spot.price)}
+            </span>
             <span>起</span>
           </div>
           <Button className="mb-3 self-stretch bg-[#006c98] py-6 text-lg hover:bg-[#1679a0]">
