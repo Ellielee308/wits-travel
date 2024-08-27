@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import Map from "./Map";
+import PhotoPreview from "./PhotoPreview";
 
 export default function Spot() {
   const spots = useContext(SpotsContext);
@@ -21,6 +22,9 @@ export default function Spot() {
   const [spot, setSpot] = useState(null);
   const navigate = useNavigate(); // 初始化 useNavigate hook
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  const [photos, setPhotos] = useState([]);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   useEffect(() => {
     if (spots.length > 0) {
@@ -28,6 +32,9 @@ export default function Spot() {
       if (currentSpot) {
         setSpot(currentSpot);
         console.log(currentSpot);
+        const currentPhotos = [currentSpot.main_img, ...currentSpot.img];
+        console.log(currentPhotos);
+        setPhotos(currentPhotos);
       } else {
         console.log("景點不存在");
         alert("Oops，景點不存在！");
@@ -84,6 +91,23 @@ export default function Spot() {
     }
   }, [spot, id]);
 
+  //預覽圖片功能
+  const handlePhotoClick = (index) => {
+    setCurrentPhotoIndex(index);
+    setIsPreviewOpen(true);
+  };
+
+  const handleNextPhoto = () => {
+    const imagesNumber = photos.length;
+    setCurrentPhotoIndex((prevIndex) =>
+      prevIndex === imagesNumber - 1 ? prevIndex : prevIndex + 1,
+    );
+  };
+
+  const handlePrevPhoto = () => {
+    setCurrentPhotoIndex((prevIndex) => (prevIndex === 0 ? 0 : prevIndex - 1));
+  };
+
   if (!spot) {
     return (
       <div className="flex h-screen items-center justify-center">加載中…</div>
@@ -91,11 +115,26 @@ export default function Spot() {
   }
   return (
     <div className="px-6 py-6 xl:mx-auto xl:w-[1200px]">
-      <div className="imageContainer flex w-full flex-col items-center rounded-lg shadow-lg md:h-[500px]">
-        <img
-          src={spot.main_img}
-          className="h-full w-full rounded-lg object-cover"
-        />
+      <div className="imageContainer flex w-full flex-row gap-2 rounded-lg md:h-[500px]">
+        <div className="w-[70%]">
+          <img
+            src={photos[0]}
+            onClick={() => handlePhotoClick(0)}
+            className="h-full w-full rounded-lg object-cover shadow-lg hover:cursor-pointer"
+          />
+        </div>
+        <div className="flex w-[30%] flex-col gap-2">
+          <img
+            src={photos[1]}
+            onClick={() => handlePhotoClick(1)}
+            className="h-1/2 w-full rounded-lg object-cover shadow-lg hover:cursor-pointer"
+          />
+          <img
+            src={photos[2]}
+            onClick={() => handlePhotoClick(2)}
+            className="h-1/2 w-full rounded-lg object-cover shadow-lg hover:cursor-pointer"
+          />
+        </div>
       </div>
       <div id="productInfo" className="flex flex-col py-6 lg:flex-row">
         <div id="productTextContainer" className="lg:mr-4 lg:w-[70%]">
@@ -237,6 +276,15 @@ export default function Spot() {
           </Link>
         </div>
       </div>
+      {isPreviewOpen && (
+        <PhotoPreview
+          photos={photos}
+          currentIndex={currentPhotoIndex}
+          onClose={() => setIsPreviewOpen(false)}
+          onNext={handleNextPhoto}
+          onPrev={handlePrevPhoto}
+        />
+      )}
     </div>
   );
 }

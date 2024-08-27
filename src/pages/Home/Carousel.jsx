@@ -61,7 +61,7 @@ export default function Carousel() {
     <>
       <div className="relative mx-auto w-full">
         <UICarousel>
-          <div className="custom-text-shadow absolute left-1/2 top-20 z-10 hidden w-full -translate-x-1/2 transform text-center text-2xl lg:block">
+          <div className="custom-text-shadow absolute left-1/2 top-20 z-10 hidden w-full -translate-x-1/2 transform select-none text-center text-2xl lg:block">
             最好的旅遊體驗
           </div>
           <div className="absolute left-1/2 top-4 z-10 flex h-10 w-10/12 -translate-x-1/2 transform items-center rounded-xl bg-white px-4 py-2 shadow-lg md:w-[527px] lg:top-32">
@@ -115,13 +115,13 @@ export default function Carousel() {
                     alt={`Slide ${index + 1}`}
                     className="lg:h-5/12 h-96 w-full object-cover"
                   />
+                  <div className="custom-text-shadow absolute bottom-28 right-8 text-5xl font-bold opacity-40">
+                    {spot.country}
+                  </div>
+                  <div className="custom-text-shadow absolute bottom-6 right-8 text-7xl font-bold opacity-40">
+                    {spot.subtitle}
+                  </div>
                 </Link>
-                <div className="custom-text-shadow absolute bottom-28 right-8 text-5xl font-bold opacity-40">
-                  {spot.country}
-                </div>
-                <div className="custom-text-shadow absolute bottom-6 right-8 text-7xl font-bold opacity-40">
-                  {spot.subtitle}
-                </div>
               </CarouselItem>
             ))}
           </CarouselContent>
