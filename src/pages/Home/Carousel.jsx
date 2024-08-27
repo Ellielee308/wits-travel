@@ -35,6 +35,26 @@ export default function Carousel() {
     setCurrentIndex(index);
   };
 
+  const [query, setQuery] = useState("");
+  const [filteredSpots, setFilteredSpots] = useState([]);
+
+  const handleSearch = (query) => {
+    if (query.length === 0) {
+      setFilteredSpots(spots.slice(0, 5));
+    } else {
+      const results = spots.filter((spot) => spot.title.includes(query));
+      setFilteredSpots(results);
+    }
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    handleSearch(value);
+  };
+  const handleBlur = () => {
+    setFilteredSpots([]);
+  };
   return (
     <>
       <div className="relative mx-auto w-full">
@@ -42,7 +62,7 @@ export default function Carousel() {
           <div className="custom-text-shadow absolute left-1/2 top-20 z-10 hidden w-full -translate-x-1/2 transform text-center text-2xl lg:block">
             最好的旅遊體驗
           </div>
-          <div className="absolute left-1/2 top-4 z-10 flex h-10 w-10/12 -translate-x-1/2 transform items-center rounded-full bg-white px-4 py-2 shadow-lg md:w-[527px] lg:top-32">
+          <div className="absolute left-1/2 top-4 z-10 flex h-10 w-10/12 -translate-x-1/2 transform items-center rounded-xl bg-white px-4 py-2 shadow-lg md:w-[527px] lg:top-32">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -61,7 +81,22 @@ export default function Carousel() {
               className="focus-visible:ring-stone-0 h-full w-full border-none outline-none focus-visible:ring-0"
               type="text"
               placeholder="搜尋景點或地區"
+              value={query}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
+            {filteredSpots.length > 0 && (
+              <ul className="absolute left-0 top-full mt-1 w-full rounded-xl bg-white drop-shadow-md">
+                {filteredSpots.map((spot, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer p-2 pl-5 hover:rounded-xl hover:bg-gray-100"
+                  >
+                    <Link to={`/spot?id=${spot.id}`}>{spot.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <CarouselContent
             className="flex"
