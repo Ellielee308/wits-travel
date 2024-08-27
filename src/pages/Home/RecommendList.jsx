@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/carousel";
 import { SpotsContext } from "../../components/spotsContext";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 function RecommendList() {
   const spots = useContext(SpotsContext);
@@ -19,7 +20,10 @@ function RecommendList() {
         <CarouselContent className="mt-4">
           {sortedSpots.slice(0, 10).map((spot) => (
             <CarouselItem key={spot.id} className="basis-1/2 lg:basis-1/4">
-              <a className="relative mx-1 flex h-full rounded-xl border-[1px]">
+              <Link
+                to={`/spot?id=${spot.id}`}
+                className="relative mx-1 flex h-full rounded-xl border-[1px]"
+              >
                 <img
                   src={spot.main_img}
                   className="h-full rounded-xl object-cover md:max-h-64"
@@ -28,11 +32,11 @@ function RecommendList() {
                 <p className="absolute bottom-2 mb-2 ml-4 mt-2 text-2xl text-white">
                   {spot.subtitle}
                 </p>
-              </a>
+              </Link>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="h-" />
+        <CarouselPrevious />
         <CarouselNext />
       </Carousel>
     </div>
