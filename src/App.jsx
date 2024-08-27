@@ -9,10 +9,6 @@ function App() {
       <Header />
       <Outlet />
       <Footer />
-      {/* <Button className="bg" variant="outline">
-        Hello
-        
-      </Button> */}
     </>
   );
 }
