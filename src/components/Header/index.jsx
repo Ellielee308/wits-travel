@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-// import {
-//   NavigationMenu,
-//   NavigationMenuContent,
-//   NavigationMenuIndicator,
-//   NavigationMenuItem,
-//   NavigationMenuLink,
-//   NavigationMenuList,
-//   NavigationMenuTrigger,
-//   NavigationMenuViewport,
-// } from "@/components/ui/navigation-menu";
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "@/components/ui/navigation-menu";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,10 +32,47 @@ export default function Header() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
+  const components = [
+    {
+      title: "日本",
+      href: "/home",
+      description:
+        "Go back to the homepage where you can see the latest updates and features.",
+    },
+    {
+      title: "北京",
+      href: "/profile",
+      description:
+        "View and edit your personal profile, including your settings and preferences.",
+    },
+    {
+      title: "倫敦",
+      href: "/dashboard",
+      description:
+        "Monitor your activities, statistics, and recent interactions on the platform.",
+    },
+    {
+      title: "西雅圖",
+      href: "/settings",
+      description:
+        "Adjust your account settings, notifications, and privacy preferences.",
+    },
+    {
+      title: "首爾",
+      href: "/help",
+      description:
+        "Get support, find FAQs, and contact customer service for assistance.",
+    },
+    {
+      title: "慕尼黑",
+      href: "/help",
+      description:
+        "Get support, find FAQs, and contact customer service for assistance.",
+    },
+  ];
   return (
     <div
-      className={`fixed left-0 top-0 w-full transform border border-cyan-800 transition-all duration-500 ease-in-out md:flex md:h-[60px] md:flex-row md:items-center md:justify-between ${
+      className={`fixed left-0 top-0 z-20 w-full transform shadow-xl transition-all duration-500 ease-in-out md:flex md:h-[60px] md:flex-row md:items-center md:justify-between ${
         menuOpen
           ? "relative flex h-screen translate-y-0 flex-col items-center justify-center overflow-hidden"
           : "relative flex h-[72px] items-center justify-center"
@@ -87,71 +124,75 @@ export default function Header() {
         />
       </Link>
 
-      <div
+      {/* <div
         className={`md:flex md:w-auto md:flex-row md:gap-x-12 ${menuOpen ? "flex w-[80px] flex-col gap-y-8" : "hidden"}`}
-      >
-        {/* <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>景點</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <NavigationMenuLink>Link</NavigationMenuLink>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  行程&體驗
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  住宿
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  美食
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu> */}
-
-        <a href="#" className="text-lg hover:text-blue-900 lg:text-xl">
-          景點
-        </a>
-        <a href="#" className="text-lg hover:text-blue-900 lg:text-xl">
-          行程
-        </a>
-        <a href="#" className="text-lg hover:text-blue-900 lg:text-xl">
-          住宿
-        </a>
-        <a href="#" className="text-lg hover:text-blue-900 lg:text-xl">
-          美食
-        </a>
-      </div>
-      {/* <NavigationMenu>
-        <NavigationMenuList>
+      > */}
+      <NavigationMenu>
+        <NavigationMenuList
+          className={`md:flex md:w-auto md:flex-row ${menuOpen ? "flex w-[80px] flex-col gap-y-8" : "hidden"}`}
+        >
           <NavigationMenuItem>
-            <Link href="/docs" legacyBehavior passHref>
+            <NavigationMenuTrigger className="ml-[16px] text-lg">
+              景點
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="flex flex-col gap-y-2 whitespace-nowrap p-4">
+                {components.map((component) => (
+                  <div
+                    key={component.title}
+                    title={component.title}
+                    href={component.href}
+                    className="cursor-pointer rounded-md hover:bg-stone-100 hover:text-stone-900"
+                  >
+                    {component.title}
+                  </div>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link to="/" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <div className="text-[18px]">行程</div>
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link to="/" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <div className="text-[18px]">住宿</div>
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link to="/" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <div className="text-[18px]">美食</div>
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem
+            className={`bg-[ #e0e5e8] rounded-[0.375rem] px-4 py-2 text-lg text-[#006c98] transition-all duration-300 hover:bg-[#006c98] hover:text-white md:mr-8 md:mt-0 md:block md:w-auto lg:text-lg ${menuOpen ? "mt-9 block" : "hidden"}`}
+          >
+            <Link to="/contacts" legacyBehavior passHref>
+              <NavigationMenuLink className="whitespace-nowrap">
                 聯絡我們
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
-      </NavigationMenu> */}
-      <Link
+      </NavigationMenu>
+      {/* <Link
         to="/contacts"
         className={`text-lg hover:text-blue-900 md:mr-8 md:mt-0 md:block md:w-auto lg:text-xl ${menuOpen ? "mt-8 block w-[80px]" : "hidden"}`}
       >
         聯絡我們
-      </Link>
+      </Link> */}
     </div>
   );
 }

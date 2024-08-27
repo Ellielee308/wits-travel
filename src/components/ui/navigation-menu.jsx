@@ -11,7 +11,7 @@ const NavigationMenu = React.forwardRef(
     <NavigationMenuPrimitive.Root
       ref={ref}
       className={cn(
-        "relative z-10 flex max-w-max flex-1 items-center justify-center",
+        "relative z-10 flex max-w-max items-center justify-center",
         className,
       )}
       {...props}
@@ -47,7 +47,7 @@ NavigationMenuList.propTypes = {
 const NavigationMenuItem = NavigationMenuPrimitive.Item;
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-stone-100 hover:text-stone-900 focus:bg-stone-100 focus:text-stone-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-stone-100/50 data-[state=open]:bg-stone-100/50 dark:bg-stone-950 dark:hover:bg-stone-800 dark:hover:text-stone-50 dark:focus:bg-stone-800 dark:focus:text-stone-50 dark:data-[active]:bg-stone-800/50 dark:data-[state=open]:bg-stone-800/50",
+  "group inline-flex h-10 w-max items-center text-[18px] justify-center rounded-md bg-white px-3 py-2 text-sm font-medium transition-colors hover:bg-stone-100 hover:text-stone-900 focus:bg-stone-100 focus:text-stone-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-stone-100/50 data-[state=open]:bg-stone-100/50 dark:bg-stone-950 dark:hover:bg-stone-800 dark:hover:text-stone-50 dark:focus:bg-stone-800 dark:focus:text-stone-50 dark:data-[active]:bg-stone-800/50 dark:data-[state=open]:bg-stone-800/50",
 );
 
 const NavigationMenuTrigger = React.forwardRef(
@@ -59,7 +59,7 @@ const NavigationMenuTrigger = React.forwardRef(
     >
       {children}
       <ChevronDown
-        className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
+        className="relative top-[1px] ml-1 h-3 w-3 text-lg transition duration-200 group-data-[state=open]:rotate-180"
         aria-hidden="true"
       />
     </NavigationMenuPrimitive.Trigger>
@@ -94,10 +94,14 @@ const NavigationMenuLink = NavigationMenuPrimitive.Link;
 
 const NavigationMenuViewport = React.forwardRef(
   ({ className, ...props }, ref) => (
-    <div className={cn("absolute left-0 top-full flex justify-center")}>
+    <div
+      className={cn(
+        "absolute left-[6px] top-[50px] md:absolute md:left-[14px] md:top-full md:flex md:justify-center",
+      )}
+    >
       <NavigationMenuPrimitive.Viewport
         className={cn(
-          "origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border border-stone-200 bg-white text-stone-950 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 dark:border-stone-800 dark:bg-stone-950 dark:text-stone-50 md:w-[var(--radix-navigation-menu-viewport-width)]",
+          "origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border-stone-200 bg-white text-stone-950 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 dark:border-stone-800 dark:bg-stone-950 dark:text-stone-50 md:w-[var(--radix-navigation-menu-viewport-width)] md:border md:shadow-lg",
           className,
         )}
         ref={ref}
