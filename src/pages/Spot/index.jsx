@@ -116,14 +116,14 @@ export default function Spot() {
   return (
     <div className="px-6 py-6 xl:mx-auto xl:w-[1200px]">
       <div className="imageContainer flex w-full flex-row gap-2 rounded-lg md:h-[500px]">
-        <div className="w-[70%]">
+        <div className="w-full md:w-[70%]">
           <img
             src={photos[0]}
             onClick={() => handlePhotoClick(0)}
             className="h-full w-full rounded-lg object-cover shadow-lg hover:cursor-pointer"
           />
         </div>
-        <div className="flex w-[30%] flex-col gap-2">
+        <div className="hidden w-[30%] flex-col gap-2 md:flex">
           <img
             src={photos[1]}
             onClick={() => handlePhotoClick(1)}
