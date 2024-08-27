@@ -91,11 +91,23 @@ export default function Spot() {
   }
   return (
     <div className="px-6 py-6 xl:mx-auto xl:w-[1200px]">
-      <div className="imageContainer flex w-full flex-col items-center rounded-lg shadow-lg md:h-[500px]">
-        <img
-          src={spot.main_img}
-          className="h-full w-full rounded-lg object-cover"
-        />
+      <div className="imageContainer flex w-full flex-row gap-2 rounded-lg md:h-[500px]">
+        <div className="w-[70%]">
+          <img
+            src={spot.main_img}
+            className="h-full w-full rounded-lg object-cover shadow-lg"
+          />
+        </div>
+        <div className="flex w-[30%] flex-col gap-2">
+          <img
+            src={spot.img[0]}
+            className="h-1/2 w-full rounded-lg object-cover shadow-lg"
+          />
+          <img
+            src={spot.img[1]}
+            className="h-1/2 w-full rounded-lg object-cover shadow-lg"
+          />
+        </div>
       </div>
       <div id="productInfo" className="flex flex-col py-6 lg:flex-row">
         <div id="productTextContainer" className="lg:mr-4 lg:w-[70%]">
