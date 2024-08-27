@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useEffect, useCallback } from "react";
 
 export default function PhotoPreview({
   photos,
@@ -7,6 +8,34 @@ export default function PhotoPreview({
   onNext,
   onPrev,
 }) {
+  //防止不必要的重複渲染和eventlistener重複添加
+  const handlePreviewWithKeyboard = useCallback(
+    (event) => {
+      switch (event.key) {
+        case "Escape":
+          onClose();
+          break;
+        case "ArrowLeft":
+          onPrev();
+          break;
+        case "ArrowRight":
+          onNext();
+          break;
+        default:
+          return;
+      }
+    },
+    [onClose, onPrev, onNext],
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handlePreviewWithKeyboard);
+
+    return () => {
+      window.removeEventListener("keydown", handlePreviewWithKeyboard);
+    };
+  }, [handlePreviewWithKeyboard]);
+
   return (
     <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-75">
       <button
