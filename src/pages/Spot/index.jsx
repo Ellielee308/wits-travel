@@ -12,6 +12,7 @@ import {
   increment,
 } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
+import Map from "./Map";
 
 export default function Spot() {
   const spots = useContext(SpotsContext);
@@ -19,6 +20,7 @@ export default function Spot() {
   const id = searchParams.get("id");
   const [spot, setSpot] = useState(null);
   const navigate = useNavigate(); // 初始化 useNavigate hook
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   useEffect(() => {
     if (spots.length > 0) {
@@ -190,6 +192,12 @@ export default function Spot() {
               交通方式
             </h2>
             <p className="text-gray-600">{spot.transportation}</p>
+          </div>
+          {/*map*/}
+          <hr className="w-full" />
+          <div className="flex flex-col p-6">
+            {/* 傳遞 spot 給 Map 組件 */}
+            <Map apiKey={apiKey} spot={spot} />
           </div>
         </div>
         <div
