@@ -40,9 +40,9 @@ export default function Carousel() {
 
   const handleSearch = (query) => {
     if (query.length === 0) {
-      setFilteredSpots(spots.slice(0, 5));
+      setFilteredSpots(spots?.slice(0, 5));
     } else {
-      const results = spots.filter((spot) => spot.title.includes(query));
+      const results = spots?.filter((spot) => spot.title.includes(query));
       setFilteredSpots(results);
     }
   };
