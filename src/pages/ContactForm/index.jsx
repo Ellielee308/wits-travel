@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { submitContactForm } from "../../firebase/uploadForm";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -44,10 +45,15 @@ export default function ContactForm() {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    setIsDialogOpen(true);
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      await submitContactForm(data);
+      console.log("Form Data:", data);
+      setIsDialogOpen(true);
+      reset();
+    } catch (error) {
+      console.error("Error submitting form: ", error);
+    }
   };
 
   return (
@@ -284,7 +290,7 @@ export default function ContactForm() {
         <Button
           type="submit"
           onClick={handleSubmit(onSubmit)}
-          className="flex w-40 items-center justify-center lg:w-52 lg:text-2xl"
+          className="flex w-40 items-center justify-center bg-[#006c98] text-white hover:bg-[#1679a0] lg:w-52 lg:text-2xl"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
