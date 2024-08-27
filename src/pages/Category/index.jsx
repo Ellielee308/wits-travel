@@ -35,7 +35,7 @@ function Category() {
     : spots;
 
   return (
-    <div className="mx-6 my-4 min-h-[85vh] lg:mx-8 xl:mx-auto xl:max-w-[1136px]">
+    <div className="mx-6 my-12 min-h-[85vh] lg:mx-8 xl:mx-auto xl:max-w-[1136px]">
       <Tabs defaultValue="card">
         <div className="flex justify-between">
           <h2 className="text-2xl font-semibold tracking-wide md:text-3xl">
@@ -78,7 +78,7 @@ function Category() {
             </TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent value="card" className="mt-2">
+        <TabsContent value="card" className="mt-3">
           <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
             {filteredSpots.length === 0 ? (
               <p className="text-center text-gray-500">沒有找到任何內容</p>
@@ -113,7 +113,7 @@ function Category() {
           </div>
         </TabsContent>
 
-        <TabsContent value="list" className="mt-2">
+        <TabsContent value="list" className="mt-3">
           <div className="flex flex-col gap-x-5 gap-y-4 md:grid md:grid-cols-2">
             {filteredSpots.length === 0 ? (
               <p className="text-center text-gray-500">沒有找到任何內容</p>
