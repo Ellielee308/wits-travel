@@ -120,7 +120,7 @@ export default function Spot() {
   }
   return (
     <div className="px-6 py-6 xl:mx-auto xl:w-[1200px]">
-      <div className="imageContainer flex w-full flex-row gap-2 rounded-lg md:h-[500px]">
+      <div className="imageContainer relative flex w-full flex-row gap-2 rounded-lg md:h-[500px]">
         <div className="w-full md:w-[70%]">
           <img
             src={photos[0]}
@@ -139,6 +139,27 @@ export default function Spot() {
             onClick={() => handlePhotoClick(2)}
             className="h-1/2 w-full rounded-lg object-cover shadow-lg hover:cursor-pointer"
           />
+        </div>
+        <div
+          id="photoNumberBox"
+          className="absolute bottom-2 right-2 flex select-none flex-row items-center justify-center gap-1 rounded-xl bg-gray-900 bg-opacity-60 px-2 text-sm text-white hover:cursor-pointer md:bottom-4 md:right-4 md:text-base"
+          onClick={() => handlePhotoClick(0)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+            />
+          </svg>
+          <p>{photos.length}</p>
         </div>
       </div>
       <div id="productInfo" className="flex flex-col py-6 lg:flex-row">
