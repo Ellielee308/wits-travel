@@ -7,3 +7,9 @@
     @apply font-sans;
   }
 }
+@layer utilities {
+  .custom-text-shadow {
+    @apply text-white;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  }
+}
