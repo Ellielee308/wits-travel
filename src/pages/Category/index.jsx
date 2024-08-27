@@ -35,7 +35,7 @@ function Category() {
     : spots;
 
   return (
-    <div className="mx-6 my-4 min-h-[75vh] lg:mx-8 xl:mx-auto xl:max-w-[1136px]">
+    <div className="mx-6 my-4 min-h-[85vh] lg:mx-8 xl:mx-auto xl:max-w-[1136px]">
       <Tabs defaultValue="card">
         <div className="flex justify-between">
           <h2 className="text-2xl font-semibold tracking-wide md:text-3xl">
@@ -92,26 +92,19 @@ function Category() {
                   <div className="h-64 w-full overflow-hidden rounded-xl">
                     <img
                       src={spot.main_img}
-                      alt={spot.city}
+                      alt={spot.subtitle}
                       className="h-full w-full transform object-cover transition-transform duration-500 ease-in-out hover:scale-110"
                     />
-
                     <div className="absolute bottom-0 left-0 mb-2 w-full rounded-xl bg-gradient-to-t from-slate-700/80 via-slate-700/40 to-transparent md:mb-0 md:h-2/6">
                       <h2 className="z-10 mb-2 ml-4 mt-2 text-2xl text-white">
-                        {spot.city}
+                        {spot.subtitle}
                       </h2>
-                      {Array(2)
-                        .fill("")
-                        .map((_, index) => (
-                          <div
-                            key={index}
-                            className={`mr-2 hidden rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline ${
-                              index === 0 ? "ml-4" : ""
-                            }`}
-                          >
-                            熱門票券
-                          </div>
-                        ))}
+                      <div className="ml-4 mr-2 hidden rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline">
+                        {spot.city}
+                      </div>
+                      <div className="ml-1 mr-2 hidden rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline">
+                        {spot.spot_category}
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -125,32 +118,29 @@ function Category() {
             {filteredSpots.length === 0 ? (
               <p className="text-center text-gray-500">沒有找到任何內容</p>
             ) : (
-              filteredSpots.map((spot) => (
+              filteredSpots.map((spot, index) => (
                 <Link
                   to={`/spot?id=${spot.id}`}
                   className="relative"
                   key={spot.id}
                 >
-                  <div className="flex gap-3">
+                  <div className="flex gap-3" key={index}>
                     <img
-                      className="size-24 rounded-lg object-cover md:size-28"
                       src={spot.main_img}
-                      alt={spot.city}
+                      alt={spot.subtitle}
+                      className="size-24 rounded-lg object-cover md:size-28"
                     />
-
                     <div>
-                      <h2 className="text-xl">{spot.city}</h2>
-                      <p className="mb-2 mt-1 text-base">{spot.brief}</p>
-                      {Array(3)
-                        .fill("")
-                        .map((_, index) => (
-                          <div
-                            key={index}
-                            className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm"
-                          >
-                            熱門票券
-                          </div>
-                        ))}
+                      <h2 className="text-xl">{spot.subtitle}</h2>
+                      <p className="mb-2 mt-1 text-base text-neutral-900">
+                        {spot.brief}
+                      </p>
+                      <div className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm">
+                        {spot.city}
+                      </div>
+                      <div className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm">
+                        {spot.spot_category}
+                      </div>
                     </div>
                   </div>
                 </Link>
