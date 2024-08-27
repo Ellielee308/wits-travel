@@ -65,7 +65,7 @@ function SpotList() {
                       {Array(2)
                         .fill("")
                         .map((_, index) => (
-                          <a
+                          <div
                             href="#"
                             key={index}
                             className={`mr-2 hidden rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline ${
@@ -73,7 +73,7 @@ function SpotList() {
                             }`}
                           >
                             熱門票券
-                          </a>
+                          </div>
                         ))}
                     </div>
                   </div>
@@ -101,14 +101,14 @@ function SpotList() {
                       {Array(3)
                         .fill("")
                         .map((_, index) => (
-                          <a
+                          <div
                             href="#"
                             key={index}
                             className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm"
                           >
                             {/* 資料庫設計需討論有哪些標籤，目前想到有:最夯景點、交通票券 */}
                             熱門票券
-                          </a>
+                          </div>
                         ))}
                     </div>
                   </div>

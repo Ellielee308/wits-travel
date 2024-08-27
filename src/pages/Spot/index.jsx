@@ -21,9 +21,9 @@ export default function Spot() {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth="0.8"
+              strokeWidth="1.1"
               stroke="currentColor"
-              className="inline-block h-auto w-[48px] align-middle text-gray-800 hover:cursor-pointer hover:fill-current md:h-9 md:w-9"
+              className="inline-block h-auto w-[48px] align-middle text-gray-600 transition-colors duration-700 ease-in-out hover:cursor-pointer hover:fill-[#006c98] hover:text-[#006c98] md:h-9 md:w-9"
             >
               <path
                 strokeLinecap="round"
@@ -96,7 +96,7 @@ export default function Spot() {
             <h2 className="mb-4 text-lg font-bold text-gray-900 md:text-xl">
               景點介紹
             </h2>
-            <p className="text-base text-gray-600">
+            <div className="text-base text-gray-600">
               <ul>
                 <li>
                   東京迪士尼度假區介紹
@@ -120,7 +120,7 @@ export default function Spot() {
                   在驚喜不斷的七個主題園區，您可以乘坐遊樂設施、觀賞娛樂表演，還可以與您最喜愛的迪士尼明星合影，無盡的歡樂正等待著您！
                 </li>
               </ul>
-            </p>
+            </div>
           </div>
           <hr className="w-full" />
           <div className="my-4">
@@ -142,7 +142,9 @@ export default function Spot() {
             <span className="mr-2 text-2xl">NT$1,851</span>
             <span>起</span>
           </div>
-          <Button className="mb-3 self-stretch py-6 text-lg">訂購門票</Button>
+          <Button className="mb-3 self-stretch bg-[#006c98] py-6 text-lg hover:bg-[#1679a0]">
+            訂購門票
+          </Button>
           <Link to="/contacts">
             <div
               id="customerService"
