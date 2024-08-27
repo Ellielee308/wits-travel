@@ -1,13 +1,57 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import disneyLand from "../../../public/tokyo-disneyland.jpg";
+import { useParams } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { SpotsContext } from "../../components/spotsContext";
+import {
+  query,
+  where,
+  getDocs,
+  collection,
+  updateDoc,
+  increment,
+} from "firebase/firestore";
+import { db } from "../../firebase/firebaseConfig";
 
 export default function Spot() {
+  const { id } = useParams();
+  const spots = useContext(SpotsContext);
+  const spot = spots.find((spot) => spot.id === id);
+  //進入到該頁面，計算瀏覽次數
+  useEffect(() => {
+    const updateClickCount = async () => {
+      const q = query(collection(db, "spot"), where("id", "==", id));
+      try {
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach(async (docSnapshot) => {
+            await updateDoc(docSnapshot.ref, {
+              click_count: increment(1),
+            });
+          });
+          console.log("Click count updated successfully.");
+        } else {
+          console.error("No document found with the given id.");
+        }
+      } catch (error) {
+        console.error("Error updating click count: ", error);
+      }
+    };
+
+    if (spot) {
+      updateClickCount();
+    }
+  }, [id, spot]);
+
+  if (!spot) {
+    return <div>Spot not found</div>;
+  }
+
   return (
     <div className="px-6 py-6 xl:mx-auto xl:w-[1200px]">
       <div className="imageContainer flex w-full flex-col items-center rounded-lg shadow-lg md:h-[500px]">
         <img
-          src={disneyLand}
+          src={spot.main_img}
           className="h-full w-full rounded-lg object-cover"
         />
       </div>
