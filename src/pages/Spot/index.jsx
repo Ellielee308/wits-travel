@@ -246,7 +246,7 @@ export default function Spot() {
         </div>
         <div
           id="orderContainer"
-          className="mt-10 flex flex-col rounded border-[1px] border-gray-200 px-3 shadow-md lg:mt-0 lg:w-[30%] lg:self-start"
+          className="mt-10 flex flex-col rounded border-[1px] border-gray-200 px-3 shadow-md lg:sticky lg:top-[30%] lg:mt-0 lg:w-[30%] lg:self-start"
         >
           <div className="mb-3 mt-5">
             <span className="mr-2 text-2xl">
