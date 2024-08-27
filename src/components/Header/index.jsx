@@ -4,12 +4,10 @@ import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 
 export default function Header() {
@@ -32,44 +30,21 @@ export default function Header() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   const components = [
-    {
-      title: "日本",
-      href: "/home",
-      description:
-        "Go back to the homepage where you can see the latest updates and features.",
-    },
-    {
-      title: "北京",
-      href: "/profile",
-      description:
-        "View and edit your personal profile, including your settings and preferences.",
-    },
-    {
-      title: "倫敦",
-      href: "/dashboard",
-      description:
-        "Monitor your activities, statistics, and recent interactions on the platform.",
-    },
-    {
-      title: "西雅圖",
-      href: "/settings",
-      description:
-        "Adjust your account settings, notifications, and privacy preferences.",
-    },
-    {
-      title: "首爾",
-      href: "/help",
-      description:
-        "Get support, find FAQs, and contact customer service for assistance.",
-    },
-    {
-      title: "慕尼黑",
-      href: "/help",
-      description:
-        "Get support, find FAQs, and contact customer service for assistance.",
-    },
+    { spot_category: "歷史景點", href: "/category?category=history" },
+    { spot_category: "樂園", href: "/category?category=theme-park" },
+    { spot_category: "特色建築", href: "/category?category=architecture" },
+    { spot_category: "博物館 & 美術館", href: "/category?category=museum" },
+    { spot_category: "自然風景", href: "/category?category=nature" },
   ];
+  const handleCategoryClick = (category) => {
+    // 收起菜單
+    setMenuOpen(false);
+    // 可選：執行其他操作
+    console.log(`Selected category: ${category}`);
+  };
+
   return (
     <div
       className={`fixed left-0 top-0 z-20 w-full transform shadow-xl transition-all duration-500 ease-in-out md:flex md:h-[60px] md:flex-row md:items-center md:justify-between ${
@@ -124,9 +99,6 @@ export default function Header() {
         />
       </Link>
 
-      {/* <div
-        className={`md:flex md:w-auto md:flex-row md:gap-x-12 ${menuOpen ? "flex w-[80px] flex-col gap-y-8" : "hidden"}`}
-      > */}
       <NavigationMenu>
         <NavigationMenuList
           className={`md:flex md:w-auto md:flex-row ${menuOpen ? "flex w-[80px] flex-col gap-y-8" : "hidden"}`}
@@ -136,16 +108,19 @@ export default function Header() {
               景點
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="flex flex-col gap-y-2 whitespace-nowrap p-4">
+              <ul className="flex flex-col gap-y-4 whitespace-nowrap p-4">
                 {components.map((component) => (
-                  <div
-                    key={component.title}
-                    title={component.title}
-                    href={component.href}
-                    className="cursor-pointer rounded-md hover:bg-stone-100 hover:text-stone-900"
-                  >
-                    {component.title}
-                  </div>
+                  <li key={component.spot_category}>
+                    <Link
+                      to={component.href}
+                      className="cursor-pointer rounded-md hover:bg-stone-100 hover:text-stone-900"
+                      onClick={() =>
+                        handleCategoryClick(component.spot_category)
+                      }
+                    >
+                      {component.spot_category}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </NavigationMenuContent>
@@ -177,7 +152,7 @@ export default function Header() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem
-            className={`bg-[ #e0e5e8] rounded-[0.375rem] px-4 py-2 text-lg text-[#006c98] transition-all duration-300 hover:bg-[#006c98] hover:text-white md:mr-8 md:mt-0 md:block md:w-auto lg:text-lg ${menuOpen ? "mt-9 block" : "hidden"}`}
+            className={`rounded-[0.375rem] px-4 py-2 text-lg text-[#006c98] transition-all duration-300 hover:bg-[#006c98] hover:text-white md:mr-8 md:mt-0 md:block md:w-auto lg:text-lg ${menuOpen ? "mt-9 block" : "hidden"}`}
           >
             <Link to="/contacts" legacyBehavior passHref>
               <NavigationMenuLink className="whitespace-nowrap">
@@ -187,12 +162,6 @@ export default function Header() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      {/* <Link
-        to="/contacts"
-        className={`text-lg hover:text-blue-900 md:mr-8 md:mt-0 md:block md:w-auto lg:text-xl ${menuOpen ? "mt-8 block w-[80px]" : "hidden"}`}
-      >
-        聯絡我們
-      </Link> */}
     </div>
   );
 }
