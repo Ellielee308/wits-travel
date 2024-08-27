@@ -6,6 +6,7 @@ import Spot from "./pages/Spot";
 import ContactForm from "./pages/ContactForm";
 import "./index.css";
 import { SpotsProvider } from "./components/spotsContext";
+import Category from "./pages/Category";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -17,6 +18,7 @@ root.render(
           <Route index element={<Home />} />
           <Route path="spot" element={<Spot />} />
           <Route path="contacts" element={<ContactForm />} />
+          <Route path="category" element={<Category />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
