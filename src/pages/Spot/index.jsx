@@ -43,6 +43,11 @@ export default function Spot() {
     }
   }, [spots, id, navigate]);
 
+  //Render後頁面到頂部
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   function formatCurrency(number) {
     return new Intl.NumberFormat("zh-TW", {
       style: "currency",
