@@ -43,7 +43,10 @@ export default function PhotoPreview({
           />
         </svg>
       </button>
-      <img src={photos[currentIndex]} className="max-h-full max-w-full" />
+      <img
+        src={photos[currentIndex]}
+        className="max-h-full max-w-full select-none"
+      />
       <button
         onClick={onNext}
         className={`absolute right-4 rounded-full bg-slate-400 bg-opacity-30 p-[2px] ${currentIndex === photos.length - 1 ? "text-gray-800 hover:cursor-not-allowed" : "text-white"}`}
