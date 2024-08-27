@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SpotsContext } from "../../components/spotsContext";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 function SpotList() {
   const spots = useContext(SpotsContext);
@@ -52,7 +53,7 @@ function SpotList() {
         <TabsContent value="card" className="mt-2">
           <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
             {spots.map((spot, index) => (
-              <a href="#" className="relative" key={index}>
+              <Link className="relative" key={index} to={`/spot?=${spot.id}`}>
                 <div className="h-64 w-full overflow-hidden rounded-xl">
                   <img
                     src={spot.main_img}
@@ -71,14 +72,14 @@ function SpotList() {
                     </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </TabsContent>
         <TabsContent value="list" className="mt-2">
           <div className="flex flex-col gap-x-5 gap-y-4 md:grid md:grid-cols-2">
             {spots.map((spot, index) => (
-              <a href="#" className="relative" key={index}>
+              <Link className="relative" key={index} to={`/spot/${spot.id}`}>
                 <div className="flex gap-3" key={index}>
                   <img
                     src={spot.main_img}
@@ -87,8 +88,9 @@ function SpotList() {
                   />
                   <div>
                     <h2 className="text-xl">{spot.subtitle}</h2>
-                    <p className="mb-2 mt-1 text-base">{spot.brief}</p>
-
+                    <p className="mb-2 mt-1 text-base text-neutral-900">
+                      {spot.brief}
+                    </p>
                     <div className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm">
                       {spot.city}
                     </div>
@@ -97,7 +99,7 @@ function SpotList() {
                     </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </TabsContent>
