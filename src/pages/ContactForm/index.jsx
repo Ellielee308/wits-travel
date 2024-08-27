@@ -284,7 +284,7 @@ export default function ContactForm() {
         <Button
           type="submit"
           onClick={handleSubmit(onSubmit)}
-          className="flex w-40 items-center justify-center lg:w-52 lg:text-2xl"
+          className="flex w-40 items-center justify-center bg-[#006c98] text-white hover:bg-[#1679a0] lg:w-52 lg:text-2xl"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
