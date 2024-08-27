@@ -120,24 +120,24 @@ export default function Spot() {
   }
   return (
     <div className="px-6 py-6 xl:mx-auto xl:w-[1200px]">
-      <div className="imageContainer relative flex w-full flex-row gap-2 rounded-lg md:h-[500px]">
+      <div className="group relative flex w-full flex-row gap-2 rounded-lg md:h-[500px]">
         <div className="w-full md:w-[70%]">
           <img
             src={photos[0]}
             onClick={() => handlePhotoClick(0)}
-            className="h-full w-full rounded-lg object-cover shadow-lg hover:cursor-pointer"
+            className="h-full w-full rounded-lg object-cover opacity-100 shadow-lg transition-all duration-500 ease-in-out hover:cursor-pointer group-hover:opacity-70 hover:group-hover:opacity-100"
           />
         </div>
         <div className="hidden w-[30%] flex-col gap-2 md:flex">
           <img
             src={photos[1]}
             onClick={() => handlePhotoClick(1)}
-            className="h-1/2 w-full rounded-lg object-cover shadow-lg hover:cursor-pointer"
+            className="h-1/2 w-full rounded-lg object-cover opacity-100 shadow-lg transition-all duration-500 ease-in-out hover:cursor-pointer group-hover:opacity-70 hover:group-hover:opacity-100"
           />
           <img
             src={photos[2]}
             onClick={() => handlePhotoClick(2)}
-            className="h-1/2 w-full rounded-lg object-cover shadow-lg hover:cursor-pointer"
+            className="h-1/2 w-full rounded-lg object-cover opacity-100 shadow-lg transition-all duration-500 ease-in-out hover:cursor-pointer group-hover:opacity-70 hover:group-hover:opacity-100"
           />
         </div>
         <div
@@ -174,7 +174,7 @@ export default function Spot() {
               viewBox="0 0 24 24"
               strokeWidth="1.1"
               stroke="currentColor"
-              className="inline-block h-auto w-[48px] align-middle text-gray-600 transition-colors duration-700 ease-in-out hover:cursor-pointer hover:fill-[#006c98] hover:text-[#006c98] md:h-9 md:w-9"
+              className="inline-block h-auto w-[48px] align-middle text-gray-600 hover:cursor-pointer hover:fill-[#006c98] hover:text-[#006c98] md:h-9 md:w-9"
             >
               <path
                 strokeLinecap="round"
