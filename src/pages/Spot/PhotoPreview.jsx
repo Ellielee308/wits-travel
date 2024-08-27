@@ -28,13 +28,13 @@ export default function PhotoPreview({
       </button>
       <button
         onClick={onPrev}
-        className={`absolute left-4 ${currentIndex === 0 ? "text-gray-800 hover:cursor-not-allowed" : "text-white"}`}
+        className={`absolute left-4 rounded-full bg-slate-400 bg-opacity-30 p-[2px] ${currentIndex === 0 ? "text-gray-800 hover:cursor-not-allowed" : "text-white"}`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="size-9"
+          className="size-6 md:size-8"
         >
           <path
             fillRule="evenodd"
@@ -46,13 +46,13 @@ export default function PhotoPreview({
       <img src={photos[currentIndex]} className="max-h-full max-w-full" />
       <button
         onClick={onNext}
-        className={`absolute right-4 ${currentIndex === photos.length - 1 ? "text-gray-800 hover:cursor-not-allowed" : "text-white"}`}
+        className={`absolute right-4 rounded-full bg-slate-400 bg-opacity-30 p-[2px] ${currentIndex === photos.length - 1 ? "text-gray-800 hover:cursor-not-allowed" : "text-white"}`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="size-9"
+          className="size-6 md:size-8"
         >
           <path
             fillRule="evenodd"
