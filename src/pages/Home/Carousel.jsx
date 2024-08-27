@@ -8,22 +8,28 @@ import {
 } from "@/components/ui/carousel";
 import { Input } from "@/components/ui/input";
 import { SpotsContext } from "@/components/spotsContext";
+import { Link } from "react-router-dom";
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [randomSpots, setRandomSpots] = useState([]);
   const spots = useContext(SpotsContext);
 
   useEffect(() => {
-    console.log("Fetched spots data in Carousel:", spots);
+    if (spots.length > 0) {
+      const shuffledSpots = [...spots].sort(() => 0.5 - Math.random());
+      const selectedSpots = shuffledSpots.slice(0, 3);
+      setRandomSpots(selectedSpots);
+    }
   }, [spots]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % spots.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % randomSpots.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [spots.length]);
+  }, [randomSpots.length]);
 
   const handleDotClick = (index) => {
     setCurrentIndex(index);
@@ -33,7 +39,7 @@ export default function Carousel() {
     <>
       <div className="relative mx-auto w-full">
         <UICarousel>
-          <div className="absolute left-1/2 top-20 z-10 hidden w-full -translate-x-1/2 transform text-center text-2xl lg:block">
+          <div className="custom-text-shadow absolute left-1/2 top-20 z-10 hidden w-full -translate-x-1/2 transform text-center text-2xl lg:block">
             最好的旅遊體驗
           </div>
           <div className="absolute left-1/2 top-4 z-10 flex h-10 w-10/12 -translate-x-1/2 transform items-center rounded-full bg-white px-4 py-2 shadow-lg md:w-[527px] lg:top-32">
@@ -61,20 +67,22 @@ export default function Carousel() {
             className="flex"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
-            {spots.map((spot, index) => (
+            {randomSpots.map((spot, index) => (
               <CarouselItem
                 key={index}
                 className="relative w-full flex-shrink-0"
               >
-                <img
-                  src={spot.main_img}
-                  alt={`Slide ${index + 1}`}
-                  className="lg:h-5/12 h-96 w-full object-cover opacity-50"
-                />
-                <div className="absolute bottom-12 right-8 text-lg">
+                <Link to={`/spot?id=${spot.id}`}>
+                  <img
+                    src={spot.main_img}
+                    alt={`Slide ${index + 1}`}
+                    className="lg:h-5/12 h-96 w-full object-cover"
+                  />
+                </Link>
+                <div className="custom-text-shadow absolute bottom-28 right-8 text-5xl font-bold opacity-40">
                   {spot.country}
                 </div>
-                <div className="text-l absolute bottom-6 right-8">
+                <div className="custom-text-shadow absolute bottom-6 right-8 text-7xl font-bold opacity-40">
                   {spot.subtitle}
                 </div>
               </CarouselItem>
@@ -84,21 +92,23 @@ export default function Carousel() {
             className="absolute left-0 top-1/2 ml-2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden"
             onClick={() =>
               setCurrentIndex((prevIndex) =>
-                prevIndex === 0 ? spots.length - 1 : prevIndex - 1,
+                prevIndex === 0 ? randomSpots.length - 1 : prevIndex - 1,
               )
             }
           />
           <CarouselNext
             className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden"
             onClick={() =>
-              setCurrentIndex((prevIndex) => (prevIndex + 1) % spots.length)
+              setCurrentIndex(
+                (prevIndex) => (prevIndex + 1) % randomSpots.length,
+              )
             }
           />
         </UICarousel>
 
         {/* Indicators */}
         <div className="absolute bottom-4 left-1/2 hidden -translate-x-1/2 transform space-x-2 lg:flex">
-          {spots.map((_, index) => (
+          {randomSpots.map((_, index) => (
             <span
               key={index}
               onClick={() => handleDotClick(index)}
