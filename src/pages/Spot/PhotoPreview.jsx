@@ -26,7 +26,10 @@ export default function PhotoPreview({
           />
         </svg>
       </button>
-      <button onClick={onPrev} className="absolute left-4 text-white">
+      <button
+        onClick={onPrev}
+        className={`absolute left-4 ${currentIndex === 0 ? "text-gray-800 hover:cursor-not-allowed" : "text-white"}`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -41,7 +44,10 @@ export default function PhotoPreview({
         </svg>
       </button>
       <img src={photos[currentIndex]} className="max-h-full max-w-full" />
-      <button onClick={onNext} className="absolute right-4 text-white">
+      <button
+        onClick={onNext}
+        className={`absolute right-4 ${currentIndex === photos.length - 1 ? "text-gray-800 hover:cursor-not-allowed" : "text-white"}`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
