@@ -1,4 +1,5 @@
 import Carousel from "./Carousel";
+import RecommendList from "./RecommendList";
 import SpotList from "./SpotList";
 
 export default function Home() {
@@ -6,6 +7,7 @@ export default function Home() {
     <>
       <Carousel />
       <SpotList />
+      <RecommendList />
     </>
   );
 }

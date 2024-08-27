@@ -3,6 +3,15 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { SpotsContext } from "../../components/spotsContext";
+import {
+  query,
+  where,
+  getDocs,
+  collection,
+  updateDoc,
+  increment,
+} from "firebase/firestore";
+import { db } from "../../firebase/firebaseConfig";
 
 export default function Spot() {
   const spots = useContext(SpotsContext);
@@ -46,6 +55,32 @@ export default function Spot() {
         ),
       );
   };
+
+  // 進入到該頁面，計算瀏覽次數
+  useEffect(() => {
+    const updateClickCount = async () => {
+      const q = query(collection(db, "spot"), where("id", "==", id));
+      try {
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach(async (docSnapshot) => {
+            await updateDoc(docSnapshot.ref, {
+              click_count: increment(1),
+            });
+          });
+          console.log("Click count updated successfully.");
+        } else {
+          console.error("No document found with the given id.");
+        }
+      } catch (error) {
+        console.error("Error updating click count: ", error);
+      }
+    };
+
+    if (spot) {
+      updateClickCount();
+    }
+  }, [spot, id]);
 
   if (!spot) {
     return (
