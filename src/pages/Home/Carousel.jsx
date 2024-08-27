@@ -53,7 +53,9 @@ export default function Carousel() {
     handleSearch(value);
   };
   const handleBlur = () => {
-    setFilteredSpots([]);
+    setTimeout(() => {
+      setFilteredSpots([]);
+    }, 200);
   };
   return (
     <>
