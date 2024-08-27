@@ -153,21 +153,21 @@ export default function Header() {
           <NavigationMenuItem>
             <Link to="/" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                美食
+                <div className="text-[18px]">行程</div>
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <Link to="/" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                行程
+                <div className="text-[18px]">住宿</div>
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <Link to="/" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                住宿
+                <div className="text-[18px]">美食</div>
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
