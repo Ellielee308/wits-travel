@@ -1,3 +1,4 @@
+import { useState, useEffect, useContext } from "react";
 import {
   Carousel as UICarousel,
   CarouselContent,
@@ -6,8 +7,28 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Input } from "@/components/ui/input";
+import { SpotsContext } from "@/components/spotsContext";
 
 export default function Carousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const spots = useContext(SpotsContext);
+
+  useEffect(() => {
+    console.log("Fetched spots data in Carousel:", spots);
+  }, [spots]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % spots.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [spots.length]);
+
+  const handleDotClick = (index) => {
+    setCurrentIndex(index);
+  };
+
   return (
     <>
       <div className="relative mx-auto w-full">
@@ -36,40 +57,54 @@ export default function Carousel() {
               placeholder="搜尋景點或地區"
             />
           </div>
-          <CarouselContent className="flex">
-            <CarouselItem className="w-full flex-shrink-0">
-              <img
-                src="https://images.pexels.com/photos/2819082/pexels-photo-2819082.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="Slide 1"
-                className="lg:h-5/12 h-96 w-full object-cover opacity-50"
-              />
-              <div className="absolute bottom-12 right-8 text-lg">地區名</div>
-              <div className="text-l absolute bottom-6 right-8">景點名</div>
-            </CarouselItem>
-            <CarouselItem className="w-full flex-shrink-0">
-              <img
-                src="https://via.placeholder.com/800x400?text=Slide+2"
-                alt="Slide 2"
-                className="h-96 w-full lg:h-64"
-              />
-            </CarouselItem>
-            <CarouselItem className="w-full flex-shrink-0">
-              <img
-                src="https://via.placeholder.com/800x400?text=Slide"
-                alt="Slide 3"
-                className="h-96 w-full lg:h-64"
-              />
-            </CarouselItem>
+          <CarouselContent
+            className="flex"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
+            {spots.map((spot, index) => (
+              <CarouselItem
+                key={index}
+                className="relative w-full flex-shrink-0"
+              >
+                <img
+                  src={spot.main_img}
+                  alt={`Slide ${index + 1}`}
+                  className="lg:h-5/12 h-96 w-full object-cover opacity-50"
+                />
+                <div className="absolute bottom-12 right-8 text-lg">
+                  {spot.country}
+                </div>
+                <div className="text-l absolute bottom-6 right-8">
+                  {spot.subtitle}
+                </div>
+              </CarouselItem>
+            ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-0 top-1/2 ml-2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden" />
-          <CarouselNext className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden" />
+          <CarouselPrevious
+            className="absolute left-0 top-1/2 ml-2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden"
+            onClick={() =>
+              setCurrentIndex((prevIndex) =>
+                prevIndex === 0 ? spots.length - 1 : prevIndex - 1,
+              )
+            }
+          />
+          <CarouselNext
+            className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden"
+            onClick={() =>
+              setCurrentIndex((prevIndex) => (prevIndex + 1) % spots.length)
+            }
+          />
         </UICarousel>
 
         {/* Indicators */}
         <div className="absolute bottom-4 left-1/2 hidden -translate-x-1/2 transform space-x-2 lg:flex">
-          <span className="h-2 w-2 rounded-full bg-gray-500"></span>
-          <span className="h-2 w-2 rounded-full bg-gray-500"></span>
-          <span className="h-2 w-2 rounded-full bg-gray-500"></span>
+          {spots.map((_, index) => (
+            <span
+              key={index}
+              onClick={() => handleDotClick(index)}
+              className={`h-2 w-2 cursor-pointer rounded-full ${currentIndex === index ? "bg-blue-500" : "bg-gray-500"}`}
+            ></span>
+          ))}
         </div>
       </div>
     </>
