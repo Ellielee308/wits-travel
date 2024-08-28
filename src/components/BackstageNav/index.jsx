@@ -1,7 +1,7 @@
 export default function BackstageNav() {
   return (
     <>
-      <h1>這是後臺sidebar</h1>
+      <div className="h-screen w-48 bg-slate-200"></div>
     </>
   );
 }
