@@ -244,7 +244,7 @@ export default function AddForm() {
           id="price"
           min="0"
           className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-          {...register("price", { required: true })}
+          {...register("price", { required: true, valueAsNumber: true })}
         />
         {errors.price && <span className="text-red-500">定價是必填項目</span>}
 
