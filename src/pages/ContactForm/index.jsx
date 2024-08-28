@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { submitContactForm } from "../../firebase/uploadForm";
@@ -55,6 +55,10 @@ export default function ContactForm() {
       console.error("Error submitting form: ", error);
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="mt-[60px] w-full px-6 lg:px-8">
