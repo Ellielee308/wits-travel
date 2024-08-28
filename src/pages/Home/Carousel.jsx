@@ -34,6 +34,19 @@ export default function Carousel() {
   const handleDotClick = (index) => {
     setCurrentIndex(index);
   };
+  // const handleDragEnd = (event) => {
+  //   const width = event.currentTarget.offsetWidth;
+  //   const moveX = event.nativeEvent.offsetX;
+
+  //   // 根據滑動距離和方向來更新 currentIndex
+  //   if (moveX < width / 2) {
+  //     setCurrentIndex((prevIndex) =>
+  //       prevIndex === 0 ? randomSpots.length - 1 : prevIndex - 1,
+  //     );
+  //   } else {
+  //     setCurrentIndex((prevIndex) => (prevIndex + 1) % randomSpots.length);
+  //   }
+  // };
 
   const [query, setQuery] = useState("");
   const [filteredSpots, setFilteredSpots] = useState([]);
@@ -57,6 +70,7 @@ export default function Carousel() {
       setFilteredSpots([]);
     }, 200);
   };
+
   return (
     <>
       <div className="relative mx-auto w-full">
@@ -103,6 +117,7 @@ export default function Carousel() {
           <CarouselContent
             className="flex"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            //onDragEnd={handleDragEnd}
           >
             {randomSpots.map((spot, index) => (
               <CarouselItem
