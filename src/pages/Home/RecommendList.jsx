@@ -29,7 +29,7 @@ function RecommendList() {
                   className="h-full rounded-xl object-cover md:max-h-64"
                 ></img>
                 <div className="absolute bottom-0 left-0 h-1/4 w-full rounded-b-xl bg-gradient-to-t from-black to-transparent"></div>
-                <p className="absolute bottom-2 mb-2 ml-4 mt-2 text-2xl text-white">
+                <p className="absolute bottom-2 mb-2 ml-4 mt-2 text-base text-white md:text-xl">
                   {spot.subtitle}
                 </p>
               </Link>
