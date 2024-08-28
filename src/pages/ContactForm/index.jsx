@@ -66,7 +66,7 @@ export default function ContactForm() {
           </h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-2xl">
+              <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -86,7 +86,7 @@ export default function ContactForm() {
 
               <Input
                 type="text"
-                className="mb-3 lg:text-xl"
+                className="mb-3 lg:text-lg"
                 placeholder="王小明"
                 {...register("name", { required: "姓名是必填項" })}
               />
@@ -103,7 +103,7 @@ export default function ContactForm() {
             </div>
 
             <div>
-              <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-2xl">
+              <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -121,7 +121,7 @@ export default function ContactForm() {
                 電子郵件
               </label>
               <Input
-                className="mb-3 lg:text-xl"
+                className="mb-3 lg:text-lg"
                 type="text"
                 placeholder="mail@mail.com"
                 {...register("email", {
@@ -145,7 +145,7 @@ export default function ContactForm() {
             </div>
 
             <div>
-              <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-2xl">
+              <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -163,7 +163,7 @@ export default function ContactForm() {
                 電話號碼
               </label>
               <Input
-                className="mb-3 lg:text-xl"
+                className="mb-3 lg:text-lg"
                 type="text"
                 placeholder="09XXXXXXXX"
                 {...register("phone", {
@@ -187,7 +187,7 @@ export default function ContactForm() {
             </div>
 
             <div>
-              <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-2xl">
+              <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -218,13 +218,13 @@ export default function ContactForm() {
                       <SelectValue placeholder="請選擇主旨" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="問題詢問" className="lg:text-xl">
+                      <SelectItem value="問題詢問" className="lg:text-lg">
                         問題詢問
                       </SelectItem>
-                      <SelectItem value="合作提案" className="lg:text-xl">
+                      <SelectItem value="合作提案" className="lg:text-lg">
                         合作提案
                       </SelectItem>
-                      <SelectItem value="給予建議" className="lg:text-xl">
+                      <SelectItem value="給予建議" className="lg:text-lg">
                         給予建議
                       </SelectItem>
                     </SelectContent>
@@ -243,7 +243,7 @@ export default function ContactForm() {
             </div>
 
             <div>
-              <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-2xl">
+              <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -262,7 +262,7 @@ export default function ContactForm() {
               </label>
               <Textarea
                 placeholder="我想詢問關於旅遊行程的資訊..."
-                className="h-40 lg:text-xl"
+                className="h-40 lg:text-lg"
                 as="textarea"
                 {...register("message", { required: "訊息內容是必填項" })}
               />
@@ -290,7 +290,7 @@ export default function ContactForm() {
         <Button
           type="submit"
           onClick={handleSubmit(onSubmit)}
-          className="flex w-40 items-center justify-center bg-[#006c98] text-white hover:bg-[#1679a0] lg:w-52 lg:text-2xl"
+          className="flex w-40 items-center justify-center bg-[#006c98] text-white hover:bg-[#1679a0] lg:w-52 lg:text-xl lg:tracking-wider"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
