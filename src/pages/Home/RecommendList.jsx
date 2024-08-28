@@ -12,9 +12,9 @@ import { Link } from "react-router-dom";
 function RecommendList() {
   const spots = useContext(SpotsContext);
   const sortedSpots = spots.sort((a, b) => b.click_count - a.click_count);
-  //   console.log(sortedSpots);
+
   return (
-    <div className="mx-6 my-4 lg:mx-8 xl:mx-auto xl:max-w-[1136px]">
+    <div className="mx-6 my-12 lg:mx-8 xl:mx-auto xl:max-w-[1136px]">
       <h2 className="text-3xl font-semibold tracking-wide">Top 10 熱門</h2>
       <Carousel className="mx-12 lg:mx-8 xl:mx-14 xl:max-w-[1136px]">
         <CarouselContent className="mt-4">
@@ -29,7 +29,7 @@ function RecommendList() {
                   className="h-full rounded-xl object-cover md:max-h-64"
                 ></img>
                 <div className="absolute bottom-0 left-0 h-1/4 w-full rounded-b-xl bg-gradient-to-t from-black to-transparent"></div>
-                <p className="absolute bottom-2 mb-2 ml-4 mt-2 text-2xl text-white">
+                <p className="absolute bottom-2 mb-2 ml-4 mt-2 text-base text-white md:text-xl">
                   {spot.subtitle}
                 </p>
               </Link>
