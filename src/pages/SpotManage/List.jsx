@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { SpotsContext } from "../../components/spotsContext";
+import { Link } from "react-router-dom";
 
 export default function List() {
   const spots = useContext(SpotsContext);
@@ -47,7 +48,7 @@ export default function List() {
               alt={spot.subtitle}
             />
             <div className="col-span-2 ml-1 justify-self-start text-sm">
-              {spot.title}
+              <Link to={`/spot?id=${spot.id}`}>{spot.title}</Link>
             </div>
             <div className="text-sm">NT{formatCurrency(spot.price)}</div>
             <div className="text-sm">{spot.click_count}次</div>
