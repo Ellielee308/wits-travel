@@ -24,4 +24,4 @@ const installations = getInstallations(app);
 
 setAnalyticsCollectionEnabled(analytics, true);
 
-export { db, analytics, installations };
+export { app, db, analytics, installations };

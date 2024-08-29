@@ -29,11 +29,11 @@ root.render(
         </Route>
         {/* 新增 Backstage 路由 */}
         <Route path="/backstage" element={<Backstage />}>
+          <Route index element={<StatisticsDashboard />} />
           <Route path="login" element={<Login />} />
           <Route path="spot-manage" element={<SpotManage />} />
           <Route path="carousel-manage" element={<CarouselManage />} />
           <Route path="form-manage" element={<FormManage />} />
-          <Route path="index" element={<StatisticsDashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>
