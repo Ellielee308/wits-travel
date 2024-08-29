@@ -13,6 +13,9 @@ import SpotManage from "./pages/SpotManage";
 import CarouselManage from "./pages/CarouselManage";
 import FormManage from "./pages/FormManage";
 import StatisticsDashboard from "./pages/StatisticsDashboard";
+import Account from "./pages/Account";
+
+import { RoleProvider } from "./context/roleContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -31,9 +34,24 @@ root.render(
         <Route path="/backstage" element={<Backstage />}>
           <Route index element={<StatisticsDashboard />} />
           <Route path="login" element={<Login />} />
-          <Route path="spot-manage" element={<SpotManage />} />
+          <Route
+            path="spot-manage"
+            element={
+              <RoleProvider>
+                <SpotManage />{" "}
+              </RoleProvider>
+            }
+          />
           <Route path="carousel-manage" element={<CarouselManage />} />
           <Route path="form-manage" element={<FormManage />} />
+          <Route
+            path="account"
+            element={
+              <RoleProvider>
+                <Account />
+              </RoleProvider>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
