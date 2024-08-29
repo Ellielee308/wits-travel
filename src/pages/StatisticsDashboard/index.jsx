@@ -1,6 +1,7 @@
 import { fetchUserData } from "../../firebase/fetchUserData";
 import { useEffect, useState } from "react";
 import MemberNumberLineChart from "./MemberNumberLineChart";
+import UserTimeHeatmapBar from "./UserTimeHeatmapBar";
 
 export default function StatisticsDashboard() {
   const [usersData, setUsersData] = useState([]);
@@ -22,6 +23,7 @@ export default function StatisticsDashboard() {
     <>
       <h1>這是圖表頁</h1>
       <MemberNumberLineChart usersData={usersData} />
+      <UserTimeHeatmapBar usersData={usersData} />
     </>
   );
 }
