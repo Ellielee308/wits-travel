@@ -5,6 +5,7 @@ import addSpot from "../../firebase/addSpot";
 
 export default function AddForm() {
   const [isChecked, setIsChecked] = useState(false);
+  const [fieldArrayError, setFieldArrayError] = useState("");
   const {
     register,
     handleSubmit,
@@ -36,9 +37,27 @@ export default function AddForm() {
     name: "img",
   });
 
+  const handleBlur = () => {
+    if (fields.length < 2) {
+      setFieldArrayError("至少需要兩個圖片網址");
+    } else {
+      setFieldArrayError("");
+    }
+  };
+
+  const handleRemove = (index) => {
+    remove(index);
+    if (fields.length - 1 < 2) {
+      setFieldArrayError("至少需要兩個圖片網址");
+    } else {
+      setFieldArrayError("");
+    }
+  };
+
   const onSubmit = (data) => {
     console.log(data);
     addSpot(data);
+    setFieldArrayError("");
     reset();
   };
   return (
@@ -53,6 +72,7 @@ export default function AddForm() {
         {/* Title */}
         <label htmlFor="title" className="mb-1 text-lg font-medium">
           完整標題
+          <span className="text-red-500">*</span>
         </label>
         <input
           id="title"
@@ -67,6 +87,7 @@ export default function AddForm() {
         {/* Subtitle */}
         <label htmlFor="subtitle" className="mb-1 text-lg font-medium">
           小標題（6字以內）
+          <span className="-ml-2 text-red-500">*</span>
         </label>
         <input
           id="subtitle"
@@ -84,6 +105,7 @@ export default function AddForm() {
         {/* Area */}
         <label htmlFor="area" className="mb-1 text-lg font-medium">
           地區
+          <span className="text-red-500">*</span>
         </label>
         <input
           id="area"
@@ -96,6 +118,7 @@ export default function AddForm() {
         {/* Country */}
         <label htmlFor="country" className="mb-1 text-lg font-medium">
           國家
+          <span className="text-red-500">*</span>
         </label>
         <input
           id="country"
@@ -108,6 +131,7 @@ export default function AddForm() {
         {/* City */}
         <label htmlFor="city" className="mb-1 text-lg font-medium">
           城市
+          <span className="text-red-500">*</span>
         </label>
         <input
           id="city"
@@ -120,6 +144,7 @@ export default function AddForm() {
         {/* Main Image */}
         <label htmlFor="main_img" className="mb-1 text-lg font-medium">
           主圖片網址
+          <span className="text-red-500">*</span>
         </label>
         <input
           id="main_img"
@@ -140,6 +165,7 @@ export default function AddForm() {
         {/* 其他圖片網址欄位 */}
         <label htmlFor="img" className="mb-2 text-lg">
           其他圖片網址（至少2張）
+          <span className="-ml-2 text-red-500">*</span>
         </label>
         {fields.map((field, index) => (
           <div key={field.id} className="mb-2 flex items-center">
@@ -153,6 +179,7 @@ export default function AddForm() {
                   value: /^(ftp|http|https):\/\/[^ "]+$/,
                   message: "無效的 URL",
                 },
+                onBlur: handleBlur,
               })}
             />
             {errors.img && errors.img[index] && (
@@ -162,7 +189,9 @@ export default function AddForm() {
             )}
             <button
               type="button"
-              onClick={() => remove(index)}
+              onClick={() => {
+                handleRemove(index);
+              }}
               className="ml-2"
             >
               <svg
@@ -191,10 +220,15 @@ export default function AddForm() {
         >
           添加圖片網址
         </button>
+        {/* 確認最少兩個圖片網址的錯誤訊息 */}
+        {fieldArrayError && (
+          <div className="text-red-500">{fieldArrayError}</div>
+        )}
 
         {/* Brief */}
         <label htmlFor="brief" className="mb-1 text-lg font-medium">
           簡介（20字以內）
+          <span className="-ml-2 text-red-500">*</span>
         </label>
         <input
           id="brief"
@@ -212,6 +246,7 @@ export default function AddForm() {
         {/* Description */}
         <label htmlFor="description" className="mb-1 text-lg font-medium">
           詳細介紹
+          <span className="text-red-500">*</span>
         </label>
         <textarea
           id="description"
@@ -225,6 +260,7 @@ export default function AddForm() {
         {/* Transportation */}
         <label htmlFor="transportation" className="mb-1 text-lg font-medium">
           交通資訊
+          <span className="text-red-500">*</span>
         </label>
         <input
           id="transportation"
@@ -238,6 +274,7 @@ export default function AddForm() {
         {/* Price */}
         <label htmlFor="price" className="mb-1 text-lg font-medium">
           定價
+          <span className="text-red-500">*</span>
         </label>
         <input
           type="number"
@@ -251,6 +288,7 @@ export default function AddForm() {
         {/* Category */}
         <label htmlFor="spot_category" className="mb-1 text-lg font-medium">
           分類
+          <span className="text-red-500">*</span>
         </label>
         <select
           id="spot_category"
@@ -282,8 +320,8 @@ export default function AddForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={!isChecked || isSubmitting || !isValid}
-          className={`mt-4 h-10 w-1/4 self-center rounded-lg bg-gradient-to-r from-blue-500 to-green-500 text-white transition-opacity duration-200 ease-in-out hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50`}
+          disabled={!isChecked || isSubmitting || !isValid || fields.length < 2}
+          className={`mt-4 h-10 w-1/4 self-center rounded-lg bg-gradient-to-r from-blue-500 to-green-500 text-lg text-white transition-opacity duration-200 ease-in-out hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50`}
         >
           {isSubmitting ? "提交中..." : "上架景點"}
         </button>
