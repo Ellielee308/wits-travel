@@ -29,6 +29,7 @@ export default function AddForm() {
       price: 0,
       spot_category: "自然風景",
       click_count: 0,
+      isSelectedForCarousel: false,
     },
   });
 
@@ -58,6 +59,7 @@ export default function AddForm() {
     console.log(data);
     addSpot(data);
     setFieldArrayError("");
+    alert("已上架景點！");
     reset();
   };
   return (
