@@ -82,7 +82,7 @@ export default function FormManage() {
   };
 
   return (
-    <div className="mb-16 flex min-h-screen flex-col overflow-auto">
+    <div className="mb-16 flex min-h-screen w-4/5 flex-col overflow-auto">
       {/* Main content */}
       <div className="mb-16 flex-1 p-8">
         <div className="flex items-center justify-between">
