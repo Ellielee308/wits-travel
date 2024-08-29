@@ -11,7 +11,7 @@ export default function SpotManage() {
           {showAddForm ? "新增景點" : "編輯景點"}
         </h1>
         <button
-          className="mb-4 mr-9 h-8 self-end rounded-lg bg-[#006c98] px-4 text-sm text-white transition-all duration-300"
+          className="mb-4 h-8 self-end rounded-lg bg-[#006c98] px-4 text-sm text-white transition-all duration-300"
           onClick={() => setShowAddForm(!showAddForm)}
         >
           {showAddForm ? "取消新增" : "新增景點"}
