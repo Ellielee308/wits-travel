@@ -14,6 +14,13 @@ import {
 import { db } from "../../firebase/firebaseConfig";
 import Map from "./Map";
 import PhotoPreview from "./PhotoPreview";
+const categoryLabel = {
+  自然風景: "nature",
+  "博物館 & 美術館": "museum",
+  樂園: "theme-park",
+  歷史景點: "history",
+  特色建築: "architecture",
+};
 
 export default function Spot() {
   const spots = useContext(SpotsContext);
@@ -183,30 +190,59 @@ export default function Spot() {
               />
             </svg>
           </div>
-          <div className="mb-4 flex flex-row items-center text-sm text-gray-500">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="mr-2 size-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-              />
-            </svg>
-            <p>{`${spot.country} - ${spot.city}`}</p>
+          <div className="flex flex-row">
+            <div className="mb-4 mr-3 flex flex-row items-center text-sm text-gray-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="mr-2 size-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 6h.008v.008H6V6Z"
+                />
+              </svg>
+              <Link
+                to={`/category?category=${categoryLabel[spot.spot_category]}`}
+                className="transition-colors duration-300 hover:text-gray-900"
+              >
+                {spot.spot_category}
+              </Link>
+            </div>
+            <div className="mb-4 flex flex-row items-center text-sm text-gray-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="mr-2 size-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                />
+              </svg>
+              <p className="select-none">{`${spot.country} - ${spot.city}`}</p>
+            </div>
           </div>
           <hr className="w-full" />
-          <div className="flex w-full flex-row py-6 text-gray-900">
+          <div className="flex w-full flex-row py-6 text-gray-700">
             <div className="flex flex-row pr-6">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -222,7 +258,7 @@ export default function Spot() {
                   d="M8.25 9.75h4.875a2.625 2.625 0 0 1 0 5.25H12M8.25 9.75 10.5 7.5M8.25 9.75 10.5 12m9-7.243V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185Z"
                 />
               </svg>
-              <p>15天前可免費取消</p>
+              <p>免手續費</p>
             </div>
             <div className="flex flex-row pr-6">
               <svg
@@ -236,10 +272,10 @@ export default function Spot() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
+                  d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
                 />
               </svg>
-              <p>電子票</p>
+              <p>可預約旅拍</p>
             </div>
           </div>
           <hr className="w-full" />
