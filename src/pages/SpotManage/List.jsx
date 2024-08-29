@@ -27,7 +27,7 @@ export default function List() {
       {/* 標題行 */}
       <div
         id="titleContainer"
-        className="sticky top-[60px] grid w-full grid-cols-7 justify-items-center rounded-t-lg border-b bg-gray-200 px-4 py-2 font-semibold"
+        className="sticky top-[60px] z-10 grid w-full grid-cols-7 justify-items-center rounded-t-lg border-b bg-gray-200 px-4 py-2 font-semibold"
       >
         <div className="justify-self-start">照片</div>
         <div className="col-span-2 ml-1 justify-self-start">標題</div>
@@ -48,7 +48,7 @@ export default function List() {
               src={spot.main_img}
               alt={spot.subtitle}
             />
-            <div className="col-span-2 ml-1 justify-self-start text-sm">
+            <div className="col-span-2 ml-1 justify-self-start text-sm transition-colors duration-200 hover:text-blue-600">
               <Link to={`/spot?id=${spot.id}`}>{spot.title}</Link>
             </div>
             <div className="text-sm">NT{formatCurrency(spot.price)}</div>
