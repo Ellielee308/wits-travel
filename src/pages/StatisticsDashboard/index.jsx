@@ -22,7 +22,7 @@ export default function StatisticsDashboard() {
   }, []);
 
   return (
-    <div className="mb-10 flex min-h-[80vh] flex-col items-center gap-6">
+    <div className="mb-10 grid min-h-[80vh] w-full grid-cols-2 flex-col items-center gap-6 p-14">
       <MemberNumberLineChart usersData={usersData} />
       <UserTimeHeatmapBar usersData={usersData} />
       <DeviceStatics usersData={usersData} />
