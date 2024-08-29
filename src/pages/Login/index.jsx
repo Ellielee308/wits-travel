@@ -16,6 +16,7 @@ export default function Login() {
   function onSubmit(e) {
     e.preventDefault();
     if (isRegistering) {
+      // firebase預設密碼至少為 6 碼
       createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
           navigate("/backstage");
@@ -30,18 +31,17 @@ export default function Login() {
         })
         .catch((error) => {
           console.error("登入錯誤:", error.message);
-          // firebase預設密碼至少為 6 碼
         });
     }
   }
 
   return (
-    <div className="z-0 mx-auto mt-[60px] flex min-h-[80vh] justify-center md:mx-12 lg:mx-40">
+    <div className="z-0 flex min-h-[80vh] justify-center md:mx-12 lg:mx-40">
       <img
         src="https://firebasestorage.googleapis.com/v0/b/witz-ec201.appspot.com/o/9780.svg?alt=media&token=6802e3ce-6b12-41e1-a8f1-fa6301a9093a"
         className="mt-36 hidden h-52 md:block lg:mt-24 lg:h-72"
       ></img>
-      <div className="ml-0 mt-12 h-3/5 w-96 rounded-md bg-slate-100 p-8 pb-14 md:ml-16 lg:ml-24 lg:w-[440px]">
+      <div className="ml-0 mt-12 h-3/4 w-full rounded-md bg-slate-100 p-8 pb-14 md:ml-16 lg:ml-24 lg:w-[440px]">
         <h1 className="text-2xl">
           {isRegistering ? "後台註冊帳號" : "後台登入"}
         </h1>
