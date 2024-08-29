@@ -13,7 +13,53 @@ import {
 } from "firebase/firestore";
 
 function App() {
+  function getBrowserInfo() {
+    const userAgent = navigator.userAgent;
+
+    if (
+      /Chrome/.test(userAgent) &&
+      !/Edge/.test(userAgent) &&
+      !/OPR/.test(userAgent)
+    ) {
+      return "Google Chrome";
+    } else if (/Firefox/.test(userAgent)) {
+      return "Mozilla Firefox";
+    } else if (
+      /Safari/.test(userAgent) &&
+      !/Chrome/.test(userAgent) &&
+      !/Edge/.test(userAgent)
+    ) {
+      return "Apple Safari";
+    } else if (/Edg/.test(userAgent)) {
+      return "Microsoft Edge";
+    } else if (/MSIE/.test(userAgent) || /Trident/.test(userAgent)) {
+      return "Internet Explorer";
+    } else if (/Opera/.test(userAgent)) {
+      return "Opera";
+    } else {
+      return "Unknown Browser";
+    }
+  }
+
+  function getDeviceType() {
+    const userAgent = navigator.userAgent;
+    const width = window.innerWidth;
+
+    if (/mobile/i.test(userAgent) && width <= 768) {
+      return "Mobile";
+    } else if (/tablet/i.test(userAgent) || (width > 768 && width <= 1024)) {
+      return "Tablet";
+    } else if (/desktop/i.test(userAgent) || width > 1024) {
+      return "Desktop";
+    } else {
+      return "Unknown Device";
+    }
+  }
+
   useEffect(() => {
+    const deviceType = getDeviceType();
+    const browserInfo = getBrowserInfo();
+
     getId(installations).then(async (installationId) => {
       console.log("Firebase Installation ID:", installationId);
 
@@ -22,8 +68,9 @@ function App() {
 
       if (!docSnap.exists()) {
         await setDoc(userDocRef, {
-          installationId: installationId,
-
+          installationId,
+          deviceType,
+          browserInfo,
           first_time_entry: serverTimestamp(),
         });
         console.log("First time entry stored in Firestore");
