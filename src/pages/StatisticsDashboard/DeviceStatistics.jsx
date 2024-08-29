@@ -68,15 +68,21 @@ export default function DeviceStatics({ usersData, projectTitle }) {
   const options = {
     responsive: true,
     plugins: {
+      legend: {
+        display: true,
+        labels: {
+          boxWidth: 20,
+        },
+      },
       datalabels: {
         formatter: (value, context) => {
-          const label = context.chart.data.labels[context.dataIndex];
+          // const label = context.chart.data.labels[context.dataIndex];
           const total = context.chart.data.datasets[0].data.reduce(
             (sum, val) => sum + val,
             0,
           );
           const percentage = ((value / total) * 100).toFixed(2);
-          return `${label}: ${percentage}%`;
+          return ` ${percentage}%`;
         },
         color: "#fff",
       },
