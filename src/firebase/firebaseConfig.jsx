@@ -4,6 +4,7 @@ import {
   getAnalytics,
   setAnalyticsCollectionEnabled,
 } from "firebase/analytics";
+import { getInstallations } from "firebase/installations";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -19,8 +20,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const analytics = getAnalytics(app);
+const installations = getInstallations(app);
 
-// 啟用自動數據收集
 setAnalyticsCollectionEnabled(analytics, true);
 
-export { db };
+export { db, analytics, installations };
