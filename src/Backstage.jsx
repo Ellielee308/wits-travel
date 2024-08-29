@@ -10,9 +10,11 @@ function Backstage() {
   return (
     <>
       <BackstageHeader />
-      {!isLoginPage && <BackstageNav />}
-      {/* 如果不是登入頁面，顯示 BackstageNav */}
-      <Outlet />
+      <div className="flex pt-[60px]">
+        {!isLoginPage && <BackstageNav />}
+        {/* 如果不是登入頁面，顯示 BackstageNav */}
+        <Outlet />
+      </div>
       <Footer />
     </>
   );
