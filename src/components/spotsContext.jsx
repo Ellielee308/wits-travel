@@ -11,7 +11,7 @@ export const SpotsProvider = ({ children }) => {
     const getData = async () => {
       try {
         const data = await fetchSpot();
-        console.log("Fetched data inside getData:", data);
+        // console.log("Fetched data inside getData:", data);
         setSpots(data);
       } catch (error) {
         console.error("Error fetching spots:", error);
