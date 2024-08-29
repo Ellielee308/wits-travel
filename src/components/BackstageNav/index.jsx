@@ -14,7 +14,7 @@ export default function BackstageNav() {
 
   return (
     <>
-      <div className="flex h-screen w-48 flex-col gap-8 bg-[#dff1f772] px-5 pt-6 shadow-lg shadow-slate-100">
+      <div className="flex min-h-screen w-48 flex-col gap-8 bg-[#dff1f772] px-5 pt-6 shadow-lg shadow-slate-100">
         <div className="flex flex-col">
           <div className="mb-1 flex items-center" onClick={toggleOverview}>
             <svg
@@ -125,7 +125,7 @@ export default function BackstageNav() {
                 className="my-2 flex items-center hover:bg-[#c9d4be8f] active:bg-[#c9d4be8f]"
                 to="/backstage/form-manage"
               >
-                <h2 className="ml-10 py-2 text-base">聯絡表單</h2>
+                <h2 className="ml-10 py-2 text-base">表單管理</h2>
               </Link>
             </div>
           )}

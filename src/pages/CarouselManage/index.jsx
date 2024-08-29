@@ -76,7 +76,7 @@ export default function CarouselManage() {
 
   return (
     <div className="w-4/5 p-8">
-      <h1 className="mb-4 text-2xl font-bold">管理輪播圖</h1>
+      <h1 className="mb-4 text-2xl font-bold">編輯輪播圖</h1>
       <div className="mb-4">
         <h2 className="mb-2 text-xl">選擇要展示的圖片</h2>
         <div className="grid grid-cols-3 gap-4">
