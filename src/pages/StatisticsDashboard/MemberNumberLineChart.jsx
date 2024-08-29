@@ -1,0 +1,94 @@
+import PropTypes from "prop-types";
+import { Line } from "react-chartjs-2";
+import "chart.js/auto";
+
+const MemberNumberLineChart = ({ usersData }) => {
+  const dateCount = {};
+
+  usersData.forEach((user) => {
+    const timestamp =
+      user.first_time_entry.seconds * 1000 +
+      user.first_time_entry.nanoseconds / 1000000;
+    const date = new Date(timestamp).toLocaleDateString();
+
+    if (dateCount[date]) {
+      dateCount[date] += 1;
+    } else {
+      dateCount[date] = 1;
+    }
+  });
+
+  const labels = Object.keys(dateCount).sort(
+    (a, b) => new Date(a) - new Date(b),
+  );
+  let cumulativeCount = 0;
+  const dataPoints = labels.map((date) => {
+    cumulativeCount += dateCount[date];
+    return cumulativeCount;
+  });
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: "累積使用者數量",
+        data: dataPoints,
+        fill: false,
+        borderColor: "#AAAE8e",
+        tension: 0.1,
+      },
+    ],
+  };
+
+  const options = {
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "首次進入日期",
+        },
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "累積使用者數量",
+        },
+      },
+    },
+    interaction: {
+      mode: "nearest",
+      axis: "x",
+      intersect: false,
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center rounded-md border border-gray-400 p-6">
+        <h1 className="text-2xl">初訪使用者累積人次</h1>
+        <div className="flex h-[300px] w-[1000px] justify-center">
+          <Line data={data} options={options} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+MemberNumberLineChart.propTypes = {
+  usersData: PropTypes.arrayOf(
+    PropTypes.shape({
+      first_time_entry: PropTypes.shape({
+        seconds: PropTypes.number.isRequired,
+        nanoseconds: PropTypes.number.isRequired,
+      }).isRequired,
+    }),
+  ).isRequired,
+};
+
+export default MemberNumberLineChart;
