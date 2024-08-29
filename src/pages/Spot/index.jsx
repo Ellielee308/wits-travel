@@ -72,7 +72,9 @@ export default function Spot() {
         part.match(/(<br\s*\/?>)/i) ? (
           <br key={index} />
         ) : (
-          <span key={index}>{part}</span>
+          <span className="whitespace-pre-wrap" key={index}>
+            {part}
+          </span>
         ),
       );
   };
