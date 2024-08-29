@@ -25,7 +25,7 @@ ChartJS.register(
   ChartDataLabels,
 );
 
-export default function DeviceStatics({ usersData }) {
+export default function DeviceStatics({ usersData, projectTitle }) {
   const [deviceData, setDeviceData] = useState([]);
 
   useEffect(() => {
@@ -70,12 +70,13 @@ export default function DeviceStatics({ usersData }) {
     plugins: {
       datalabels: {
         formatter: (value, context) => {
+          const label = context.chart.data.labels[context.dataIndex];
           const total = context.chart.data.datasets[0].data.reduce(
             (sum, val) => sum + val,
             0,
           );
           const percentage = ((value / total) * 100).toFixed(2);
-          return `${percentage}%`;
+          return `${label}: ${percentage}%`;
         },
         color: "#fff",
       },
@@ -96,10 +97,10 @@ export default function DeviceStatics({ usersData }) {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex flex-col items-center rounded-md border border-gray-400 p-6">
+    <div className="flex w-full flex-col items-center">
+      <div className="border-gray-00 flex w-full flex-col items-center rounded-md border p-6">
         <h1 className="text-2xl">裝置類型分佈</h1>
-        <div className="flex h-[500px] w-[1000px] justify-center">
+        <div className="flex h-[30vh] w-auto justify-center">
           <Pie data={chartData} options={options} />
         </div>
       </div>
