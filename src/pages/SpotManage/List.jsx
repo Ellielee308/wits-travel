@@ -20,6 +20,7 @@ export default function List({ detailsVisibility, setDetailsVisibility }) {
       [id]: !prevState[id], // 切換指定景點的顯示狀態
     }));
   };
+  //第一次切換操作：當 toggleDetails(id) 被調用時，prevState 會是 {}。prevState[id] 此時是 undefined。在切換的操作中，!prevState[id] 會是 true（因為 !undefined 是 true）。setDetailsVisibility 更新狀態時會把 id 的值設為 true。
 
   if (!spots) {
     return (
@@ -38,7 +39,7 @@ export default function List({ detailsVisibility, setDetailsVisibility }) {
       >
         <div className="justify-self-start">照片</div>
         <div className="col-span-2 ml-1 justify-self-start">標題</div>
-        <div>標價</div>
+        <div>價格</div>
         <div>瀏覽次數</div>
         <div>類別</div>
         <div>操作</div>
