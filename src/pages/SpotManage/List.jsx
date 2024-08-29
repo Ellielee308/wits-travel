@@ -49,7 +49,9 @@ export default function List() {
               alt={spot.subtitle}
             />
             <div className="col-span-2 ml-1 justify-self-start text-sm transition-colors duration-200 hover:text-blue-600">
-              <Link to={`/spot?id=${spot.id}`}>{spot.title}</Link>
+              <Link to={`/spot?id=${spot.id}`} target="_blank">
+                {spot.title}
+              </Link>
             </div>
             <div className="text-sm">NT{formatCurrency(spot.price)}</div>
             <div className="text-sm">{spot.click_count}次</div>
