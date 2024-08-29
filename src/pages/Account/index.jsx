@@ -4,16 +4,6 @@ import { db } from "../../firebase/firebaseConfig";
 import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-
 function Account() {
   const role = useRole();
   const [userData, setUserData] = useState({
@@ -23,12 +13,13 @@ function Account() {
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState(""); // 用來追蹤對話框類型
+  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
+    useState(false);
   const [adminAccounts, setAdminAccounts] = useState([]);
   const [pendingRoleUpdates, setPendingRoleUpdates] = useState({});
   const auth = getAuth();
 
   useEffect(() => {
-    console.log(role);
     const fetchUserData = async (userId) => {
       const userDocRef = doc(db, "admins", userId);
       const userDoc = await getDoc(userDocRef);
@@ -88,16 +79,20 @@ function Account() {
     });
   };
 
-  const handleConfirmUpdates = async () => {
+  const applyPendingRoleUpdates = async () => {
     try {
+      console.log("Applying pending role updates:", pendingRoleUpdates);
+
       const updatePromises = Object.entries(pendingRoleUpdates).map(
         async ([accountId, newRole]) => {
+          console.log(`Updating role for ${accountId} to ${newRole}`);
           const userDocRef = doc(db, "admins", accountId);
           await setDoc(userDocRef, { role: newRole }, { merge: true });
         },
       );
 
       await Promise.all(updatePromises);
+
       // 重新抓取資料庫中的管理者帳號資料
       const querySnapshot = await getDocs(collection(db, "admins"));
       const updatedAccounts = querySnapshot.docs.map((doc) => ({
@@ -106,14 +101,27 @@ function Account() {
       }));
 
       setAdminAccounts(updatedAccounts);
-
       setPendingRoleUpdates({});
-      setDialogType("others"); // 設置對話框類型為"others"（修改其他帳號權限）
+      setDialogType("others");
       setIsDialogOpen(true);
       console.log("Roles updated successfully.");
     } catch (error) {
       console.error("Error updating roles: ", error);
     }
+  };
+
+  const handleConfirmUpdates = () => {
+    setIsConfirmationDialogOpen(true);
+  };
+
+  const handleConfirm = () => {
+    applyPendingRoleUpdates();
+    setIsConfirmationDialogOpen(false);
+  };
+
+  const handleCancel = () => {
+    setPendingRoleUpdates({});
+    setIsConfirmationDialogOpen(false);
   };
 
   return (
@@ -198,26 +206,47 @@ function Account() {
           </ul>
         </div>
       )}
-      <AlertDialog open={isDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="self-center text-lg">
-              {dialogType === "self"
-                ? "成功修改您的帳號資訊"
-                : "成功修改其他管理者的權限"}
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-sm"></AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="sm:justify-center">
-            <AlertDialogAction
-              onClick={() => setIsDialogOpen(false)}
-              className="bg-[#006c98] text-base"
-            >
-              確定
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {/* Confirmation Dialog */}
+      {isConfirmationDialogOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+          <div className="w-80 rounded bg-white p-6 shadow-lg">
+            <h2 className="text-lg font-semibold">確認變更</h2>
+            <p className="mt-2 text-gray-700">您確定要應用這些變更嗎？</p>
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={handleCancel}
+                className="mr-4 rounded-md bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
+              >
+                取消
+              </button>
+              <button
+                onClick={handleConfirm}
+                className="rounded-md bg-[#006c98] px-4 py-2 text-white hover:bg-[#20556a]"
+              >
+                確認
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Alert Dialog */}
+      {isDialogOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+          <div className="w-80 rounded bg-white p-6 shadow-lg">
+            <h2 className="text-lg font-semibold">
+              {dialogType === "self" ? "個人資料已更新" : "權限已更新"}
+            </h2>
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={() => setIsDialogOpen(false)}
+                className="rounded-md bg-[#006c98] px-4 py-2 text-white hover:bg-[#20556a]"
+              >
+                確認
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

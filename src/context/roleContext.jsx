@@ -10,7 +10,6 @@ const RoleContext = createContext();
 export function RoleProvider({ children }) {
   const [role, setRole] = useState();
   const auth = getAuth();
-  //   const user = auth.currentUser;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
