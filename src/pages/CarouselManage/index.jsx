@@ -31,6 +31,10 @@ export default function CarouselManage() {
   }, [spots]);
 
   const handleSave = async () => {
+    if (selectedSpots.length === 0) {
+      alert("請至少選擇一張圖片！");
+      return;
+    }
     try {
       for (let spotId of selectedSpots) {
         const spot = spots.find((s) => s.id === spotId);
@@ -106,8 +110,17 @@ export default function CarouselManage() {
         <input
           type="number"
           value={intervalTime / 1000}
-          onChange={(e) => setIntervalTime(Number(e.target.value * 1000))}
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            if (value < 1 || value > 10) {
+              alert("請輸入 1 到 10 之間的數值！");
+            } else {
+              setIntervalTime(Number(e.target.value * 1000));
+            }
+          }}
           className="w-full rounded border p-2"
+          min={1}
+          max={10}
         />
       </div>
 
