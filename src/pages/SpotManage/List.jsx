@@ -41,7 +41,7 @@ export default function List() {
         return (
           <div
             key={spot.id}
-            className="grid grid-cols-7 grid-rows-2 items-center justify-items-center px-4 py-2 last:rounded-b-lg odd:bg-gray-200 even:bg-gray-100"
+            className="grid grid-cols-7 items-center justify-items-center px-4 py-2 last:rounded-b-lg odd:bg-gray-200 even:bg-gray-100"
           >
             <img
               className="h-20 w-20 justify-self-start rounded object-cover"
