@@ -5,8 +5,8 @@ export const fetchForm = async () => {
   const formRef = collection(db, "form");
   const formSnap = await getDocs(formRef);
   const formList = formSnap.docs.map((doc) => ({
-    id: doc.id, // 获取 Firestore 文档的 ID
-    ...doc.data(), // 获取文档中的数据
+    id: doc.id,
+    ...doc.data(),
   }));
   console.log("Fetched data inside fetchForm:", formList);
   return formList;

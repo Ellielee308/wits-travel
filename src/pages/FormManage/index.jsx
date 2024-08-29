@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchForm } from "../../firebase/fetchForm";
+import { fetchForm } from "../../firebase/fetchForm.jsx";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 
