@@ -100,7 +100,7 @@ export default function DeviceStatics({ usersData, projectTitle }) {
     <div className="flex w-full flex-col items-center">
       <div className="border-gray-00 flex w-full flex-col items-center rounded-md border p-6">
         <h1 className="text-2xl">裝置類型分佈</h1>
-        <div className="flex h-[30vh] w-auto justify-center">
+        <div className="flex h-[30vh] w-full justify-center">
           <Pie data={chartData} options={options} />
         </div>
       </div>

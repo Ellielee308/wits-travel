@@ -66,7 +66,7 @@ function UserTimeHeatmapBar({ usersData }) {
     <div className="flex w-full flex-col items-center justify-center">
       <div className="flex w-full flex-col items-center rounded-md border border-gray-200 p-6">
         <h1 className="text-2xl">熱門點擊時段</h1>
-        <div className="flex h-[30vh] w-auto justify-center">
+        <div className="flex h-[30vh] w-full justify-center">
           <Bar data={chartData} options={options} />
         </div>
       </div>

@@ -92,7 +92,7 @@ export default function SpotsClickStatistics() {
     <div className="flex w-full flex-col items-center justify-center">
       <div className="flex w-full flex-col items-center rounded-md border border-gray-200 p-6">
         <h1 className="text-2xl">景點點擊統計</h1>
-        <div className="flex h-[30vh] w-auto justify-center">
+        <div className="flex h-[30vh] w-full justify-center">
           <Bar data={chartSpotData} options={options} />
         </div>
       </div>

@@ -72,7 +72,7 @@ const MemberNumberLineChart = ({ usersData }) => {
     <div className="justify-text-center flex w-full flex-col items-center">
       <div className="flex w-full flex-col items-center rounded-md border border-gray-200 p-6">
         <h1 className="text-2xl">初訪使用者累積人次</h1>
-        <div className="flex h-[30vh] w-auto justify-center">
+        <div className="flex h-[30vh] w-full justify-center">
           <Line data={data} options={options} />
         </div>
       </div>
