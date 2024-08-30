@@ -1,21 +1,34 @@
-import { Navigate } from "react-router-dom";
-import { getAuth } from "firebase/auth";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-function PrivateRoute({ children }) {
+const PrivateRoute = ({ element }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const location = useLocation();
   const auth = getAuth();
-  const user = auth.currentUser;
 
-  if (!user) {
-    // 如果用戶未登入，則重定向到登入頁面
-    return <Navigate to="/backstage/login" />;
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAuthenticated(!!user);
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
+  if (isAuthenticated === null) {
+    // Optionally render a loading spinner or nothing while checking auth
+    return <div>Loading...</div>;
   }
 
-  // 如果用戶已登入，則顯示相應的組件
-  return children;
-}
+  return isAuthenticated ? (
+    element
+  ) : (
+    <Navigate to="/backstage/login" state={{ from: location }} replace />
+  );
+};
 
 PrivateRoute.propTypes = {
-  children: PropTypes.node.isRequired,
+  element: PropTypes.node.isRequired,
 };
 export default PrivateRoute;

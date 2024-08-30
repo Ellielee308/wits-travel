@@ -35,47 +35,39 @@ root.render(
         <Route path="/backstage" element={<Backstage />}>
           <Route
             index
-            element={
-              <PrivateRoute>
-                <StatisticsDashboard />
-              </PrivateRoute>
-            }
+            element={<PrivateRoute element={<StatisticsDashboard />} />}
           />
           <Route path="login" element={<Login />} />
           <Route
             path="spot-manage"
             element={
-              <PrivateRoute>
-                <RoleProvider>
-                  <SpotManage />{" "}
-                </RoleProvider>
-              </PrivateRoute>
+              <PrivateRoute
+                element={
+                  <RoleProvider>
+                    <SpotManage />
+                  </RoleProvider>
+                }
+              />
             }
           />
           <Route
             path="carousel-manage"
-            element={
-              <PrivateRoute>
-                <CarouselManage />
-              </PrivateRoute>
-            }
+            element={<PrivateRoute element={<CarouselManage />} />}
           />
           <Route
             path="form-manage"
-            element={
-              <PrivateRoute>
-                <FormManage />
-              </PrivateRoute>
-            }
+            element={<PrivateRoute element={<FormManage />} />}
           />
           <Route
             path="account"
             element={
-              <PrivateRoute>
-                <RoleProvider>
-                  <Account />
-                </RoleProvider>
-              </PrivateRoute>
+              <PrivateRoute
+                element={
+                  <RoleProvider>
+                    <Account />
+                  </RoleProvider>
+                }
+              />
             }
           />
         </Route>
