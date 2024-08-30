@@ -2,8 +2,16 @@ import { useState } from "react";
 import List from "./List";
 import AddForm from "./AddForm";
 
+import { useRole } from "../../context/roleContext";
+
 export default function SpotManage() {
+  const role = useRole();
   const [showAddForm, setShowAddForm] = useState(false);
+
+  if (role === 1) {
+    return <div className="">你沒有權限~無法編輯此頁面</div>;
+  }
+
   return (
     <div className="w-4/5 bg-white px-7 py-5">
       <div className="flex flex-row items-center justify-between bg-white">
