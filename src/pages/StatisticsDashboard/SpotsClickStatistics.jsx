@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Bar } from "react-chartjs-2";
 import { useContext, useEffect, useState } from "react";
 import { SpotsContext } from "../../components/spotsContext";
@@ -23,6 +24,7 @@ ChartJS.register(
 );
 
 export default function SpotsClickStatistics() {
+  const figRef = useRef(null);
   const spots = useContext(SpotsContext);
   console.log(spots);
   const [spotData, setSpotData] = useState([]);
@@ -88,13 +90,28 @@ export default function SpotsClickStatistics() {
       },
     },
   };
+  const handleDownload = () => {
+    const fig = figRef.current;
+    if (fig) {
+      const link = document.createElement("a");
+      link.href = fig.toBase64Image();
+      link.download = "click.png";
+      link.click();
+    }
+  };
   return (
     <div className="flex w-full flex-col items-center justify-center">
       <div className="flex w-full flex-col items-center rounded-md border border-gray-200 p-6">
         <h1 className="text-2xl">景點點擊統計</h1>
         <div className="flex h-[30vh] w-full justify-center">
-          <Bar data={chartSpotData} options={options} />
+          <Bar ref={figRef} data={chartSpotData} options={options} />
         </div>
+        <button
+          onClick={handleDownload}
+          className="mt-4 rounded bg-[#E0e0e0] px-4 py-2 text-white hover:bg-[#AAAE8e]"
+        >
+          下載圖表圖片
+        </button>
       </div>
     </div>
   );

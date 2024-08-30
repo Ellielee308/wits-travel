@@ -1,8 +1,11 @@
+import { useRef } from "react";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 
 const MemberNumberLineChart = ({ usersData }) => {
+  const figRef = useRef(null);
+
   const dateCount = {};
 
   usersData.forEach((user) => {
@@ -68,13 +71,29 @@ const MemberNumberLineChart = ({ usersData }) => {
     },
   };
 
+  const handleDownload = () => {
+    const fig = figRef.current;
+    if (fig) {
+      const link = document.createElement("a");
+      link.href = fig.toBase64Image();
+      link.download = "chart.png";
+      link.click();
+    }
+  };
+
   return (
     <div className="justify-text-center flex w-full flex-col items-center">
       <div className="flex w-full flex-col items-center rounded-md border border-gray-200 p-6">
         <h1 className="text-2xl">初訪使用者累積人次</h1>
         <div className="flex h-[30vh] w-full justify-center">
-          <Line data={data} options={options} />
+          <Line ref={figRef} data={data} options={options} />
         </div>
+        <button
+          onClick={handleDownload}
+          className="mt-4 rounded bg-[#E0e0e0] px-4 py-2 text-white hover:bg-[#AAAE8e]"
+        >
+          下載圖表圖片
+        </button>
       </div>
     </div>
   );

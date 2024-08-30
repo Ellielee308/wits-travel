@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Pie } from "react-chartjs-2";
 import PropTypes from "prop-types";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -25,8 +25,9 @@ ChartJS.register(
   ChartDataLabels,
 );
 
-export default function DeviceStatics({ usersData, projectTitle }) {
+export default function DeviceStatics({ usersData }) {
   const [deviceData, setDeviceData] = useState([]);
+  const figRef = useRef(null);
 
   useEffect(() => {
     if (usersData) {
@@ -101,14 +102,28 @@ export default function DeviceStatics({ usersData, projectTitle }) {
       },
     },
   };
-
+  const handleDownload = () => {
+    const fig = figRef.current;
+    if (fig) {
+      const link = document.createElement("a");
+      link.href = fig.toBase64Image();
+      link.download = "device.png";
+      link.click();
+    }
+  };
   return (
     <div className="flex w-full flex-col items-center">
       <div className="border-gray-00 flex w-full flex-col items-center rounded-md border p-6">
         <h1 className="text-2xl">裝置類型分佈</h1>
         <div className="flex h-[30vh] w-full justify-center">
-          <Pie data={chartData} options={options} />
+          <Pie ref={figRef} data={chartData} options={options} />
         </div>
+        <button
+          onClick={handleDownload}
+          className="mt-4 rounded bg-[#E0e0e0] px-4 py-2 text-white hover:bg-[#AAAE8e]"
+        >
+          下載圖表圖片
+        </button>
       </div>
     </div>
   );
