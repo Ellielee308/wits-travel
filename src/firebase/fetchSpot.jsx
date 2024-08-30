@@ -1,16 +1,33 @@
 import { db } from "./firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 
-export const fetchSpot = async () => {
+export const listenToSpotChanges = (onDataChange) => {
   const spotRef = collection(db, "spot");
-  const spotSnap = await getDocs(spotRef);
 
-  // 正确获取每个文档的ID并将其附加到数据中
-  const spotList = spotSnap.docs.map((doc) => ({
-    docId: doc.id, // 手动添加 docId
-    ...doc.data(), // 获取文档的其他数据
-  }));
+  const unsubscribe = onSnapshot(spotRef, (snapshot) => {
+    const spotList = snapshot.docs.map((doc) => ({
+      docId: doc.id,
+      ...doc.data(),
+    }));
 
-  console.log("Fetched data inside fetchSpot:", spotList);
-  return spotList;
+    console.log("Realtime data inside listenToSpotChanges:", spotList);
+    onDataChange(spotList);
+  });
+  return unsubscribe;
 };
+
+// import { db } from "./firebaseConfig";
+// import { collection, getDocs } from "firebase/firestore";
+
+// export const fetchSpot = async () => {
+//   const spotRef = collection(db, "spot");
+//   const spotSnap = await getDocs(spotRef);
+
+//   const spotList = spotSnap.docs.map((doc) => ({
+//     docId: doc.id,
+//     ...doc.data(),
+//   }));
+
+//   console.log("Fetched data inside fetchSpot:", spotList);
+//   return spotList;
+// };
