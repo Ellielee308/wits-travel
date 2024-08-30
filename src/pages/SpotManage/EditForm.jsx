@@ -15,6 +15,7 @@ export default function EditForm({ showEditForm }) {
   } = useForm({
     mode: "onBlur", // 驗證模式 (onChange, onBlur, onSubmit, all)
     defaultValues: {
+      id: showEditForm.id,
       title: showEditForm.title,
       subtitle: showEditForm.subtitle,
       main_img: showEditForm.main_img,
@@ -54,13 +55,18 @@ export default function EditForm({ showEditForm }) {
     }
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
-    editSpot(data);
-    setFieldArrayError("");
-    alert("已修改景點資料！");
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      await editSpot(showEditForm.id, data); // 使用 editSpot 函數更新資料
+      setFieldArrayError("");
+      alert("已修改景點資料！");
+      window.location.reload();
+    } catch (error) {
+      console.error("更新資料失敗: ", error);
+      alert("更新資料失敗，請重試。");
+    }
   };
+
   return (
     <div
       id="formContainer"
@@ -251,7 +257,7 @@ export default function EditForm({ showEditForm }) {
         </label>
         <textarea
           id="description"
-          className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+          className="h-56 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
           {...register("description", { required: true })}
         />
         {errors.description && (

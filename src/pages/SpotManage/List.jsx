@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { SpotsContext } from "../../components/spotsContext";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
