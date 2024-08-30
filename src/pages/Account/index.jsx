@@ -120,6 +120,16 @@ function Account() {
   };
 
   const handleConfirm = () => {
+    // 檢查是否有不合法的更新
+    const invalidUpdates = Object.keys(pendingRoleUpdates).filter(
+      (id) => adminAccounts.find((account) => account.id === id).role === 0,
+    );
+
+    if (invalidUpdates.length > 0) {
+      alert("無法更改最高管理者的權限");
+      return;
+    }
+
     applyPendingRoleUpdates();
     setIsConfirmationDialogOpen(false);
   };
@@ -130,7 +140,7 @@ function Account() {
   };
 
   return (
-    <div className="flex w-fit flex-wrap p-8 lg:gap-12">
+    <div className="flex w-fit flex-wrap gap-12 p-8">
       <form className="ml-4 flex h-fit w-fit flex-col" onSubmit={handleSubmit}>
         <h1 className="mb-6 border-b-2 border-b-slate-400 pb-1 text-xl">
           管理者資訊
@@ -154,15 +164,20 @@ function Account() {
           ></input>
         </fieldset>
         <fieldset className="mb-4 flex items-center">
-          <div className="">
+          <div>
             <label className="mr-6 font-medium">帳號權限</label>
             {role === 1 && <p className="text-xs text-red-600">無法修改權限</p>}
           </div>
           <select
             value={userData.role}
-            onChange={(e) =>
-              setUserData({ ...userData, role: parseInt(e.target.value) })
-            }
+            onChange={(e) => {
+              // 如果當前用戶是小編且正在編輯其他人的帳號，則阻止更改
+              if (role === 1 && auth.currentUser.uid !== userData.id) {
+                alert("您無法修改權限");
+                return;
+              }
+              setUserData({ ...userData, role: parseInt(e.target.value) });
+            }}
             disabled={role === 1 && auth.currentUser.uid !== userData.id} // Disable if not top-level admin or updating someone else
             className="h-10 w-60 rounded-md border border-stone-200 bg-white px-2 py-2 text-base placeholder:text-stone-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
