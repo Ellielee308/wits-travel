@@ -1,5 +1,5 @@
 // Login.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   getAuth,
@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
+import { useRole } from "../../context/roleContext";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -16,6 +17,18 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const auth = getAuth();
+  const role = useRole(); // 取得角色資訊
+
+  useEffect(() => {
+    // 檢查是否有已登入的用戶
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user && role !== null) {
+        navigate("/backstage"); // 重定向到後台頁面
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth, role, navigate]);
 
   async function handleUserDocument(user) {
     const userDocRef = doc(db, "admins", user.uid);
