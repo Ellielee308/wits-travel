@@ -1,6 +1,5 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import addSpot from "../../firebase/addSpot";
 
 export default function AddForm() {
@@ -15,7 +14,6 @@ export default function AddForm() {
   } = useForm({
     mode: "onBlur", // 驗證模式 (onChange, onBlur, onSubmit, all)
     defaultValues: {
-      id: uuidv4(),
       title: "",
       subtitle: "", // 6字以內
       main_img: "",
@@ -252,7 +250,7 @@ export default function AddForm() {
         </label>
         <textarea
           id="description"
-          className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+          className="h-56 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
           {...register("description", { required: true })}
         />
         {errors.description && (
