@@ -303,7 +303,7 @@ export default function ContactForm() {
                 訊息內容
               </label>
               <Textarea
-                placeholder="我想詢問關於旅遊行程的資訊..."
+                placeholder="我想詢問關於XXX的旅遊行程資訊..."
                 className="h-40 lg:text-lg"
                 as="textarea"
                 {...register("message", { required: "訊息內容是必填項" })}
