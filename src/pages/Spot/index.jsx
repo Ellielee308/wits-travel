@@ -3,14 +3,7 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { SpotsContext } from "../../components/spotsContext";
-import {
-  query,
-  where,
-  getDocs,
-  collection,
-  updateDoc,
-  increment,
-} from "firebase/firestore";
+import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import Map from "./Map";
 import PhotoPreview from "./PhotoPreview";
@@ -34,6 +27,7 @@ export default function Spot() {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   useEffect(() => {
+    console.log("Hi");
     if (spots.length > 0) {
       const currentSpot = spots.find((spot) => spot.id === id);
       if (currentSpot) {
@@ -79,17 +73,15 @@ export default function Spot() {
       );
   };
 
-  // 進入到該頁面，計算瀏覽次數
   useEffect(() => {
     const updateClickCount = async () => {
-      const q = query(collection(db, "spot"), where("id", "==", id));
       try {
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          querySnapshot.forEach(async (docSnapshot) => {
-            await updateDoc(docSnapshot.ref, {
-              click_count: increment(1),
-            });
+        const docRef = doc(db, "spot", id);
+        const docSnapshot = await getDoc(docRef);
+
+        if (docSnapshot.exists()) {
+          await updateDoc(docRef, {
+            click_count: increment(1),
           });
           console.log("Click count updated successfully.");
         } else {
@@ -100,10 +92,8 @@ export default function Spot() {
       }
     };
 
-    if (spot) {
-      updateClickCount();
-    }
-  }, [spot, id]);
+    updateClickCount();
+  }, [id]);
 
   //預覽圖片功能
   const handlePhotoClick = (index) => {
