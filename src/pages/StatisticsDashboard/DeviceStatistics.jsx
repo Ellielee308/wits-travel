@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Pie } from "react-chartjs-2";
 import PropTypes from "prop-types";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -27,6 +27,7 @@ ChartJS.register(
 
 export default function DeviceStatics({ usersData }) {
   const [deviceData, setDeviceData] = useState([]);
+  const figRef = useRef(null);
 
   useEffect(() => {
     if (usersData) {
@@ -68,14 +69,21 @@ export default function DeviceStatics({ usersData }) {
   const options = {
     responsive: true,
     plugins: {
+      legend: {
+        display: true,
+        labels: {
+          boxWidth: 20,
+        },
+      },
       datalabels: {
         formatter: (value, context) => {
+          // const label = context.chart.data.labels[context.dataIndex];
           const total = context.chart.data.datasets[0].data.reduce(
             (sum, val) => sum + val,
             0,
           );
           const percentage = ((value / total) * 100).toFixed(2);
-          return `${percentage}%`;
+          return ` ${percentage}%`;
         },
         color: "#fff",
       },
@@ -94,14 +102,28 @@ export default function DeviceStatics({ usersData }) {
       },
     },
   };
-
+  const handleDownload = () => {
+    const fig = figRef.current;
+    if (fig) {
+      const link = document.createElement("a");
+      link.href = fig.toBase64Image();
+      link.download = "device.png";
+      link.click();
+    }
+  };
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex flex-col items-center rounded-md border border-gray-400 p-6">
+    <div className="flex w-full flex-col items-center">
+      <div className="border-gray-00 flex w-full flex-col items-center rounded-md border p-6">
         <h1 className="text-2xl">裝置類型分佈</h1>
-        <div className="flex h-[500px] w-[1000px] justify-center">
-          <Pie data={chartData} options={options} />
+        <div className="flex h-[30vh] w-full justify-center">
+          <Pie ref={figRef} data={chartData} options={options} />
         </div>
+        <button
+          onClick={handleDownload}
+          className="mt-4 rounded bg-[#E0e0e0] px-4 py-2 text-white hover:bg-[#AAAE8e]"
+        >
+          下載圖表圖片
+        </button>
       </div>
     </div>
   );
