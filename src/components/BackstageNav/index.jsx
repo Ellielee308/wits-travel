@@ -37,7 +37,7 @@ export default function BackstageNav() {
                 />
               </svg>
 
-              <h1 className="ml-1 text-base">總覽</h1>
+              <h1 className="ml-2 text-base">總覽</h1>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -64,7 +64,7 @@ export default function BackstageNav() {
                   className={`my-2 flex items-center hover:bg-[#deead28f] active:bg-[#deead28f] ${location.pathname === "/backstage" ? "bg-[#deead28f]" : ""}`}
                   to="/backstage"
                 >
-                  <h2 className="ml-9 py-2 text-base">數據分析</h2>
+                  <h2 className="ml-10 py-2 text-base">數據分析</h2>
                 </Link>
               </div>
             )}
@@ -90,7 +90,7 @@ export default function BackstageNav() {
                 />
               </svg>
 
-              <h1 className="ml-1 text-base">資料管理</h1>
+              <h1 className="ml-2 text-base">資料管理</h1>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -115,19 +115,19 @@ export default function BackstageNav() {
                   className={`my-2 flex items-center hover:bg-[#deead28f] active:bg-[#deead28f] ${location.pathname === "/backstage/spot-manage" ? "bg-[#deead28f]" : ""}`}
                   to="/backstage/spot-manage"
                 >
-                  <h2 className="ml-9 py-2 text-base">景點管理</h2>
+                  <h2 className="ml-10 py-2 text-base">景點管理</h2>
                 </Link>
                 <Link
                   className={`my-2 flex items-center hover:bg-[#deead28f] active:bg-[#deead28f] ${location.pathname === "/backstage/carousel-manage" ? "bg-[#deead28f]" : ""}`}
                   to="/backstage/carousel-manage"
                 >
-                  <h2 className="ml-9 py-2 text-base">編輯輪播圖</h2>
+                  <h2 className="ml-10 py-2 text-base">編輯輪播圖</h2>
                 </Link>
                 <Link
                   className={`my-2 flex items-center hover:bg-[#deead28f] active:bg-[#deead28f] ${location.pathname === "/backstage/form-manage" ? "bg-[#deead28f]" : ""}`}
                   to="/backstage/form-manage"
                 >
-                  <h2 className="ml-9 py-2 text-base">表單管理</h2>
+                  <h2 className="ml-10 py-2 text-base">表單管理</h2>
                 </Link>
               </div>
             )}
@@ -151,7 +151,7 @@ export default function BackstageNav() {
                   d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                 />
               </svg>
-              <h1 className="ml-1 py-2 text-base">帳號管理</h1>
+              <h1 className="ml-2 py-2 text-base">帳號管理</h1>
             </Link>
           </div>
         </div>
