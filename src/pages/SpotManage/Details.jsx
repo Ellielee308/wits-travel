@@ -22,13 +22,18 @@ export default function Details({ spot }) {
         <div className="col-span-1 mb-2 ml-4 font-semibold text-gray-700">
           圖片集
         </div>
-        <div className="col-span-6 mb-4 mr-4 flex gap-2">
+        <div className="col-span-6 mb-4 mr-4 flex flex-wrap gap-2">
+          <img
+            className="w-1/5 rounded border border-gray-300 object-cover"
+            src={spot.main_img}
+            alt={`圖片 1`}
+          />
           {spot.img.map((image, index) => (
             <img
               key={index}
               className="w-1/5 rounded border border-gray-300 object-cover"
               src={image}
-              alt={`圖片 ${index + 1}`}
+              alt={`圖片 ${index + 2}`}
             />
           ))}
         </div>

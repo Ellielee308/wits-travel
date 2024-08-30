@@ -1,10 +1,14 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SpotsContext } from "../../components/spotsContext";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Details from "./Details";
 
-export default function List({ detailsVisibility, setDetailsVisibility }) {
+export default function List({
+  detailsVisibility,
+  setDetailsVisibility,
+  setShowEditForm,
+}) {
   const spots = useContext(SpotsContext);
 
   function formatCurrency(number) {
@@ -14,13 +18,19 @@ export default function List({ detailsVisibility, setDetailsVisibility }) {
       minimumFractionDigits: 0,
     }).format(number);
   }
-  const toggleDetails = (id) => {
+  const displayDetails = (id) => {
     setDetailsVisibility((prevState) => ({
       ...prevState,
       [id]: !prevState[id], // 切換指定景點的顯示狀態
     }));
+    setShowEditForm({});
   };
-  //第一次切換操作：當 toggleDetails(id) 被調用時，prevState 會是 {}。prevState[id] 此時是 undefined。在切換的操作中，!prevState[id] 會是 true（因為 !undefined 是 true）。setDetailsVisibility 更新狀態時會把 id 的值設為 true。
+  //第一次切換操作：當 displayDetails(id) 被調用時，prevState 會是 {}。prevState[id] 此時是 undefined。在切換的操作中，!prevState[id] 會是 true（因為 !undefined 是 true）。setDetailsVisibility 更新狀態時會把 id 的值設為 true。
+
+  const displayEditForm = (spot) => {
+    setShowEditForm({ ...spot });
+    // setDetailsVisibility({});
+  };
 
   if (!spots) {
     return (
@@ -37,7 +47,7 @@ export default function List({ detailsVisibility, setDetailsVisibility }) {
         id="titleContainer"
         className="sticky top-[60px] z-10 grid w-full grid-cols-7 justify-items-center rounded-t-lg border-b bg-gray-200 px-4 py-2 font-semibold"
       >
-        <div className="justify-self-start">照片</div>
+        <div className="justify-self-start">圖片</div>
         <div className="col-span-2 ml-1 justify-self-start">標題</div>
         <div>價格</div>
         <div>瀏覽次數</div>
@@ -74,7 +84,7 @@ export default function List({ detailsVisibility, setDetailsVisibility }) {
                 stroke="currentColor"
                 className={`h-6 w-6 transform cursor-pointer text-gray-600 transition-transform duration-700 hover:text-gray-800 ${detailsVisibility[spot.id] ? "rotate-180" : "rotate-0"}`}
                 onClick={() => {
-                  toggleDetails(spot.id);
+                  displayDetails(spot.id);
                 }}
               >
                 <path
@@ -90,7 +100,10 @@ export default function List({ detailsVisibility, setDetailsVisibility }) {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="h-6 w-6 cursor-pointer text-gray-600 hover:text-gray-800"
+                className="h-6 w-6 cursor-pointer text-gray-600 hover:text-red-500"
+                onClick={() => {
+                  displayEditForm(spot);
+                }}
               >
                 <path
                   strokeLinecap="round"
@@ -123,6 +136,9 @@ export default function List({ detailsVisibility, setDetailsVisibility }) {
 }
 
 List.propTypes = {
-  detailsVisibility: PropTypes.bool,
+  detailsVisibility: PropTypes.object,
   setDetailsVisibility: PropTypes.func,
+  editFormVisibility: PropTypes.object,
+  setEditFormVisibility: PropTypes.func,
+  setShowEditForm: PropTypes.func,
 };

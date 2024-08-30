@@ -1,9 +1,9 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import addSpot from "../../firebase/addSpot";
+import PropTypes from "prop-types";
+import editSpot from "@/firebase/editSpot";
 
-export default function AddForm() {
+export default function EditForm({ showEditForm }) {
   const [isChecked, setIsChecked] = useState(false);
   const [fieldArrayError, setFieldArrayError] = useState("");
   const {
@@ -15,21 +15,20 @@ export default function AddForm() {
   } = useForm({
     mode: "onBlur", // 驗證模式 (onChange, onBlur, onSubmit, all)
     defaultValues: {
-      id: uuidv4(),
-      title: "",
-      subtitle: "", // 6字以內
-      main_img: "",
-      img: ["", ""],
-      area: "",
-      country: "",
-      city: "",
-      brief: "", // 20字為限
-      description: "",
-      transportation: "",
-      price: 0,
-      spot_category: "自然風景",
-      click_count: 0,
-      isSelectedForCarousel: false,
+      title: showEditForm.title,
+      subtitle: showEditForm.subtitle,
+      main_img: showEditForm.main_img,
+      img: showEditForm.img,
+      area: showEditForm.area,
+      country: showEditForm.country,
+      city: showEditForm.city,
+      brief: showEditForm.brief,
+      description: showEditForm.description,
+      transportation: showEditForm.transportation,
+      price: showEditForm.price,
+      spot_category: showEditForm.spot_category,
+      click_count: showEditForm.click_count,
+      isSelectedForCarousel: showEditForm.isSelectedForCarousel,
     },
   });
 
@@ -57,9 +56,9 @@ export default function AddForm() {
 
   const onSubmit = (data) => {
     console.log(data);
-    addSpot(data);
+    editSpot(data);
     setFieldArrayError("");
-    alert("已上架景點！");
+    alert("已修改景點資料！");
     reset();
   };
   return (
@@ -325,9 +324,13 @@ export default function AddForm() {
           disabled={!isChecked || isSubmitting || !isValid || fields.length < 2}
           className={`mt-4 h-10 w-1/4 self-center rounded-lg bg-gradient-to-r from-blue-500 to-green-500 text-lg text-white transition-opacity duration-200 ease-in-out hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50`}
         >
-          {isSubmitting ? "提交中..." : "上架景點"}
+          {isSubmitting ? "提交中..." : "儲存景點"}
         </button>
       </form>
     </div>
   );
 }
+
+EditForm.propTypes = {
+  showEditForm: PropTypes.object,
+};
