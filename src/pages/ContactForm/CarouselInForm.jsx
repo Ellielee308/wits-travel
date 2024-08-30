@@ -1,38 +1,41 @@
-import { useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { SpotsContext } from "../../components/spotsContext";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 
 const CarouselInForm = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const spots = useContext(SpotsContext);
   const intervalIdRef = useRef(null);
+  const intervalTime = 1000;
 
   useEffect(() => {
-    const startCarousel = () => {
+    if (spots && spots.length > 0) {
       intervalIdRef.current = setInterval(() => {
-        const nextButton = document.querySelector("[aria-label='Next']");
-        if (nextButton) {
-          nextButton.click();
-        }
-      }, 3500);
-    };
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % spots.length);
+      }, intervalTime);
+    }
 
-    const stopCarousel = () => {
+    return () => {
       if (intervalIdRef.current) {
         clearInterval(intervalIdRef.current);
       }
     };
+  }, [intervalTime, spots]);
 
-    startCarousel();
-
-    return () => stopCarousel();
-  }, []);
+  const isVisible = (index) => {
+    const visibleIndices = [
+      currentIndex,
+      (currentIndex + 1) % spots.length,
+      (currentIndex + 2) % spots.length,
+    ];
+    return visibleIndices.includes(index);
+  };
 
   const handleMouseEnter = () => {
     if (intervalIdRef.current) {
@@ -41,15 +44,11 @@ const CarouselInForm = () => {
   };
 
   const handleMouseLeave = () => {
-    const startCarousel = () => {
+    if (spots && spots.length > 0) {
       intervalIdRef.current = setInterval(() => {
-        const nextButton = document.querySelector("[aria-label='Next']");
-        if (nextButton) {
-          nextButton.click();
-        }
-      }, 3500);
-    };
-    startCarousel();
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % spots.length);
+      }, intervalTime);
+    }
   };
 
   return (
@@ -58,35 +57,38 @@ const CarouselInForm = () => {
         align: "start",
       }}
       orientation="vertical"
-      className="mt-8 w-full max-w-xs"
+      className="mb-8 mt-8 w-full max-w-xs"
     >
       <CarouselContent className="mt-2 h-[80vh]">
         {spots.map((spot, index) => (
           <CarouselItem
             key={index}
-            className="basis-1/3 pt-1"
+            className={`basis-1/3 pt-1 ${isVisible(index) ? "block" : "hidden"} `}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <div className="group relative p-1">
-              <Card>
-                <CardContent className="relative flex items-center justify-center p-4">
-                  <img
-                    src={spot.main_img}
-                    alt={spot.name}
-                    className="max-h-[90%] max-w-[90%] object-contain"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100">
-                    <span className="text-c text-white">{spot.title}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            <Link to={`/spot?id=${spot.id}`}>
+              <div className="group relative p-1">
+                <Card>
+                  <CardContent className="relative flex items-center justify-center p-4">
+                    <img
+                      src={spot.main_img}
+                      alt={spot.name}
+                      className="max-h-[90%] max-w-[90%] object-contain"
+                    />
+
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100">
+                      <span className="text-center text-white">
+                        {spot.title}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </Link>
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext aria-label="Next" />
     </Carousel>
   );
 };
