@@ -112,7 +112,7 @@ export default function BackstageNav() {
             {isDataMenuOpen && (
               <div className="transition-all duration-500 ease-in-out">
                 <Link
-                  className={`my-2 flex items-center hover:bg-[#deead28f] active:bg-[#deead28f] ${location.pathname === "/backstage/spot-category" ? "bg-[#deead28f]" : ""}`}
+                  className={`my-2 flex items-center hover:bg-[#deead28f] active:bg-[#deead28f] ${location.pathname === "/backstage/spot-manage" ? "bg-[#deead28f]" : ""}`}
                   to="/backstage/spot-manage"
                 >
                   <h2 className="ml-9 py-2 text-base">編輯景點</h2>
