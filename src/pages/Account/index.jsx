@@ -61,10 +61,15 @@ function Account() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userDocRef = doc(db, "admins", auth.currentUser.uid);
-    await setDoc(userDocRef, {
-      ...userData,
-    });
-    setDialogType("self"); // 設置對話框類型為"self"（儲存本人資料）
+
+    // Allow the current user to update their own role
+    if (userData.role !== undefined) {
+      await setDoc(userDocRef, {
+        ...userData,
+      });
+    }
+
+    setDialogType("self"); // Set dialog type to "self" (save personal data)
     setIsDialogOpen(true);
   };
 
@@ -93,7 +98,7 @@ function Account() {
 
       await Promise.all(updatePromises);
 
-      // 重新抓取資料庫中的管理者帳號資料
+      // Re-fetch admin accounts
       const querySnapshot = await getDocs(collection(db, "admins"));
       const updatedAccounts = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -153,11 +158,12 @@ function Account() {
             <label className="mr-6 font-medium">帳號權限</label>
             {role === 1 && <p className="text-xs text-red-600">無法修改權限</p>}
           </div>
-
           <select
             value={userData.role}
-            onChange={handleRoleChange}
-            disabled={role === 1} // 小編無法修改
+            onChange={(e) =>
+              setUserData({ ...userData, role: parseInt(e.target.value) })
+            }
+            disabled={role === 1 && auth.currentUser.uid !== userData.id} // Disable if not top-level admin or updating someone else
             className="h-10 w-60 rounded-md border border-stone-200 bg-white px-2 py-2 text-base placeholder:text-stone-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value={0}>最高管理者</option>
@@ -172,7 +178,7 @@ function Account() {
         </button>
       </form>
       {role === 0 && (
-        <div className="w-fit">
+        <div className="ml-4 flex h-fit flex-col">
           <h2 className="border-b-2 border-b-slate-400 pb-1 text-xl">
             其他管理者
           </h2>
@@ -180,7 +186,10 @@ function Account() {
             {adminAccounts
               .filter((account) => account.id !== auth.currentUser.uid)
               .map((account) => (
-                <li key={account.id} className="mb-4 flex items-center">
+                <li
+                  key={account.id}
+                  className="mb-4 flex items-center justify-between"
+                >
                   <p className="mr-2">
                     {account.name} ({account.email})
                   </p>
@@ -189,29 +198,52 @@ function Account() {
                     onChange={(e) =>
                       handleRoleChange(account.id, parseInt(e.target.value))
                     }
-                    disabled={account.role === 0}
-                    className="ml-auto h-10 w-40 rounded-md border border-stone-200 bg-white px-2 py-2 text-base placeholder:text-stone-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-400 focus-visible:ring-offset-2"
+                    className="ml-2 h-10 rounded-md border border-stone-200 bg-white px-2 py-2 text-base placeholder:text-stone-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-400 focus-visible:ring-offset-2"
+                    disabled={account.role === 0} // Disable if current role is top-level admin
                   >
                     <option value={0}>最高管理者</option>
                     <option value={1}>小編</option>
                   </select>
-                  <button
-                    onClick={handleConfirmUpdates}
-                    className="ml-2 self-center rounded-md bg-[#006c98] px-4 py-2 text-white hover:bg-[#20556a] active:bg-[#20556a]"
-                  >
-                    確認
-                  </button>
                 </li>
               ))}
           </ul>
+          <button
+            onClick={handleConfirmUpdates}
+            className="mt-6 w-28 self-center rounded-md bg-[#006c98] px-5 py-2 text-white hover:bg-[#20556a] active:bg-[#20556a]"
+            disabled={Object.keys(pendingRoleUpdates).length === 0} // Disable if no role updates are pending
+          >
+            確認變更
+          </button>
+          {isConfirmationDialogOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+              <div className="rounded-md bg-white p-4 shadow-lg">
+                <p>您確定要應用角色變更嗎？</p>
+                <div className="mt-4 flex justify-end">
+                  <button
+                    onClick={handleConfirm}
+                    className="ml-2 rounded-md bg-[#006c98] px-4 py-2 text-white hover:bg-[#20556a] active:bg-[#20556a]"
+                  >
+                    確認
+                  </button>
+                  <button
+                    onClick={handleCancel}
+                    className="ml-2 rounded-md bg-gray-500 px-4 py-2 text-white hover:bg-gray-600 active:bg-gray-700"
+                  >
+                    取消
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
+
       {/* Confirmation Dialog */}
       {isConfirmationDialogOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
           <div className="w-80 rounded bg-white p-6 shadow-lg">
-            <h2 className="text-lg font-semibold">確認變更</h2>
-            <p className="mt-2 text-gray-700">您確定要應用這些變更嗎？</p>
+            <h2 className="text-lg font-semibold">變更權限</h2>
+            <p className="mt-2 text-gray-700">確定要變更其他管理者的權限嗎？</p>
             <div className="mt-4 flex justify-end">
               <button
                 onClick={handleCancel}
