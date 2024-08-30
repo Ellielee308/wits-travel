@@ -13,6 +13,10 @@ import SpotManage from "./pages/SpotManage";
 import CarouselManage from "./pages/CarouselManage";
 import FormManage from "./pages/FormManage";
 import StatisticsDashboard from "./pages/StatisticsDashboard";
+import Account from "./pages/Account";
+
+import { RoleProvider } from "./context/roleContext";
+import PrivateRoute from "./components/PrivateRoute";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -29,11 +33,43 @@ root.render(
         </Route>
         {/* 新增 Backstage 路由 */}
         <Route path="/backstage" element={<Backstage />}>
-          <Route index element={<StatisticsDashboard />} />
+          <Route
+            index
+            element={<PrivateRoute element={<StatisticsDashboard />} />}
+          />
           <Route path="login" element={<Login />} />
-          <Route path="spot-manage" element={<SpotManage />} />
-          <Route path="carousel-manage" element={<CarouselManage />} />
-          <Route path="form-manage" element={<FormManage />} />
+          <Route
+            path="spot-manage"
+            element={
+              <PrivateRoute
+                element={
+                  <RoleProvider>
+                    <SpotManage />
+                  </RoleProvider>
+                }
+              />
+            }
+          />
+          <Route
+            path="carousel-manage"
+            element={<PrivateRoute element={<CarouselManage />} />}
+          />
+          <Route
+            path="form-manage"
+            element={<PrivateRoute element={<FormManage />} />}
+          />
+          <Route
+            path="account"
+            element={
+              <PrivateRoute
+                element={
+                  <RoleProvider>
+                    <Account />
+                  </RoleProvider>
+                }
+              />
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

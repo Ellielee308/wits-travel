@@ -3,7 +3,10 @@ import List from "./List";
 import AddForm from "./AddForm";
 import EditForm from "./EditForm";
 
+import { useRole } from "../../context/roleContext";
+
 export default function SpotManage() {
+  const role = useRole();
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState({});
   const [detailsVisibility, setDetailsVisibility] = useState({}); //管理顯示景點細節狀態
@@ -15,6 +18,10 @@ export default function SpotManage() {
   const areAllDetailsHidden = Object.values(detailsVisibility).every(
     (isVisible) => !isVisible,
   );
+
+  if (role === 1) {
+    return <div className="">你沒有權限~無法編輯此頁面</div>;
+  }
 
   return (
     <div className="w-4/5 bg-white px-7 py-5">

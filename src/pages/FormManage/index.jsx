@@ -16,15 +16,15 @@ export default function FormManage() {
         const data = await fetchForm();
         console.log("Fetched forms data:", data);
 
-        // 将获取到的数据格式化成需要的结构，并添加 `replied` 字段
         const formattedData = data.map((form) => ({
-          id: form.id, // 假设你没有唯一ID，从0开始生成ID
           category: form.subject,
           name: form.name,
           email: form.email,
           phone: form.phone,
           content: form.message,
           replied: form.replied,
+          purpose: form.purpose,
+          time: form.created_timestamp,
         }));
 
         setItems(formattedData);
@@ -47,11 +47,10 @@ export default function FormManage() {
   const handleReply = async (id) => {
     try {
       const itemToUpdate = items.find((item) => item.id === id);
-      const docRef = doc(db, "form", itemToUpdate.id); // 使用 Firestore 的文档 ID
+      const docRef = doc(db, "form", itemToUpdate.id);
 
       await updateDoc(docRef, { replied: true });
 
-      // 更新本地状态
       const updatedItems = items.map((item) =>
         item.id === id ? { ...item, replied: true } : item,
       );
@@ -80,7 +79,12 @@ export default function FormManage() {
         return "bg-[#AAAE8E]";
     }
   };
-
+  const formatTime = (timestamp) => {
+    if (timestamp && typeof timestamp.toDate === "function") {
+      return timestamp.toDate().toLocaleString();
+    }
+    return "未知時間";
+  };
   return (
     <div className="mb-16 flex min-h-screen w-4/5 flex-col overflow-auto">
       {/* Main content */}
@@ -118,18 +122,23 @@ export default function FormManage() {
                     >
                       {item.category}
                     </button>
-                    <span>ID : {item.id}</span>
+                    <span> 主旨：{item.purpose}</span>
                   </div>
-                  <button
-                    onClick={() => toggleExpand(item.id)}
-                    className="rounded-full bg-[#3A606E] px-4 py-2 text-white"
-                  >
-                    {expandedItems[item.id] ? "收起" : "查看"}
-                  </button>
+                  <div className="flex items-center space-x-4">
+                    <span> {formatTime(item.time)}</span>
+                    <button
+                      onClick={() => toggleExpand(item.id)}
+                      className="rounded-full bg-[#3A606E] px-4 py-2 text-white"
+                    >
+                      {expandedItems[item.id] ? "收起" : "查看"}
+                    </button>
+                  </div>
                 </div>
 
                 {expandedItems[item.id] && (
                   <div className="mt-4 rounded-md bg-white p-4">
+                    <p>主旨：{item.purpose}</p>
+                    <p>創建時間：{formatTime(item.time)}</p>
                     <p>類別：{item.category}</p>
                     <p>姓名：{item.name}</p>
                     <p>Email：{item.email}</p>
