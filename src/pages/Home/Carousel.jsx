@@ -12,24 +12,26 @@ import { Link } from "react-router-dom";
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [randomSpots, setRandomSpots] = useState([]);
+  const [carouselSpots, setCarouselSpots] = useState([]);
+  const [intervalTime, setIntervalTime] = useState(5000);
   const spots = useContext(SpotsContext);
 
   useEffect(() => {
-    if (spots.length > 0) {
-      const shuffledSpots = [...spots].sort(() => 0.5 - Math.random());
-      const selectedSpots = shuffledSpots.slice(0, 3);
-      setRandomSpots(selectedSpots);
+    const selectedSpots = spots.filter((spot) => spot.isSelectedForCarousel);
+    console.log("Selected spots for carousel:", selectedSpots);
+    setCarouselSpots(selectedSpots);
+    if (selectedSpots.length > 0 && selectedSpots[0].carouselInterval) {
+      setIntervalTime(selectedSpots[0].carouselInterval);
     }
   }, [spots]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % randomSpots.length);
-    }, 5000);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselSpots.length);
+    }, intervalTime);
 
     return () => clearInterval(interval);
-  }, [randomSpots.length]);
+  }, [carouselSpots.length, intervalTime]);
 
   const handleDotClick = (index) => {
     setCurrentIndex(index);
@@ -41,10 +43,10 @@ export default function Carousel() {
   //   // 根據滑動距離和方向來更新 currentIndex
   //   if (moveX < width / 2) {
   //     setCurrentIndex((prevIndex) =>
-  //       prevIndex === 0 ? randomSpots.length - 1 : prevIndex - 1,
+  //       prevIndex === 0 ? carouselSpots.length - 1 : prevIndex - 1,
   //     );
   //   } else {
-  //     setCurrentIndex((prevIndex) => (prevIndex + 1) % randomSpots.length);
+  //     setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselSpots.length);
   //   }
   // };
 
@@ -119,7 +121,7 @@ export default function Carousel() {
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             //onDragEnd={handleDragEnd}
           >
-            {randomSpots.map((spot, index) => (
+            {carouselSpots.map((spot, index) => (
               <CarouselItem
                 key={index}
                 className="relative w-full flex-shrink-0"
@@ -144,7 +146,7 @@ export default function Carousel() {
             className="absolute left-0 top-1/2 ml-2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden"
             onClick={() =>
               setCurrentIndex((prevIndex) =>
-                prevIndex === 0 ? randomSpots.length - 1 : prevIndex - 1,
+                prevIndex === 0 ? carouselSpots.length - 1 : prevIndex - 1,
               )
             }
           />
@@ -152,7 +154,7 @@ export default function Carousel() {
             className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 transform rounded-full bg-black p-2 text-white lg:hidden"
             onClick={() =>
               setCurrentIndex(
-                (prevIndex) => (prevIndex + 1) % randomSpots.length,
+                (prevIndex) => (prevIndex + 1) % carouselSpots.length,
               )
             }
           />
@@ -160,7 +162,7 @@ export default function Carousel() {
 
         {/* Indicators */}
         <div className="absolute bottom-4 left-1/2 hidden -translate-x-1/2 transform space-x-2 lg:flex">
-          {randomSpots.map((_, index) => (
+          {carouselSpots.map((_, index) => (
             <span
               key={index}
               onClick={() => handleDotClick(index)}

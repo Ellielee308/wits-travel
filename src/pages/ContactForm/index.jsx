@@ -42,6 +42,7 @@ export default function ContactForm() {
       phone: "",
       subject: "",
       message: "",
+      replied: false,
     },
   });
 
