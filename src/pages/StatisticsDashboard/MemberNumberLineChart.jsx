@@ -90,7 +90,7 @@ const MemberNumberLineChart = ({ usersData }) => {
         </div>
         <button
           onClick={handleDownload}
-          className="mt-4 rounded bg-[#E0e0e0] px-4 py-2 text-white hover:bg-[#AAAE8e]"
+          className="mt-4 rounded bg-[#aaae8ec2] px-4 py-2 text-white hover:bg-[#AAAE8e]"
         >
           下載圖表圖片
         </button>
