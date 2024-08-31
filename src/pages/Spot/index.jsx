@@ -30,7 +30,7 @@ export default function Spot() {
     console.log("Hi");
     if (spots.length > 0) {
       const currentSpot = spots.find((spot) => spot.id === id);
-      if (currentSpot) {
+      if (currentSpot && !currentSpot.hidden) {
         setSpot(currentSpot);
         console.log(currentSpot);
         const currentPhotos = [currentSpot.main_img, ...currentSpot.img];
