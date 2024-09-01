@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import List from "./List";
 import AddForm from "./AddForm";
 import EditForm from "./EditForm";
 
-import { useRole } from "../../context/roleContext";
+import { RoleContext } from "../../context/roleContext";
 
 export default function SpotManage() {
-  const role = useRole();
+  const role = useContext(RoleContext);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState({});
   const [detailsVisibility, setDetailsVisibility] = useState({}); //管理顯示景點細節狀態

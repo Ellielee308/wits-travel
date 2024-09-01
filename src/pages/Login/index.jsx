@@ -1,5 +1,4 @@
-// Login.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   getAuth,
@@ -8,7 +7,8 @@ import {
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
-import { useRole } from "../../context/roleContext";
+
+import { RoleContext } from "../../context/roleContext";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const auth = getAuth();
-  const role = useRole(); // 取得角色資訊
+  const role = useContext(RoleContext); // 取得角色資訊
 
   useEffect(() => {
     // 檢查是否有已登入的用戶
@@ -78,13 +78,13 @@ export default function Login() {
   }
 
   return (
-    <div className="z-0 flex min-h-[80vh] justify-center md:mx-12 lg:mx-40">
+    <div className="z-0 mx-6 flex justify-center md:mx-12 lg:mx-40">
       <img
         src="https://firebasestorage.googleapis.com/v0/b/witz-ec201.appspot.com/o/9780.svg?alt=media&token=6802e3ce-6b12-41e1-a8f1-fa6301a9093a"
-        className="mt-36 hidden h-52 md:block lg:mt-24 lg:h-72"
+        className="mt-36 hidden h-52 md:block lg:mt-40 lg:h-72"
         alt="Login Illustration"
       />
-      <div className="ml-0 mt-12 h-fit w-full rounded-md bg-slate-100 p-8 pb-14 md:ml-16 lg:ml-24 lg:w-[440px]">
+      <div className="ml-0 mt-12 h-fit w-full rounded-md bg-slate-100 p-8 pb-14 md:ml-16 md:max-w-[440px] lg:ml-24 lg:w-[440px]">
         <h1 className="text-2xl">
           {isRegistering ? "後台註冊帳號" : "後台登入"}
         </h1>

@@ -1,18 +1,18 @@
-import { useRole } from "../../context/roleContext";
+import { RoleContext } from "../../context/roleContext";
 import { getDoc, setDoc, doc, getDocs, collection } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function Account() {
-  const role = useRole();
+  const role = useContext(RoleContext);
   const [userData, setUserData] = useState({
     email: "",
     name: "",
     role: "",
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogType, setDialogType] = useState(""); // 用來追蹤對話框類型
+  const [dialogType, setDialogType] = useState("");
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
   const [adminAccounts, setAdminAccounts] = useState([]);

@@ -1,12 +1,11 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../firebase/firebaseConfig";
 import PropTypes from "prop-types";
 
-const RoleContext = createContext();
+export const RoleContext = createContext();
 
-// 創建一個 Provider 組件
 export function RoleProvider({ children }) {
   const [role, setRole] = useState();
   const auth = getAuth();
@@ -29,7 +28,6 @@ export function RoleProvider({ children }) {
       }
     });
 
-    // 清除訂閱
     return () => unsubscribe();
   }, [auth]);
   return <RoleContext.Provider value={role}>{children}</RoleContext.Provider>;
@@ -38,8 +36,3 @@ export function RoleProvider({ children }) {
 RoleProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-// 創建一個自定義 hook 來使用 RoleContext
-export function useRole() {
-  return useContext(RoleContext);
-}
