@@ -77,17 +77,17 @@ export default function Carousel() {
     <>
       <div className="relative mx-auto w-full">
         <UICarousel>
-          <div className="custom-text-shadow absolute left-1/2 top-20 z-10 hidden w-full -translate-x-1/2 transform select-none text-center text-2xl lg:block">
+          <div className="custom-text-shadow absolute left-1/2 top-20 z-10 hidden w-full -translate-x-1/2 transform select-none text-center text-4xl lg:block">
             最好的旅遊體驗
           </div>
-          <div className="absolute left-1/2 top-4 z-10 flex h-10 w-10/12 -translate-x-1/2 transform items-center rounded-xl bg-white px-4 py-2 shadow-lg md:w-[527px] lg:top-32">
+          <div className="absolute left-1/2 top-4 z-10 flex h-10 w-10/12 -translate-x-1/2 transform items-center rounded-xl bg-white px-4 py-2 shadow-lg md:h-14 md:w-[730px] lg:top-40">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6"
+              className="size-8"
             >
               <path
                 strokeLinecap="round"
@@ -96,7 +96,7 @@ export default function Carousel() {
               />
             </svg>
             <Input
-              className="focus-visible:ring-stone-0 h-full w-full border-none outline-none focus-visible:ring-0"
+              className="focus-visible:ring-stone-0 h-full w-full border-none text-2xl outline-none focus-visible:ring-0"
               type="text"
               placeholder="搜尋景點或地區"
               value={query}
