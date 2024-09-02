@@ -67,7 +67,7 @@ export default function Header() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={`absolute left-4 top-3 size-9 md:hidden ${
+        className={`absolute left-4 top-4 size-9 md:hidden ${
           menuOpen ? "hidden" : "block"
         }`}
         onClick={toggleMenu}
@@ -84,7 +84,7 @@ export default function Header() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={`absolute left-4 top-3 size-9 md:hidden ${
+        className={`absolute left-4 top-4 size-9 md:hidden ${
           menuOpen ? "block" : "hidden"
         }`}
         onClick={toggleMenu}
@@ -172,7 +172,12 @@ export default function Header() {
             className={`rounded-[0.375rem] px-4 py-2 text-lg text-[#006c98] transition-all duration-300 hover:bg-[#006c98] hover:text-white md:mr-8 md:mt-0 md:block md:w-auto lg:text-lg ${menuOpen ? "mt-9 block" : "hidden"}`}
           >
             <Link to="/contacts" legacyBehavior passHref>
-              <NavigationMenuLink className="whitespace-nowrap">
+              <NavigationMenuLink
+                className="whitespace-nowrap"
+                onClick={() => {
+                  handleCategoryClick();
+                }}
+              >
                 聯絡我們
               </NavigationMenuLink>
             </Link>
