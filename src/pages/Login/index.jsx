@@ -78,7 +78,7 @@ export default function Login() {
   }
 
   return (
-    <div className="z-0 flex min-h-[80vh] justify-center md:mx-12 lg:mx-40">
+    <div className="z-0 mb-[76px] flex min-h-[80vh] justify-center md:mx-12 lg:mx-40">
       <img
         src="https://firebasestorage.googleapis.com/v0/b/witz-ec201.appspot.com/o/9780.svg?alt=media&token=6802e3ce-6b12-41e1-a8f1-fa6301a9093a"
         className="mt-36 hidden h-52 md:block lg:mt-24 lg:h-72"
