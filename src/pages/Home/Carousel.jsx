@@ -80,7 +80,7 @@ export default function Carousel() {
           <div className="custom-text-shadow absolute left-1/2 top-20 z-10 hidden w-full -translate-x-1/2 transform select-none text-center text-4xl lg:block">
             最好的旅遊體驗
           </div>
-          <div className="absolute left-1/2 top-4 z-10 flex h-10 w-10/12 -translate-x-1/2 transform items-center rounded-xl bg-white px-4 py-2 shadow-lg md:h-14 md:w-[730px] lg:top-40">
+          <div className="absolute left-1/2 top-4 z-10 flex h-10 w-10/12 -translate-x-1/2 transform items-center rounded-xl bg-white px-4 py-2 shadow-lg md:h-14 md:w-[576px] lg:top-40">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
