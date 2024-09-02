@@ -39,10 +39,18 @@ export default function Header() {
     { spot_category: "自然風景", href: "/category?category=nature" },
   ];
   const handleCategoryClick = (category) => {
-    // 收起菜單
     setMenuOpen(false);
-    // 可選：執行其他操作
     console.log(`Selected category: ${category}`);
+  };
+
+  const [isMenuVisible, setIsMenuVisible] = useState(true);
+
+  const handleCategoryClickContent = (category) => {
+    console.log("Selected category:", category);
+    setIsMenuVisible(false);
+  };
+  const handleMouseEnter = () => {
+    setIsMenuVisible(true);
   };
 
   return (
@@ -59,7 +67,7 @@ export default function Header() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={`absolute left-4 top-3 size-9 md:hidden ${
+        className={`absolute left-4 top-4 size-9 md:hidden ${
           menuOpen ? "hidden" : "block"
         }`}
         onClick={toggleMenu}
@@ -76,7 +84,7 @@ export default function Header() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={`absolute left-4 top-3 size-9 md:hidden ${
+        className={`absolute left-4 top-4 size-9 md:hidden ${
           menuOpen ? "block" : "hidden"
         }`}
         onClick={toggleMenu}
@@ -104,26 +112,35 @@ export default function Header() {
           className={`md:flex md:w-auto md:flex-row ${menuOpen ? "flex w-[80px] flex-col gap-y-8" : "hidden"}`}
         >
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="ml-[16px] text-lg">
+            <NavigationMenuTrigger
+              className="ml-[16px] text-lg"
+              onMouseEnter={handleMouseEnter}
+            >
               景點
             </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="flex flex-col gap-y-4 whitespace-nowrap p-4">
-                {components.map((component) => (
-                  <li key={component.spot_category}>
-                    <Link
-                      to={component.href}
+            {isMenuVisible && (
+              <NavigationMenuContent>
+                <ul className="flex flex-col gap-y-4 whitespace-nowrap p-4">
+                  {components.map((component) => (
+                    <li
+                      key={component.spot_category}
                       className="cursor-pointer rounded-md hover:bg-stone-100 hover:text-stone-900"
-                      onClick={() =>
-                        handleCategoryClick(component.spot_category)
-                      }
                     >
-                      {component.spot_category}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </NavigationMenuContent>
+                      <Link
+                        to={component.href}
+                        className="block"
+                        onClick={() => {
+                          handleCategoryClickContent(component.spot_category);
+                          handleCategoryClick(component.spot_category);
+                        }}
+                      >
+                        {component.spot_category}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            )}
           </NavigationMenuItem>
           <NavigationMenuItem>
             <Link to="/" legacyBehavior passHref>
@@ -155,7 +172,12 @@ export default function Header() {
             className={`rounded-[0.375rem] px-4 py-2 text-lg text-[#006c98] transition-all duration-300 hover:bg-[#006c98] hover:text-white md:mr-8 md:mt-0 md:block md:w-auto lg:text-lg ${menuOpen ? "mt-9 block" : "hidden"}`}
           >
             <Link to="/contacts" legacyBehavior passHref>
-              <NavigationMenuLink className="whitespace-nowrap">
+              <NavigationMenuLink
+                className="whitespace-nowrap"
+                onClick={() => {
+                  handleCategoryClick();
+                }}
+              >
                 聯絡我們
               </NavigationMenuLink>
             </Link>

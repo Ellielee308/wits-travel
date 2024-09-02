@@ -16,7 +16,7 @@ function RecommendList() {
   return (
     <div className="mx-6 my-12 lg:mx-8 xl:mx-auto xl:max-w-[1136px]">
       <h2 className="text-3xl font-semibold tracking-wide">Top 10 熱門</h2>
-      <Carousel className="mx-12 lg:mx-8 xl:mx-14 xl:max-w-[1136px]">
+      <Carousel className="md:mx-10 xl:max-w-[1136px]">
         <CarouselContent className="mt-4">
           {sortedSpots
             .filter((spot) => !spot.hidden)
@@ -39,8 +39,8 @@ function RecommendList() {
               </CarouselItem>
             ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="hidden md:flex" />
+        <CarouselNext className="hidden md:flex" />
       </Carousel>
     </div>
   );
