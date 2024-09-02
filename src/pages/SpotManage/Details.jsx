@@ -66,12 +66,12 @@ export default function Details({ spot }) {
         <div className="col-span-1 mb-2 ml-4 font-semibold text-gray-700">
           詳細介紹
         </div>
-        <div className="col-span-6 mb-4 mr-4 text-gray-600">
+        <div className="col-span-6 mb-4 mr-4 whitespace-pre-wrap text-justify text-gray-600">
           {spot.description}
         </div>
 
         {/* 交通資訊 */}
-        <div className="col-span-1 mb-2 ml-4 font-semibold text-gray-700">
+        <div className="col-span-1 mb-2 ml-4 whitespace-pre-wrap text-justify font-semibold text-gray-700">
           交通資訊
         </div>
         <div className="col-span-6 mb-4 text-gray-600">

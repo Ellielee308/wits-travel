@@ -20,7 +20,15 @@ export default function SpotManage() {
   );
 
   if (role === 1) {
-    return <div className="">你沒有權限~無法編輯此頁面</div>;
+    return (
+      <div className="w-4/5 bg-white px-7 py-5">
+        <div className="flex h-full w-full items-center justify-center bg-gray-200 text-center">
+          管理者沒有權限
+          <br />
+          無法編輯此頁面
+        </div>
+      </div>
+    );
   }
 
   return (
