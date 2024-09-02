@@ -78,11 +78,11 @@ function SpotList() {
                     </div>
                   </Link>
                   <div className="absolute bottom-0 left-2 mb-2 flex items-center space-x-2">
-                    <div className="ml-2 hidden cursor-pointer rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline">
+                    <div className="ml-2 hidden cursor-pointer rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] hover:border-none hover:bg-[rgba(213,246,229,0.7)] hover:font-semibold hover:text-[hsl(196,100%,20%)] active:bg-[rgba(213,246,229,0.7)] active:text-[hsl(196,100%,20%)] md:inline">
                       {spot.city}
                     </div>
                     <div
-                      className="hidden cursor-pointer rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline"
+                      className="hidden cursor-pointer rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] hover:border-none hover:bg-[rgba(213,246,229,0.7)] hover:font-semibold hover:text-[hsl(196,100%,20%)] active:bg-[rgba(213,246,229,0.7)] active:text-[hsl(196,100%,20%)] md:inline"
                       onClick={() => {
                         const component = components.find(
                           (comp) => comp.spot_category === spot.spot_category,
@@ -119,11 +119,11 @@ function SpotList() {
                     <p className="mb-2 mt-1 text-base text-neutral-900">
                       {spot.brief}
                     </p>
-                    <div className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm">
+                    <div className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] hover:bg-[#4f9ab5e6] hover:text-white active:bg-[#4f9ab5e6] active:text-white lg:inline xl:text-sm">
                       {spot.city}
                     </div>
                     <div
-                      className="mr-2 hidden cursor-pointer rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm"
+                      className="mr-2 hidden cursor-pointer rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] hover:bg-[#4f9ab5e6] hover:text-white active:bg-[#4f9ab5e6] active:text-white lg:inline xl:text-sm"
                       onClick={() => {
                         const component = components.find(
                           (comp) => comp.spot_category === spot.spot_category,
