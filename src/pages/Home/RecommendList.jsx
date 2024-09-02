@@ -22,7 +22,7 @@ function RecommendList() {
             .filter((spot) => !spot.hidden)
             .slice(0, 10)
             .map((spot) => (
-              <CarouselItem key={spot.id} className="basis-1/2 lg:basis-1/4">
+              <CarouselItem key={spot.id} className="basis-56 lg:basis-1/4">
                 <Link
                   to={`/spot?id=${spot.id}`}
                   className="relative mx-1 flex h-full rounded-xl border-[1px]"
@@ -32,7 +32,7 @@ function RecommendList() {
                     className="h-full rounded-xl object-cover md:max-h-64"
                   ></img>
                   <div className="absolute bottom-0 left-0 h-1/4 w-full rounded-b-xl bg-gradient-to-t from-black to-transparent"></div>
-                  <p className="absolute bottom-2 mb-2 ml-4 mt-2 text-base text-white md:text-xl">
+                  <p className="absolute bottom-2 mb-2 ml-4 mt-2 text-sm text-white md:text-xl">
                     {spot.subtitle}
                   </p>
                 </Link>
