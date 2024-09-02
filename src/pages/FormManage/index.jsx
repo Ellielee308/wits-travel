@@ -17,6 +17,7 @@ export default function FormManage() {
         console.log("Fetched forms data:", data);
 
         const formattedData = data.map((form) => ({
+          id: form.id,
           category: form.subject,
           name: form.name,
           email: form.email,
