@@ -12,7 +12,7 @@ const CarouselInForm = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const spots = useContext(SpotsContext);
   const intervalIdRef = useRef(null);
-  const intervalTime = 1000;
+  const intervalTime = 3000;
 
   useEffect(() => {
     if (spots && spots.length > 0) {
