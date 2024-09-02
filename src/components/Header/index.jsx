@@ -39,10 +39,18 @@ export default function Header() {
     { spot_category: "自然風景", href: "/category?category=nature" },
   ];
   const handleCategoryClick = (category) => {
-    // 收起菜單
     setMenuOpen(false);
-    // 可選：執行其他操作
     console.log(`Selected category: ${category}`);
+  };
+
+  const [isMenuVisible, setIsMenuVisible] = useState(true);
+
+  const handleCategoryClickContent = (category) => {
+    console.log("Selected category:", category);
+    setIsMenuVisible(false);
+  };
+  const handleMouseEnter = () => {
+    setIsMenuVisible(true);
   };
 
   return (
@@ -104,26 +112,35 @@ export default function Header() {
           className={`md:flex md:w-auto md:flex-row ${menuOpen ? "flex w-[80px] flex-col gap-y-8" : "hidden"}`}
         >
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="ml-[16px] text-lg">
+            <NavigationMenuTrigger
+              className="ml-[16px] text-lg"
+              onMouseEnter={handleMouseEnter}
+            >
               景點
             </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="flex flex-col gap-y-4 whitespace-nowrap p-4">
-                {components.map((component) => (
-                  <li key={component.spot_category}>
-                    <Link
-                      to={component.href}
+            {isMenuVisible && (
+              <NavigationMenuContent>
+                <ul className="flex flex-col gap-y-4 whitespace-nowrap p-4">
+                  {components.map((component) => (
+                    <li
+                      key={component.spot_category}
                       className="cursor-pointer rounded-md hover:bg-stone-100 hover:text-stone-900"
-                      onClick={() =>
-                        handleCategoryClick(component.spot_category)
-                      }
                     >
-                      {component.spot_category}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </NavigationMenuContent>
+                      <Link
+                        to={component.href}
+                        className="block"
+                        onClick={() => {
+                          handleCategoryClickContent(component.spot_category);
+                          handleCategoryClick(component.spot_category);
+                        }}
+                      >
+                        {component.spot_category}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            )}
           </NavigationMenuItem>
           <NavigationMenuItem>
             <Link to="/" legacyBehavior passHref>
