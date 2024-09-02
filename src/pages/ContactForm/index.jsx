@@ -98,8 +98,7 @@ export default function ContactForm() {
 
               <Input
                 type="text"
-                hasError={errors.purpose}
-                className="mb-3 lg:text-lg"
+                className={`mb-3 lg:text-lg ${errors.purpose ? "border-red-600" : "border-gray-300"}`}
                 placeholder="簡述您的問題"
                 {...register("purpose", {
                   required: "主旨是必填項",
@@ -144,8 +143,7 @@ export default function ContactForm() {
 
               <Input
                 type="text"
-                hasError={errors.name}
-                className="mb-3 lg:text-lg"
+                className={`mb-3 lg:text-lg ${errors.name ? "border-red-600" : "border-gray-300"}`}
                 placeholder="王小明"
                 {...register("name", {
                   required: "姓名是必填項",
@@ -188,8 +186,7 @@ export default function ContactForm() {
                 <span className="text-red-600">*</span>
               </label>
               <Input
-                className="mb-3 focus:ring-2 lg:text-lg"
-                hasError={errors.email}
+                className={`mb-3 lg:text-lg ${errors.email ? "border-red-600" : "border-gray-300"}`}
                 type="text"
                 placeholder="mail@mail.com"
                 {...register("email", {
@@ -232,9 +229,8 @@ export default function ContactForm() {
                 <span className="text-red-600">*</span>
               </label>
               <Input
-                className="mb-3 lg:text-lg"
+                className={`mb-3 lg:text-lg ${errors.phone ? "border-red-600" : "border-gray-300"}`}
                 type="text"
-                hasError={errors.phone}
                 placeholder="09XXXXXXXX"
                 {...register("phone", {
                   required: "電話號碼是必填項",
@@ -287,7 +283,9 @@ export default function ContactForm() {
                     className="w-full lg:text-xl"
                     onBlur={() => trigger("subject")}
                   >
-                    <SelectTrigger className="w-full lg:text-xl">
+                    <SelectTrigger
+                      className={`w-full lg:text-xl ${errors.subject ? "border-red-600" : "border-gray-300"}`}
+                    >
                       <SelectValue placeholder="請選擇類別" />
                     </SelectTrigger>
                     <SelectContent>
@@ -336,7 +334,7 @@ export default function ContactForm() {
               </label>
               <Textarea
                 placeholder="我想詢問關於XXX的旅遊行程資訊..."
-                className="h-40 lg:text-lg"
+                className={`h-40 lg:text-lg ${errors.message ? "border-red-600" : "border-gray-300"}`}
                 as="textarea"
                 {...register("message", { required: "訊息內容是必填項" })}
                 onBlur={() => trigger("message")}
