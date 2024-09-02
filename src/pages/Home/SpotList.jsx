@@ -59,83 +59,87 @@ function SpotList() {
         </div>
         <TabsContent value="card" className="mt-3">
           <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
-            {spots.map((spot, index) => (
-              <div key={index} className="relative">
-                <Link to={`/spot?id=${spot.id}`}>
-                  <div className="h-64 w-full overflow-hidden rounded-xl">
-                    <img
-                      src={spot.main_img}
-                      alt={spot.subtitle}
-                      className="h-full w-full transform object-cover transition-transform duration-500 ease-in-out hover:scale-110"
-                    />
-                    <div className="absolute bottom-0 left-0 mb-2 w-full rounded-xl bg-gradient-to-t from-slate-700/80 via-slate-700/40 to-transparent md:mb-0 md:h-2/6">
-                      <h2 className="z-10 mb-2 ml-4 mt-2 text-2xl text-white">
-                        {spot.subtitle}
-                      </h2>
+            {spots
+              .filter((spot) => !spot.hidden)
+              .map((spot, index) => (
+                <div key={index} className="relative">
+                  <Link to={`/spot?id=${spot.id}`}>
+                    <div className="h-64 w-full overflow-hidden rounded-xl">
+                      <img
+                        src={spot.main_img}
+                        alt={spot.subtitle}
+                        className="h-full w-full transform object-cover transition-transform duration-500 ease-in-out hover:scale-110"
+                      />
+                      <div className="absolute bottom-0 left-0 mb-2 w-full rounded-xl bg-gradient-to-t from-slate-700/80 via-slate-700/40 to-transparent md:mb-0 md:h-2/6">
+                        <h2 className="z-10 mb-2 ml-4 mt-2 text-2xl text-white">
+                          {spot.subtitle}
+                        </h2>
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="absolute bottom-0 left-2 mb-2 flex items-center space-x-2">
+                    <div className="ml-2 hidden cursor-pointer rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline">
+                      {spot.city}
+                    </div>
+                    <div
+                      className="hidden cursor-pointer rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] md:inline"
+                      onClick={() => {
+                        const component = components.find(
+                          (comp) => comp.spot_category === spot.spot_category,
+                        );
+                        if (component) {
+                          window.location.href = component.href;
+                        } else {
+                          console.error("找不到分類:", spot.spot_category);
+                        }
+                      }}
+                    >
+                      {spot.spot_category}
                     </div>
                   </div>
-                </Link>
-                <div className="absolute bottom-0 left-2 mb-2 flex items-center space-x-2">
-                  <div className="ml-2 hidden cursor-pointer rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] hover:border-none hover:bg-[rgba(213,246,229,0.7)] hover:font-semibold hover:text-[hsl(196,100%,20%)] active:bg-[rgba(213,246,229,0.7)] active:text-[hsl(196,100%,20%)] md:inline">
-                    {spot.city}
-                  </div>
-                  <div
-                    className="hidden cursor-pointer rounded-2xl border-[.8px] border-solid px-3 py-1 text-sm text-[rgba(255,255,255,0.77)] hover:border-none hover:bg-[rgba(213,246,229,0.7)] hover:font-semibold hover:text-[hsl(196,100%,20%)] active:bg-[rgba(213,246,229,0.7)] active:text-[hsl(196,100%,20%)] md:inline"
-                    onClick={() => {
-                      const component = components.find(
-                        (comp) => comp.spot_category === spot.spot_category,
-                      );
-                      if (component) {
-                        window.location.href = component.href;
-                      } else {
-                        console.error("找不到分類:", spot.spot_category);
-                      }
-                    }}
-                  >
-                    {spot.spot_category}
-                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </TabsContent>
         <TabsContent value="list" className="mt-3">
           <div className="flex flex-col gap-x-5 gap-y-4 md:grid md:grid-cols-2">
-            {spots.map((spot, index) => (
-              <div key={index} className="relative flex gap-3">
-                <Link to={`/spot?id=${spot.id}`} className="flex-shrink-0">
-                  <img
-                    src={spot.main_img}
-                    alt={spot.subtitle}
-                    className="size-24 rounded-lg object-cover md:size-28"
-                  />
-                </Link>
-                <div className="max-w-[calc(100%-7rem)]">
-                  <h2 className="text-xl">{spot.subtitle}</h2>
-                  <p className="mb-2 mt-1 text-base text-neutral-900">
-                    {spot.brief}
-                  </p>
-                  <div className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] hover:bg-[#4f9ab5e6] hover:text-white active:bg-[#4f9ab5e6] active:text-white lg:inline xl:text-sm">
-                    {spot.city}
-                  </div>
-                  <div
-                    className="mr-2 hidden cursor-pointer rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] hover:bg-[#4f9ab5e6] hover:text-white active:bg-[#4f9ab5e6] active:text-white lg:inline xl:text-sm"
-                    onClick={() => {
-                      const component = components.find(
-                        (comp) => comp.spot_category === spot.spot_category,
-                      );
-                      if (component) {
-                        window.location.href = component.href;
-                      } else {
-                        console.error("找不到分類:", spot.spot_category);
-                      }
-                    }}
-                  >
-                    {spot.spot_category}
+            {spots
+              .filter((spot) => !spot.hidden)
+              .map((spot, index) => (
+                <div key={index} className="relative flex gap-3">
+                  <Link to={`/spot?id=${spot.id}`} className="flex-shrink-0">
+                    <img
+                      src={spot.main_img}
+                      alt={spot.subtitle}
+                      className="size-24 rounded-lg object-cover md:size-28"
+                    />
+                  </Link>
+                  <div className="max-w-[calc(100%-7rem)]">
+                    <h2 className="text-xl">{spot.subtitle}</h2>
+                    <p className="mb-2 mt-1 text-base text-neutral-900">
+                      {spot.brief}
+                    </p>
+                    <div className="mr-2 hidden rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm">
+                      {spot.city}
+                    </div>
+                    <div
+                      className="mr-2 hidden cursor-pointer rounded bg-[rgba(209,250,229,0.6)] px-3 py-1 text-xs text-[#004B67] lg:inline xl:text-sm"
+                      onClick={() => {
+                        const component = components.find(
+                          (comp) => comp.spot_category === spot.spot_category,
+                        );
+                        if (component) {
+                          window.location.href = component.href;
+                        } else {
+                          console.error("找不到分類:", spot.spot_category);
+                        }
+                      }}
+                    >
+                      {spot.spot_category}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </TabsContent>
       </Tabs>

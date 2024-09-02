@@ -27,6 +27,7 @@ export default function AddForm() {
       price: 0,
       spot_category: "自然風景",
       click_count: 0,
+      hidden: false,
       isSelectedForCarousel: false,
     },
   });

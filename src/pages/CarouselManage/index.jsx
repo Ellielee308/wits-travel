@@ -84,24 +84,26 @@ export default function CarouselManage() {
       <div className="mb-4">
         <h2 className="mb-2 text-xl">選擇要展示的圖片</h2>
         <div className="grid grid-cols-3 gap-4">
-          {spots.map((spot) => (
-            <div
-              key={spot.id}
-              className={`cursor-pointer rounded border p-2 ${
-                selectedSpots.includes(spot.id)
-                  ? "border-2 border-blue-500"
-                  : "border-gray-300"
-              }`}
-              onClick={() => handleSpotSelect(spot.id)}
-            >
-              <img
-                src={spot.main_img}
-                alt={spot.title}
-                className="mb-2 h-32 w-full object-cover"
-              />
-              <p className="text-center">{spot.title}</p>
-            </div>
-          ))}
+          {spots
+            .filter((spot) => !spot.hidden)
+            .map((spot) => (
+              <div
+                key={spot.id}
+                className={`cursor-pointer rounded border p-2 ${
+                  selectedSpots.includes(spot.id)
+                    ? "border-2 border-blue-500"
+                    : "border-gray-300"
+                }`}
+                onClick={() => handleSpotSelect(spot.id)}
+              >
+                <img
+                  src={spot.main_img}
+                  alt={spot.title}
+                  className="mb-2 h-32 w-full object-cover"
+                />
+                <p className="text-center">{spot.title}</p>
+              </div>
+            ))}
         </div>
       </div>
 
