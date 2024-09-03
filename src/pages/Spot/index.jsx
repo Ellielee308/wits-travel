@@ -30,7 +30,7 @@ export default function Spot() {
     console.log("Hi");
     if (spots.length > 0) {
       const currentSpot = spots.find((spot) => spot.id === id);
-      if (currentSpot) {
+      if (currentSpot && !currentSpot.hidden) {
         setSpot(currentSpot);
         console.log(currentSpot);
         const currentPhotos = [currentSpot.main_img, ...currentSpot.img];
@@ -56,22 +56,6 @@ export default function Spot() {
       minimumFractionDigits: 0,
     }).format(number);
   }
-
-  // 將 description 按 <br> 進行分割並渲染
-  const renderDescription = (description) => {
-    return description
-      .split(/(<br\s*\/?>)/i) // 使用正則表達式分割 <br> 標籤
-      .filter(Boolean) // 過濾掉空字符串
-      .map((part, index) =>
-        part.match(/(<br\s*\/?>)/i) ? (
-          <br key={index} />
-        ) : (
-          <span className="whitespace-pre-wrap" key={index}>
-            {part}
-          </span>
-        ),
-      );
-  };
 
   useEffect(() => {
     const updateClickCount = async () => {
@@ -114,7 +98,7 @@ export default function Spot() {
 
   if (!spot) {
     return (
-      <div className="flex h-screen items-center justify-center">加載中…</div>
+      <div className="flex h-screen items-center justify-center">Loading…</div>
     );
   }
   return (
@@ -275,8 +259,8 @@ export default function Spot() {
             <h2 className="mb-4 text-lg font-bold text-gray-900 md:text-xl">
               景點介紹
             </h2>
-            <div className="text-base text-gray-600">
-              {spot ? renderDescription(spot.description) : null}
+            <div className="whitespace-pre-wrap text-justify text-base text-gray-600">
+              {spot.description}
             </div>
           </div>
           <hr className="w-full" />
@@ -284,7 +268,9 @@ export default function Spot() {
             <h2 className="mb-4 text-lg font-bold text-gray-900 md:text-xl">
               交通方式
             </h2>
-            <p className="text-gray-600">{spot.transportation}</p>
+            <p className="whitespace-pre-wrap text-justify text-gray-600">
+              {spot.transportation}
+            </p>
           </div>
           {/*map*/}
           <hr className="w-full" />

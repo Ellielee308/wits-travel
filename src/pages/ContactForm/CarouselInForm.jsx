@@ -12,7 +12,7 @@ const CarouselInForm = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const spots = useContext(SpotsContext);
   const intervalIdRef = useRef(null);
-  const intervalTime = 1000;
+  const intervalTime = 3000;
 
   useEffect(() => {
     if (spots && spots.length > 0) {
@@ -60,34 +60,36 @@ const CarouselInForm = () => {
       className="mb-8 mt-8 w-full max-w-xs"
     >
       <CarouselContent className="mt-2 h-[80vh]">
-        {spots.map((spot, index) => (
-          <CarouselItem
-            key={index}
-            className={`basis-1/3 pt-1 ${isVisible(index) ? "block" : "hidden"} `}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <Link to={`/spot?id=${spot.id}`}>
-              <div className="group relative p-1">
-                <Card>
-                  <CardContent className="relative flex items-center justify-center p-4">
-                    <img
-                      src={spot.main_img}
-                      alt={spot.name}
-                      className="max-h-[90%] max-w-[90%] object-contain"
-                    />
+        {spots
+          .filter((spot) => !spot.hidden)
+          .map((spot, index) => (
+            <CarouselItem
+              key={index}
+              className={`basis-1/3 pt-1 ${isVisible(index) ? "block" : "hidden"} `}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <Link to={`/spot?id=${spot.id}`}>
+                <div className="group relative p-1">
+                  <Card>
+                    <CardContent className="relative flex items-center justify-center p-4">
+                      <img
+                        src={spot.main_img}
+                        alt={spot.name}
+                        className="max-h-[90%] max-w-[90%] object-contain"
+                      />
 
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100">
-                      <span className="text-center text-white">
-                        {spot.title}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </Link>
-          </CarouselItem>
-        ))}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100">
+                        <span className="text-center text-white">
+                          {spot.title}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </Link>
+            </CarouselItem>
+          ))}
       </CarouselContent>
     </Carousel>
   );

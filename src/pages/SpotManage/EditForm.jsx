@@ -11,7 +11,6 @@ export default function EditForm({ showEditForm }) {
     handleSubmit,
     control,
     formState: { errors, isSubmitting, isValid },
-    reset,
   } = useForm({
     mode: "onBlur", // 驗證模式 (onChange, onBlur, onSubmit, all)
     defaultValues: {
@@ -257,7 +256,7 @@ export default function EditForm({ showEditForm }) {
         </label>
         <textarea
           id="description"
-          className="h-56 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+          className="h-72 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
           {...register("description", { required: true })}
         />
         {errors.description && (

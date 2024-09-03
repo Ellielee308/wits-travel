@@ -46,6 +46,12 @@ export default function ContactForm() {
     },
   });
 
+  const selectOptions = [
+    { value: "問題詢問", label: "問題詢問" },
+    { value: "合作提案", label: "合作提案" },
+    { value: "給予建議", label: "給予建議" },
+  ];
+
   const onSubmit = async (data) => {
     try {
       await submitContactForm(data);
@@ -87,13 +93,21 @@ export default function ContactForm() {
                   />
                 </svg>
                 表單主旨
+                <span className="text-red-600">*</span>
               </label>
 
               <Input
                 type="text"
-                className="mb-3 lg:text-lg"
+                className={`mb-3 lg:text-lg ${errors.purpose ? "border-red-600" : "border-gray-300"}`}
                 placeholder="簡述您的問題"
-                {...register("purpose", { required: "主旨是必填項" })}
+                {...register("purpose", {
+                  required: "主旨是必填項",
+                  pattern: {
+                    value: /^.{1,20}$/,
+                    message: "主旨長度不可超過20字",
+                  },
+                })}
+                onBlur={() => trigger("purpose")}
               />
 
               <ErrorMessage
@@ -124,13 +138,21 @@ export default function ContactForm() {
                   />
                 </svg>
                 姓名
+                <span className="text-red-600">*</span>
               </label>
 
               <Input
                 type="text"
-                className="mb-3 lg:text-lg"
+                className={`mb-3 lg:text-lg ${errors.name ? "border-red-600" : "border-gray-300"}`}
                 placeholder="王小明"
-                {...register("name", { required: "姓名是必填項" })}
+                {...register("name", {
+                  required: "姓名是必填項",
+                  pattern: {
+                    value: /^[\u4E00-\u9FA5A-Za-z]+$/,
+                    message: "請輸入中文或英文姓名",
+                  },
+                })}
+                onBlur={() => trigger("name")}
               />
 
               <ErrorMessage
@@ -161,9 +183,10 @@ export default function ContactForm() {
                   />
                 </svg>
                 電子郵件
+                <span className="text-red-600">*</span>
               </label>
               <Input
-                className="mb-3 lg:text-lg"
+                className={`mb-3 lg:text-lg ${errors.email ? "border-red-600" : "border-gray-300"}`}
                 type="text"
                 placeholder="mail@mail.com"
                 {...register("email", {
@@ -203,9 +226,10 @@ export default function ContactForm() {
                   />
                 </svg>
                 電話號碼
+                <span className="text-red-600">*</span>
               </label>
               <Input
-                className="mb-3 lg:text-lg"
+                className={`mb-3 lg:text-lg ${errors.phone ? "border-red-600" : "border-gray-300"}`}
                 type="text"
                 placeholder="09XXXXXXXX"
                 {...register("phone", {
@@ -228,7 +252,7 @@ export default function ContactForm() {
               />
             </div>
 
-            <div>
+            <div className="w-full">
               <label className="mb-1 mt-5 block flex items-center text-lg font-medium lg:text-xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -244,9 +268,11 @@ export default function ContactForm() {
                     d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
                   />
                 </svg>
-                詢問類別
+                詢問主題
+                <span className="text-red-600">*</span>
               </label>
               <Controller
+                className="w-full"
                 name="subject"
                 control={control}
                 rules={{ required: "請選擇類別" }}
@@ -254,21 +280,24 @@ export default function ContactForm() {
                   <Select
                     onValueChange={field.onChange}
                     value={field.value}
-                    className="lg:w-72 lg:text-xl"
+                    className="w-full lg:text-xl"
+                    onBlur={() => trigger("subject")}
                   >
-                    <SelectTrigger className="w-[180px] lg:w-72 lg:text-xl">
+                    <SelectTrigger
+                      className={`w-full lg:text-xl ${errors.subject ? "border-red-600" : "border-gray-300"}`}
+                    >
                       <SelectValue placeholder="請選擇類別" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="問題詢問" className="lg:text-lg">
-                        問題詢問
-                      </SelectItem>
-                      <SelectItem value="合作提案" className="lg:text-lg">
-                        合作提案
-                      </SelectItem>
-                      <SelectItem value="給予建議" className="lg:text-lg">
-                        給予建議
-                      </SelectItem>
+                      {selectOptions.map((option) => (
+                        <SelectItem
+                          key={option.value}
+                          value={option.value}
+                          className="lg:text-lg"
+                        >
+                          {option.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 )}
@@ -301,13 +330,16 @@ export default function ContactForm() {
                   />
                 </svg>
                 訊息內容
+                <span className="text-red-600">*</span>
               </label>
               <Textarea
                 placeholder="我想詢問關於XXX的旅遊行程資訊..."
-                className="h-40 lg:text-lg"
+                className={`h-40 lg:text-lg ${errors.message ? "border-red-600" : "border-gray-300"}`}
                 as="textarea"
                 {...register("message", { required: "訊息內容是必填項" })}
+                onBlur={() => trigger("message")}
               />
+
               <ErrorMessage
                 errors={errors}
                 name="message"
