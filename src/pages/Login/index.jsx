@@ -1,4 +1,3 @@
-// Login.jsx
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -6,9 +5,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
-import { useRole } from "../../context/roleContext";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,43 +15,39 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const auth = getAuth();
-  const role = useRole(); // 取得角色資訊
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    // 檢查是否有已登入的用戶
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user && role !== null) {
-        navigate("/backstage"); // 重定向到後台頁面
+      if (user !== null) {
+        navigate("/backstage");
       }
     });
 
     return () => unsubscribe();
-  }, [auth, role, navigate]);
+  }, [auth, navigate]);
 
   async function handleUserDocument(user) {
     const userDocRef = doc(db, "admins", user.uid);
-    const userDocSnap = await getDoc(userDocRef);
+    // const userDocSnap = await getDoc(userDocRef);
 
     if (isRegistering) {
-      if (!userDocSnap.exists()) {
-        await setDoc(userDocRef, {
-          uid: user.uid,
-          email: user.email,
-          role: 1,
-          name: "",
-        });
-      }
-    } else {
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        console.log("管理者權限:", userData.role);
-      }
+      // if (!userDocSnap.exists()) {
+      await setDoc(userDocRef, {
+        uid: user.uid,
+        email: user.email,
+        role: 1,
+        name: "",
+      });
+      // }
     }
   }
 
   function onSubmit(e) {
     e.preventDefault();
     const redirectTo = location.state?.from || "/backstage";
+    setError("");
+
     if (isRegistering) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -63,6 +57,7 @@ export default function Login() {
         })
         .catch((error) => {
           console.error("註冊錯誤:", error.message);
+          handleAuthError(error.code);
         });
     } else {
       signInWithEmailAndPassword(auth, email, password)
@@ -73,21 +68,42 @@ export default function Login() {
         })
         .catch((error) => {
           console.error("登入錯誤:", error.message);
+          handleAuthError(error.code);
         });
+    }
+  }
+  function handleAuthError(code) {
+    switch (code) {
+      case "auth/invalid-email":
+        setError("無效的電子信箱地址。");
+        break;
+      case "auth/wrong-password":
+        setError("密碼錯誤。");
+        break;
+      case "auth/email-already-in-use":
+        setError("電子信箱已被註冊。");
+        break;
+      case "auth/weak-password":
+        setError("密碼至少為6個字元。");
+        break;
+      default:
+        setError("發生未知錯誤，請稍後再試。");
     }
   }
 
   return (
+
     <div className="z-0 mb-[76px] flex min-h-[80vh] justify-center md:mx-12 lg:mx-40">
       <img
         src="https://firebasestorage.googleapis.com/v0/b/witz-ec201.appspot.com/o/9780.svg?alt=media&token=6802e3ce-6b12-41e1-a8f1-fa6301a9093a"
-        className="mt-36 hidden h-52 md:block lg:mt-24 lg:h-72"
+        className="mt-36 hidden h-52 md:block lg:mt-40 lg:h-72"
         alt="Login Illustration"
       />
-      <div className="ml-0 mt-12 h-fit w-full rounded-md bg-slate-100 p-8 pb-14 md:ml-16 lg:ml-24 lg:w-[440px]">
+      <div className="ml-0 mt-12 h-fit w-full rounded-md bg-slate-100 p-8 pb-14 md:ml-16 md:max-w-[440px] lg:ml-24 lg:w-[440px]">
         <h1 className="text-2xl">
           {isRegistering ? "後台註冊帳號" : "後台登入"}
         </h1>
+        {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
         <form className="mt-8 flex-col" onSubmit={onSubmit}>
           <fieldset>
             <label className="items-center text-base font-medium">
@@ -111,7 +127,7 @@ export default function Login() {
               required
             />
           </fieldset>
-          <button className="active: mt-6 w-full rounded-md bg-[#006c98] px-5 py-2 text-white hover:bg-[#20556a] active:bg-[#20556a]">
+          <button className="mt-6 w-full rounded-md bg-[#006c98] px-5 py-2 tracking-widest text-white hover:bg-[#20556a] active:bg-[#20556a]">
             {isRegistering ? "註冊" : "登入"}
           </button>
           <div className="my-2 flex flex-row justify-center text-center text-gray-600 hover:text-gray-900">

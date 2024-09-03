@@ -11,7 +11,7 @@ function Backstage() {
     <>
       <BackstageHeader />
       <div
-        className={`flex pt-[60px] ${isLoginPage ? "justify-center" : "justify-start"}`}
+        className={`flex min-h-[90vh] pt-[60px] ${isLoginPage ? "justify-center" : "justify-start"}`}
       >
         {!isLoginPage && <BackstageNav />}
         {/* 如果不是登入頁面，顯示 BackstageNav */}
