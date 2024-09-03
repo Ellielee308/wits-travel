@@ -1,27 +1,34 @@
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import addSpot from "../../firebase/addSpot";
+import ImageUpload from "./ImageUpload";
+import { storage } from "../../firebase/firebaseConfig";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export default function AddForm() {
   const [isChecked, setIsChecked] = useState(false);
-  const [fieldArrayError, setFieldArrayError] = useState("");
+  const [mainImage, setMainImage] = useState(null);
+  const [mainPreview, setMainPreview] = useState("");
+  const [downloadURLs, setDownloadURLs] = useState([]);
+  const [additionalImages, setAdditionalImages] = useState([]);
+  const [additionalPreviews, setAdditionalPreviews] = useState([]);
+
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isSubmitting, isValid },
     reset,
   } = useForm({
-    mode: "onBlur", // 驗證模式 (onChange, onBlur, onSubmit, all)
+    mode: "onBlur",
     defaultValues: {
       title: "",
-      subtitle: "", // 6字以內
+      subtitle: "",
       main_img: "",
-      img: ["", ""],
+      img: [],
       area: "",
       country: "",
       city: "",
-      brief: "", // 20字為限
+      brief: "",
       description: "",
       transportation: "",
       price: 0,
@@ -32,34 +39,100 @@ export default function AddForm() {
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "img",
-  });
+  // 上傳圖片並返回 Promise
+  const handleUpload = () => {
+    return new Promise((resolve, reject) => {
+      if (!mainImage && additionalImages.length < 2) {
+        reject("主圖片或至少兩張其他圖片必須上傳");
+        return;
+      }
 
-  const handleBlur = () => {
-    if (fields.length < 2) {
-      setFieldArrayError("至少需要兩個圖片網址");
-    } else {
-      setFieldArrayError("");
+      const newDownloadURLs = [];
+
+      // 上傳主圖片
+      if (mainImage) {
+        const mainStorageRef = ref(storage, `spotImages/${mainImage.name}`);
+        const mainUploadTask = uploadBytesResumable(mainStorageRef, mainImage);
+
+        mainUploadTask.on(
+          "state_changed",
+          null,
+          (error) => {
+            console.error("Upload error:", error);
+            reject(error);
+          },
+          async () => {
+            try {
+              const url = await getDownloadURL(mainUploadTask.snapshot.ref);
+              newDownloadURLs[0] = url;
+              setDownloadURLs([...newDownloadURLs]);
+              checkCompletion(newDownloadURLs, resolve);
+            } catch (error) {
+              reject(error);
+            }
+          },
+        );
+      }
+
+      // 上傳其他圖片
+      additionalImages.forEach((image, index) => {
+        const storageRef = ref(storage, `spotImages/${image.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+
+        uploadTask.on(
+          "state_changed",
+          null,
+          (error) => {
+            console.error("Upload error:", error);
+            reject(error);
+          },
+          async () => {
+            try {
+              const url = await getDownloadURL(uploadTask.snapshot.ref);
+              newDownloadURLs[index + 1] = url; // 索引 + 1 因為主圖片使用了索引 0
+              setDownloadURLs([...newDownloadURLs]);
+              checkCompletion(newDownloadURLs, resolve);
+            } catch (error) {
+              reject(error);
+            }
+          },
+        );
+      });
+    });
+  };
+
+  // 檢查所有圖片是否已上傳完成
+  const checkCompletion = (urls, resolve) => {
+    if (
+      urls.length === additionalImages.length + 1 &&
+      !urls.includes(undefined)
+    ) {
+      resolve(urls); // 確保所有圖片上傳完成且沒有 undefined
     }
   };
 
-  const handleRemove = (index) => {
-    remove(index);
-    if (fields.length - 1 < 2) {
-      setFieldArrayError("至少需要兩個圖片網址");
-    } else {
-      setFieldArrayError("");
-    }
-  };
+  // 修改後的表單提交函數
+  const onSubmit = async (data) => {
+    try {
+      const urls = await handleUpload(); // 等待圖片上傳完成
+      data.main_img = urls[0]; // 將主圖片 URL 添加到表單數據
+      data.img = urls.slice(1); // 將其他圖片 URL 添加到表單數據
 
-  const onSubmit = (data) => {
-    console.log(data);
-    addSpot(data);
-    setFieldArrayError("");
-    alert("已上架景點！");
-    reset();
+      // 確保 URL 不為 undefined
+      if (!data.main_img || data.img.includes(undefined)) {
+        throw new Error("圖片上傳失敗，請重新嘗試");
+      }
+
+      console.log(data);
+      await addSpot(data);
+      alert("已上架景點！");
+      reset();
+      setMainPreview("");
+      setAdditionalPreviews([]);
+    } catch (error) {
+      console.error("Error adding spot:", error);
+      alert("上傳失敗，請檢查輸入資料和網絡連接");
+    }
   };
   return (
     <div
@@ -143,88 +216,19 @@ export default function AddForm() {
         {errors.city && <span className="text-red-500">城市是必填項目</span>}
 
         {/* Main Image */}
-        <label htmlFor="main_img" className="mb-1 text-lg font-medium">
-          主圖片網址
-          <span className="text-red-500">*</span>
-        </label>
-        <input
-          id="main_img"
-          className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-          placeholder="需為有效 URL"
-          {...register("main_img", {
-            required: "主圖片網址是必填項目",
-            pattern: {
-              value: /^(ftp|http|https):\/\/[^ "]+$/,
-              message: "無效的 URL",
-            },
-          })}
+
+        <ImageUpload
+          mainImage={mainImage}
+          setMainImage={setMainImage}
+          mainPreview={mainPreview}
+          setMainPreview={setMainPreview}
+          downloadURLs={downloadURLs}
+          setDownloadURLs={setDownloadURLs}
+          additionalImages={additionalImages}
+          setAdditionalImages={setAdditionalImages}
+          additionalPreviews={additionalPreviews}
+          setAdditionalPreviews={setAdditionalPreviews}
         />
-        {errors.main_img && (
-          <span className="text-red-500">{errors.main_img.message}</span>
-        )}
-
-        {/* 其他圖片網址欄位 */}
-        <label htmlFor="img" className="mb-2 text-lg">
-          其他圖片網址（至少2張）
-          <span className="-ml-2 text-red-500">*</span>
-        </label>
-        {fields.map((field, index) => (
-          <div key={field.id} className="mb-2 flex items-center">
-            <input
-              type="text"
-              placeholder={`圖片網址 ${index + 1}`}
-              className="flex-1 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-              {...register(`img.${index}`, {
-                required: "圖片網址是必填項目",
-                pattern: {
-                  value: /^(ftp|http|https):\/\/[^ "]+$/,
-                  message: "無效的 URL",
-                },
-                onBlur: handleBlur,
-              })}
-            />
-            {errors.img && errors.img[index] && (
-              <span className="ml-2 text-red-500">
-                {errors.img[index]?.message}
-              </span>
-            )}
-            <button
-              type="button"
-              onClick={() => {
-                handleRemove(index);
-              }}
-              className="ml-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                />
-              </svg>
-            </button>
-          </div>
-        ))}
-
-        {/* 添加圖片網址按鈕 */}
-        <button
-          type="button"
-          className="self-start rounded-md border border-gray-300 px-3 py-2 shadow-sm"
-          onClick={() => append("")}
-        >
-          添加圖片網址
-        </button>
-        {/* 確認最少兩個圖片網址的錯誤訊息 */}
-        {fieldArrayError && (
-          <div className="text-red-500">{fieldArrayError}</div>
-        )}
 
         {/* Brief */}
         <label htmlFor="brief" className="mb-1 text-lg font-medium">
@@ -321,7 +325,13 @@ export default function AddForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={!isChecked || isSubmitting || !isValid || fields.length < 2}
+          disabled={
+            !isChecked ||
+            isSubmitting ||
+            !isValid ||
+            !mainImage ||
+            additionalImages.length < 2
+          }
           className={`mt-4 h-10 w-1/4 self-center rounded-lg bg-gradient-to-r from-blue-500 to-green-500 text-lg text-white transition-opacity duration-200 ease-in-out hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50`}
         >
           {isSubmitting ? "提交中..." : "上架景點"}
