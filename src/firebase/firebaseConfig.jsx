@@ -5,6 +5,7 @@ import {
   setAnalyticsCollectionEnabled,
 } from "firebase/analytics";
 import { getInstallations } from "firebase/installations";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -21,7 +22,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const analytics = getAnalytics(app);
 const installations = getInstallations(app);
+const storage = getStorage(app);
 
 setAnalyticsCollectionEnabled(analytics, true);
 
-export { app, db, analytics, installations };
+export { app, db, analytics, storage, installations };
