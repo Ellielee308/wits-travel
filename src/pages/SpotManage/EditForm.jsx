@@ -138,6 +138,7 @@ export default function EditForm({ showEditForm }) {
 
   const onSubmit = async (data) => {
     try {
+      await deleteImagesFromStorage(deletedImages);
       const urls = await handleUpload(); // 等待圖片上傳完成
 
       // 如果上傳了新的主圖片，使用新圖片 URL，否則保留原來的 URL
@@ -158,8 +159,6 @@ export default function EditForm({ showEditForm }) {
       if (!data.main_img || data.img.includes(undefined)) {
         throw new Error("圖片上傳失敗，請重新嘗試");
       }
-
-      await deleteImagesFromStorage(deletedImages);
 
       console.log(data);
       await editSpot(showEditForm.id, data);
