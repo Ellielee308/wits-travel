@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import loadingGif from "./loading.gif";
 
 const PrivateRoute = ({ element }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -17,8 +18,12 @@ const PrivateRoute = ({ element }) => {
   }, [auth]);
 
   if (isAuthenticated === null) {
-    // Optionally render a loading spinner or nothing while checking auth
-    return <div>Loading...</div>;
+    return (
+      <div className="m-auto text-center text-2xl text-[#006c98]">
+        <img src={loadingGif} className="my-6"></img>
+        Loading...
+      </div>
+    );
   }
 
   return isAuthenticated ? (
