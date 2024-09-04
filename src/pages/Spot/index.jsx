@@ -26,10 +26,16 @@ export default function Spot() {
   const [photos, setPhotos] = useState([]);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-  const [isSpotSaved, setIsSpotSaved] = useState(false); // 設置初始狀態為空心
+  const [isSpotSaved, setIsSpotSaved] = useState(false);
+  const [isJumping, setIsJumping] = useState(false); // 控制跳躍效果
 
   const handleClickSave = () => {
-    setIsSpotSaved(!isSpotSaved); // 切換狀態
+    setIsSpotSaved(!isSpotSaved);
+    setIsJumping(true);
+    // 停止動畫效果
+    setTimeout(() => {
+      setIsJumping(false);
+    }, 300);
   };
 
   useEffect(() => {
@@ -166,7 +172,9 @@ export default function Spot() {
               viewBox="0 0 24 24"
               strokeWidth="1.1"
               stroke="currentColor"
-              className="inline-block h-auto w-[48px] align-middle text-gray-600 transition-all duration-300 hover:cursor-pointer hover:fill-[#006c98] hover:text-[#006c98] md:h-9 md:w-9"
+              className={`inline-block h-auto w-[48px] align-middle text-gray-600 transition-all duration-300 hover:cursor-pointer hover:fill-[#006c98] hover:text-[#006c98] md:h-9 md:w-9 ${
+                isJumping ? "animate-jump" : ""
+              }`}
               onClick={handleClickSave}
             >
               <path
