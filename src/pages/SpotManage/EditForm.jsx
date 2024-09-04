@@ -13,10 +13,10 @@ import {
 
 export default function EditForm({ showEditForm }) {
   const [isChecked, setIsChecked] = useState(false);
-  const [mainImage, setMainImage] = useState(null); // 新增狀態來儲存主圖片檔案
-  const [downloadURLs, setDownloadURLs] = useState(showEditForm.img || []); // 用於儲存下載 URL
-  const [additionalImages, setAdditionalImages] = useState([]); // 儲存其他圖片的檔案陣列
-  const [deletedImages, setDeletedImages] = useState([]); // 新增狀態來儲存被標記為刪除的圖片
+  const [mainImage, setMainImage] = useState(null);
+  const [downloadURLs, setDownloadURLs] = useState(showEditForm.img || []);
+  const [additionalImages, setAdditionalImages] = useState([]);
+  const [deletedImages, setDeletedImages] = useState([]);
   const [previews, setPreviews] = useState({
     existingMainPreview: showEditForm.main_img,
     newMainPreview: null,
@@ -49,7 +49,6 @@ export default function EditForm({ showEditForm }) {
     },
   });
 
-  // 刪除圖片的函數
   const deleteImagesFromStorage = async (urls) => {
     for (const url of urls) {
       const imageRef = ref(storage, url);
@@ -160,11 +159,10 @@ export default function EditForm({ showEditForm }) {
         throw new Error("圖片上傳失敗，請重新嘗試");
       }
 
-      // 執行圖片刪除操作
       await deleteImagesFromStorage(deletedImages);
 
       console.log(data);
-      await editSpot(showEditForm.id, data); // 使用 editSpot 函數更新資料
+      await editSpot(showEditForm.id, data);
       alert("已修改景點資料！");
       window.location.reload();
     } catch (error) {
@@ -258,8 +256,8 @@ export default function EditForm({ showEditForm }) {
         <ImageEdit
           setMainImage={setMainImage}
           setAdditionalImages={setAdditionalImages}
-          deletedImages={deletedImages} // 傳遞刪除的圖片列表
-          setDeletedImages={setDeletedImages} // 更新刪除的圖片列表
+          deletedImages={deletedImages}
+          setDeletedImages={setDeletedImages}
           previews={previews}
           setPreviews={setPreviews}
         />
