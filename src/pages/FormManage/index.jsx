@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchForm } from "../../firebase/fetchForm.jsx";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
+import emailjs from "@emailjs/browser";
 
 export default function FormManage() {
   const [items, setItems] = useState([]);
@@ -45,11 +46,13 @@ export default function FormManage() {
       [id]: !prev[id],
     }));
   };
+
   const handleReply = async (id) => {
     try {
       const itemToUpdate = items.find((item) => item.id === id);
       const docRef = doc(db, "form", itemToUpdate.id);
 
+      // 更新 Firestore 中的回覆狀態
       await updateDoc(docRef, { replied: true });
 
       const updatedItems = items.map((item) =>
@@ -64,9 +67,35 @@ export default function FormManage() {
         ...prev,
         [id]: false,
       }));
+
+      // 發送回覆郵件
+      emailjs.init(import.meta.env.VITE_EMAIL_USER_ID);
+      emailjs
+        .send(
+          import.meta.env.VITE_EMAIL_SERVICE_ID,
+          import.meta.env.VITE_EMAIL_TEMPLATE_ID,
+          {
+            to_name: itemToUpdate.name,
+            from_name: "緯創旅遊",
+            subject: `回覆：${itemToUpdate.purpose}`,
+            message: replyText,
+            reply_to: itemToUpdate.email,
+          },
+        )
+        .then(
+          (result) => {
+            console.log(result.text);
+            alert("回覆信件已成功發送！");
+          },
+          (error) => {
+            console.log(error.text);
+            alert("回覆發送失敗。");
+          },
+        );
+
       setReplyText("");
     } catch (error) {
-      console.error("Error updating reply status:", error);
+      console.error("Error updating reply status or sending email:", error);
     }
   };
 
@@ -80,15 +109,16 @@ export default function FormManage() {
         return "bg-[#AAAE8E]";
     }
   };
+
   const formatTime = (timestamp) => {
     if (timestamp && typeof timestamp.toDate === "function") {
       return timestamp.toDate().toLocaleString();
     }
     return "未知時間";
   };
+
   return (
     <div className="mb-16 flex min-h-screen w-4/5 flex-col overflow-auto">
-      {/* Main content */}
       <div className="mb-16 flex-1 p-8">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">表單管理</h1>
