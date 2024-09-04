@@ -14,6 +14,7 @@ const categoryLabel = {
   歷史景點: "history",
   特色建築: "architecture",
 };
+import loadingGif from "../../components/loading.gif";
 
 export default function Spot() {
   const spots = useContext(SpotsContext);
@@ -98,7 +99,10 @@ export default function Spot() {
 
   if (!spot) {
     return (
-      <div className="flex h-screen items-center justify-center">Loading…</div>
+      <div className="flex h-screen flex-col items-center justify-center text-2xl text-[#006c98]">
+        <img src={loadingGif} className="my-6"></img>
+        Loading...
+      </div>
     );
   }
   return (
