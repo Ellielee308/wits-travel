@@ -26,6 +26,11 @@ export default function Spot() {
   const [photos, setPhotos] = useState([]);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [isSpotSaved, setIsSpotSaved] = useState(false); // 設置初始狀態為空心
+
+  const handleClickSave = () => {
+    setIsSpotSaved(!isSpotSaved); // 切換狀態
+  };
 
   useEffect(() => {
     console.log("Hi");
@@ -157,11 +162,12 @@ export default function Spot() {
             </h1>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
+              fill={isSpotSaved ? "#006c98" : "none"}
               viewBox="0 0 24 24"
               strokeWidth="1.1"
               stroke="currentColor"
-              className="inline-block h-auto w-[48px] align-middle text-gray-600 hover:cursor-pointer hover:fill-[#006c98] hover:text-[#006c98] md:h-9 md:w-9"
+              className="inline-block h-auto w-[48px] align-middle text-gray-600 transition-all duration-300 hover:cursor-pointer hover:fill-[#006c98] hover:text-[#006c98] md:h-9 md:w-9"
+              onClick={handleClickSave}
             >
               <path
                 strokeLinecap="round"
