@@ -1,24 +1,41 @@
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import editSpot from "@/firebase/editSpot";
+import ImageEdit from "./ImageEdit";
+import { storage } from "../../firebase/firebaseConfig";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 
 export default function EditForm({ showEditForm }) {
   const [isChecked, setIsChecked] = useState(false);
-  const [fieldArrayError, setFieldArrayError] = useState("");
+  const [mainImage, setMainImage] = useState(null);
+  const [downloadURLs, setDownloadURLs] = useState(showEditForm.img || []);
+  const [additionalImages, setAdditionalImages] = useState([]);
+  const [deletedImages, setDeletedImages] = useState([]);
+  const [previews, setPreviews] = useState({
+    existingMainPreview: showEditForm.main_img,
+    newMainPreview: null,
+    existingAdditionalPreviews: showEditForm.img,
+    newAdditionalPreviews: [],
+  });
+
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
-    mode: "onBlur", // 驗證模式 (onChange, onBlur, onSubmit, all)
+    mode: "onBlur",
     defaultValues: {
       id: showEditForm.id,
       title: showEditForm.title,
       subtitle: showEditForm.subtitle,
-      main_img: showEditForm.main_img,
-      img: showEditForm.img,
+      main_img: "",
+      img: [],
       area: showEditForm.area,
       country: showEditForm.country,
       city: showEditForm.city,
@@ -32,32 +49,119 @@ export default function EditForm({ showEditForm }) {
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "img",
-  });
-
-  const handleBlur = () => {
-    if (fields.length < 2) {
-      setFieldArrayError("至少需要兩個圖片網址");
-    } else {
-      setFieldArrayError("");
+  const deleteImagesFromStorage = async (urls) => {
+    for (const url of urls) {
+      const imageRef = ref(storage, url);
+      try {
+        await deleteObject(imageRef);
+        console.log(`刪除圖片成功: ${url}`);
+      } catch (error) {
+        console.error(`刪除圖片失敗: ${url}`, error);
+      }
     }
   };
 
-  const handleRemove = (index) => {
-    remove(index);
-    if (fields.length - 1 < 2) {
-      setFieldArrayError("至少需要兩個圖片網址");
-    } else {
-      setFieldArrayError("");
-    }
+  const handleUpload = () => {
+    return new Promise((resolve, reject) => {
+      const newDownloadURLs = [...downloadURLs];
+      let uploadTasks = [];
+
+      // 上傳主圖片
+      if (mainImage) {
+        const mainStorageRef = ref(storage, `spotImages/${mainImage.name}`);
+        const mainUploadTask = uploadBytesResumable(mainStorageRef, mainImage);
+
+        uploadTasks.push(
+          new Promise((taskResolve, taskReject) => {
+            mainUploadTask.on(
+              "state_changed",
+              null,
+              (error) => {
+                console.error("Upload error:", error);
+                taskReject(error);
+              },
+              async () => {
+                try {
+                  const url = await getDownloadURL(mainUploadTask.snapshot.ref);
+                  newDownloadURLs[0] = url; // 更新主圖片 URL
+                  taskResolve();
+                } catch (error) {
+                  taskReject(error);
+                }
+              },
+            );
+          }),
+        );
+      }
+
+      // 上傳其他圖片
+      if (additionalImages.length > 0) {
+        additionalImages.forEach((image) => {
+          const storageRef = ref(storage, `spotImages/${image.name}`);
+          const uploadTask = uploadBytesResumable(storageRef, image);
+
+          uploadTasks.push(
+            new Promise((taskResolve, taskReject) => {
+              uploadTask.on(
+                "state_changed",
+                null,
+                (error) => {
+                  console.error("Upload error:", error);
+                  taskReject(error);
+                },
+                async () => {
+                  try {
+                    const url = await getDownloadURL(uploadTask.snapshot.ref);
+                    newDownloadURLs.push(url); // 將新圖片的 URL 添加到陣列中
+                    taskResolve();
+                  } catch (error) {
+                    taskReject(error);
+                  }
+                },
+              );
+            }),
+          );
+        });
+      }
+
+      // 等待所有上傳任務完成
+      Promise.all(uploadTasks)
+        .then(() => {
+          setDownloadURLs([...newDownloadURLs]); // 更新整個 URL 列表
+          resolve(newDownloadURLs);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   };
 
   const onSubmit = async (data) => {
     try {
-      await editSpot(showEditForm.id, data); // 使用 editSpot 函數更新資料
-      setFieldArrayError("");
+      await deleteImagesFromStorage(deletedImages);
+      const urls = await handleUpload(); // 等待圖片上傳完成
+
+      // 如果上傳了新的主圖片，使用新圖片 URL，否則保留原來的 URL
+      data.main_img = mainImage ? urls[0] : showEditForm.main_img;
+
+      // 合併新圖片和舊圖片 URL，並排除被刪除的圖片
+      const allImages = [
+        ...previews.existingAdditionalPreviews,
+        ...urls.slice(mainImage ? 1 : 0),
+      ];
+
+      // 使用 Set 移除重複的 URL，並排除被刪除的圖片
+      data.img = [...new Set(allImages)].filter(
+        (url) => !deletedImages.includes(url),
+      );
+
+      // 確保 URL 不為 undefined
+      if (!data.main_img || data.img.includes(undefined)) {
+        throw new Error("圖片上傳失敗，請重新嘗試");
+      }
+
+      console.log(data);
+      await editSpot(showEditForm.id, data);
       alert("已修改景點資料！");
       window.location.reload();
     } catch (error) {
@@ -147,89 +251,15 @@ export default function EditForm({ showEditForm }) {
         />
         {errors.city && <span className="text-red-500">城市是必填項目</span>}
 
-        {/* Main Image */}
-        <label htmlFor="main_img" className="mb-1 text-lg font-medium">
-          主圖片網址
-          <span className="text-red-500">*</span>
-        </label>
-        <input
-          id="main_img"
-          className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-          placeholder="需為有效 URL"
-          {...register("main_img", {
-            required: "主圖片網址是必填項目",
-            pattern: {
-              value: /^(ftp|http|https):\/\/[^ "]+$/,
-              message: "無效的 URL",
-            },
-          })}
+        {/* 圖片上傳元件 */}
+        <ImageEdit
+          setMainImage={setMainImage}
+          setAdditionalImages={setAdditionalImages}
+          deletedImages={deletedImages}
+          setDeletedImages={setDeletedImages}
+          previews={previews}
+          setPreviews={setPreviews}
         />
-        {errors.main_img && (
-          <span className="text-red-500">{errors.main_img.message}</span>
-        )}
-
-        {/* 其他圖片網址欄位 */}
-        <label htmlFor="img" className="mb-2 text-lg">
-          其他圖片網址（至少2張）
-          <span className="-ml-2 text-red-500">*</span>
-        </label>
-        {fields.map((field, index) => (
-          <div key={field.id} className="mb-2 flex items-center">
-            <input
-              type="text"
-              placeholder={`圖片網址 ${index + 1}`}
-              className="flex-1 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-              {...register(`img.${index}`, {
-                required: "圖片網址是必填項目",
-                pattern: {
-                  value: /^(ftp|http|https):\/\/[^ "]+$/,
-                  message: "無效的 URL",
-                },
-                onBlur: handleBlur,
-              })}
-            />
-            {errors.img && errors.img[index] && (
-              <span className="ml-2 text-red-500">
-                {errors.img[index]?.message}
-              </span>
-            )}
-            <button
-              type="button"
-              onClick={() => {
-                handleRemove(index);
-              }}
-              className="ml-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                />
-              </svg>
-            </button>
-          </div>
-        ))}
-
-        {/* 添加圖片網址按鈕 */}
-        <button
-          type="button"
-          className="self-start rounded-md border border-gray-300 px-3 py-2 shadow-sm"
-          onClick={() => append("")}
-        >
-          添加圖片網址
-        </button>
-        {/* 確認最少兩個圖片網址的錯誤訊息 */}
-        {fieldArrayError && (
-          <div className="text-red-500">{fieldArrayError}</div>
-        )}
 
         {/* Brief */}
         <label htmlFor="brief" className="mb-1 text-lg font-medium">
@@ -268,9 +298,9 @@ export default function EditForm({ showEditForm }) {
           交通資訊
           <span className="text-red-500">*</span>
         </label>
-        <input
+        <textarea
           id="transportation"
-          className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+          className="h-36 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
           {...register("transportation", { required: true })}
         />
         {errors.transportation && (
@@ -326,7 +356,7 @@ export default function EditForm({ showEditForm }) {
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={!isChecked || isSubmitting || !isValid || fields.length < 2}
+          disabled={!isChecked || isSubmitting || !isValid}
           className={`mt-4 h-10 w-1/4 self-center rounded-lg bg-gradient-to-r from-blue-500 to-green-500 text-lg text-white transition-opacity duration-200 ease-in-out hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50`}
         >
           {isSubmitting ? "提交中..." : "儲存景點"}

@@ -218,13 +218,9 @@ export default function AddForm() {
         {/* Main Image */}
 
         <ImageUpload
-          mainImage={mainImage}
           setMainImage={setMainImage}
           mainPreview={mainPreview}
           setMainPreview={setMainPreview}
-          downloadURLs={downloadURLs}
-          setDownloadURLs={setDownloadURLs}
-          additionalImages={additionalImages}
           setAdditionalImages={setAdditionalImages}
           additionalPreviews={additionalPreviews}
           setAdditionalPreviews={setAdditionalPreviews}
@@ -267,9 +263,9 @@ export default function AddForm() {
           交通資訊
           <span className="text-red-500">*</span>
         </label>
-        <input
+        <textarea
           id="transportation"
-          className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+          className="h-36 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
           {...register("transportation", { required: true })}
         />
         {errors.transportation && (
